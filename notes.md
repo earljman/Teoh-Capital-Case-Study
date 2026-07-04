@@ -1,0 +1,1 @@
+- It's important to show my skills as a developer as well, so let's place some emphasis on tech-stack choices and coding. 

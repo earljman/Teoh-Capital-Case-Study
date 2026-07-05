@@ -12,7 +12,7 @@ Scope a quick product scoping pack that would cover:
 - Include some high fidelity mocks / prototypes for the top 3 features.
 
 Competitors:
-- CantonCloud
+- CartonCloud
 - WiseWMS
 - Cin7 Core
 - Manhattan Associates

@@ -11,8 +11,8 @@ inputs:
   - 1-plan/02-main-flows.md
   - 1-plan/04-users-and-checkpoints.md
   - 0-research/03-ai-feasibility-architecture.md
-  - slides/notes.md
-  - advisory-panel.md
+  - 3-present/notes.md
+  - _meta/advisory-panel.md
 decisions:
   - "Three checkpoints: Demo (case-study pack) → Week 4 (direction) → Week 12 (build slice)"
   - "Demo ships a clickable prototype — primary features only, not all flows"
@@ -52,7 +52,7 @@ No integrations              No production integrations   Sample data; no ERP pr
 
 ## Checkpoint 1 — Demo (case-study pack)
 
-**Horizon:** Now — deliverable for Teoh Capital review (slide/PPT pack per `case-study-prompt.md`).
+**Horizon:** Now — deliverable for Teoh Capital review (slide/PPT pack per `_meta/case-study-prompt.md`).
 
 **What "done" means:** Reviewer gets the slide deck **and** a clickable prototype that proves the primary features. Passes the **slide 4 test**: slides 1, 4, 6, and 10 alone convey the bet, 3-feature model, and measurable ROI. Live demo walks executive dashboard → key workflow moments — not every screen or state.
 
@@ -105,7 +105,7 @@ No integrations              No production integrations   Sample data; no ERP pr
 | Workflow flows | `1-plan/02-main-flows.md` |
 | This roadmap | `1-plan/03-roadmap.md` |
 | Users & checkpoints | `1-plan/04-users-and-checkpoints.md` |
-| Slide build notes | `slides/notes.md` |
+| Slide build notes | `3-present/notes.md` |
 | Research appendix | `0-research/` |
 
 ### Decisions to lock at Demo

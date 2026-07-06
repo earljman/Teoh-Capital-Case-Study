@@ -6,13 +6,14 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 
 ## Slide 15 — Process overview
 
-**Headline:** Research → Planning → Development
+**Headline:** Research → Planning → Development → Present
 
 | Phase | Goal | Primary output |
 |-------|------|----------------|
 | **Research** | Ground the bet in market, competitive, and operator reality | `0-research/` artifacts |
 | **Planning** | Lock ICP, AI-native bet, top 3 features, roadmap checkpoints | `1-plan/` decisions + briefs |
-| **Development** | Ship hi-fi mocks + working prototype; prove builder craft | `2-build/demo/` + `slides/` |
+| **Development** | Ship hi-fi mocks + working prototype; prove builder craft | `2-build/demo/` |
+| **Present** | Assemble the reviewer-facing deck and deploy the full site | `3-present/` |
 
 **Thread:** Each phase has explicit prompts/personas and pm-skills; nothing is ad-hoc generation.
 
@@ -21,7 +22,7 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 ## Slide 16 — Research
 
 **Inputs**
-- `case-study-prompt.md` — scope, competitors, deliverable format
+- `_meta/case-study-prompt.md` — scope, competitors, deliverable format
 - `0-research/research-team.md` — three parallel research personas (Market & Competitive Strategist, Operator & Workflow Ethnographer, AI/Product Technologist)
 
 **Skills invoked**
@@ -40,7 +41,7 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 ## Slide 17 — Planning
 
 **Inputs**
-- Research synthesis + `advisory-panel.md` routing
+- Research synthesis + `_meta/advisory-panel.md` routing
 
 **Skills invoked**
 - `define-problem-statement` — single sharp framing for slide 2
@@ -75,6 +76,6 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 
 **Artifacts**
 - `2-build/demo/` — app source
-- `slides/` — presentation
+- `3-present/` — presentation deck + slide build notes
 
 **Talking point:** The process used AI to accelerate research and planning; the *product* is AI-first — the deck proves both.

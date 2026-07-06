@@ -7,7 +7,7 @@ alwaysApply: true
 
 Product scoping pack for an AI-first Warehouse Management System (WMS). The deliverable is a slide deck with a near-term roadmap, the top three Phase 1 features, and high-fidelity mocks/prototypes — plus evidence of PM and builder craft in how the pack was produced.
 
-**Original brief:** `case-study-prompt.md`
+**Original brief:** `_meta/case-study-prompt.md`
 
 ## Open questions (still with the reviewer)
 
@@ -18,11 +18,11 @@ Design work should stay robust under either market assumption until these are re
 
 ## How work is organized
 
-Work flows through three phases — **Research → Planning → Development** — each producing inputs for the next. Artifacts live in numbered phase folders and change frequently; discover current state by reading the repo rather than relying on this rule.
+Work flows through four phases — **Research → Planning → Development → Present** — each producing inputs for the next. Artifacts live in numbered phase folders and change frequently; discover current state by reading the repo rather than relying on this rule.
 
 PM workflow skills live in `.agents/skills/`. Use them when a task matches their purpose (discovery, planning, delivery docs, slides, etc.).
 
-## Advisory panel (`advisory-panel.md`)
+## Advisory panel (`_meta/advisory-panel.md`)
 
 The advisory panel is a **thinking and routing tool**, not deck content. Consult it when making scoping, narrative, or effort-allocation decisions — not on every minor edit.
 

@@ -330,7 +330,7 @@ Slides 11–13: Compliance → Pick-path → Cartonization
 Appendix: 8-week trend chart · supervisor console
 ```
 
-**Aligned:** `00-phase1-planning-brief.md` (v1.2) · `slides/notes.md`
+**Aligned:** `00-phase1-planning-brief.md` (v1.2) · `3-present/notes.md`
 
 ---
 

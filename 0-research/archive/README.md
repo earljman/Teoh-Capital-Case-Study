@@ -1,6 +1,6 @@
 # Discover Phase — AI-First WMS
 
-**Input:** [case-study-prompt.md](../case-study-prompt.md)  
+**Input:** [case-study-prompt.md](../../_meta/case-study-prompt.md)  
 **Date:** 2026-07-04  
 **Status:** Complete (hypothesis-grade where research is missing)
 

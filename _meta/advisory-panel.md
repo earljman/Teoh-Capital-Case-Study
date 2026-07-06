@@ -164,7 +164,8 @@ What the panel is meant to produce before you build a single slide: a **ruthless
 1. **Process overview** — Research → Planning → Development pipeline; what each phase produced and how it fed the next.
 2. **Research** — inputs (`case-study-prompt.md`, competitor set), research-team personas / prompts, skills used (`discover-competitive-analysis`, `discover-market-sizing`, `discover-journey-map`, `discover-stakeholder-summary`), key artifacts in `0-research/`.
 3. **Planning** — advisory panel routing, decisions locked (bet, ICP, top 3), skills used (`foundation-prioritized-action-plan`, `define-problem-statement`, `develop-solution-brief`, `deliver-prd`), artifacts in `1-plan/`.
-4. **Development** — tech-stack choices and why; prototype build approach; skills/prompts used (`frontend-slides`, `utility-slideshow-creator`, builder craft); live demo / repo pointer; emphasis on shipped code, not just mocks.
+4. **Development** — tech-stack choices and why; prototype build approach; skills/prompts used (`frontend-slides`, `utility-slideshow-creator`, builder craft); live demo / repo pointer; emphasis on shipped code, not just mocks. Artifacts in `2-build/`.
+5. **Present** — deck assembly and deploy; artifacts in `3-present/`.
 
 - **Appendix** — full competitive detail, integration surface, market-sizing tables, research citations, anything that would clog the spine.
 

@@ -11,7 +11,7 @@ inputs:
   - 0-research/02-dashboard-specs.md
   - 0-research/01-market-competitive-strategy.md
   - 1-plan/01-dashboard-ia.md
-  - advisory-panel.md
+  - _meta/advisory-panel.md
 panel_review: approved 2026-07-06
 changelog:
   - "1.2: Persona-split dashboards — slide 10 = executive (Big Three); supervisor console separate (see 01-dashboard-ia.md)"

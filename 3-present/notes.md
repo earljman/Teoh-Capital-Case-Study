@@ -1,7 +1,7 @@
 # Slide Build Notes
 
 **Source of truth:** `1-plan/00-phase1-planning-brief.md` (v1.2) · Dashboard IA: `1-plan/01-dashboard-ia.md`  
-**Panel routing:** `advisory-panel.md`
+**Panel routing:** `_meta/advisory-panel.md`
 
 - Show developer skills: tech-stack choices and real code matter, not just mocks.
 - Deck target: **18 slides** (core spine below).
@@ -181,13 +181,13 @@ Use thin vs. thick table: enforcement at scan time > chat summary.
 
 ## Act V — How this deck was built (slides 16–18)
 
-Source detail from `slides/process-documentation.md`.
+Source detail from `3-present/process-documentation.md`.
 
 | Slide | Content |
 |-------|---------|
-| **16** | Process overview — Research → Planning → Development pipeline |
+| **16** | Process overview — Research → Planning → Development → Present pipeline |
 | **17** | Research + Planning — skills, prompts, artifacts (`0-research/`, `1-plan/`) |
-| **18** | Development — tech stack, prototype approach, live demo / repo pointer |
+| **18** | Development + Present — tech stack, prototype, deck (`2-build/`, `3-present/`) |
 
 Emphasize: AI accelerated *how* the deck was built; the product is AI-first.
 

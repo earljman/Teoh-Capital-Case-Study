@@ -1,5 +1,5 @@
 <script lang="ts">
-	/** Gaussian hotspot heatmap — pattern from claude-design reference */
+	/** Gaussian hotspot heatmap — pattern from 1-plan/archive/claude-design reference */
 	let { intensity = 1 }: { intensity?: number } = $props();
 
 	const cols = 18;

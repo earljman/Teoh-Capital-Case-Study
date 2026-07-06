@@ -1,8 +1,8 @@
-import type { ScreenId } from './types';
+import type { AppPath, ScreenId } from './types';
 
 export type ScreenMeta = {
 	id: ScreenId;
-	path: string;
+	path: AppPath;
 	label: string;
 	slide: string;
 };

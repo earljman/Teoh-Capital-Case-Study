@@ -1,0 +1,8 @@
+{
+	"name": "teoh-capital-case-study",
+	"private": true,
+	"scripts": {
+		"build": "npm run build --prefix prototype && node scripts/assemble-dist.mjs",
+		"dev:demo": "npm run dev --prefix prototype"
+	}
+}

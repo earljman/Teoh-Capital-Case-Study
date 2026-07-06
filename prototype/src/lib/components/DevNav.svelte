@@ -1,14 +1,24 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { DEMO_STATES } from '$lib/demo/types';
+	import { base, resolve } from '$app/paths';
+	import { DEMO_STATES, type AppPath } from '$lib/demo/types';
 	import { SCREENS } from '$lib/demo/screens';
 
-	const currentPath = $derived(page.url.pathname);
+	const routePath = $derived.by((): AppPath => {
+		const p =
+			base && page.url.pathname.startsWith(base)
+				? page.url.pathname.slice(base.length) || '/'
+				: page.url.pathname;
+		const paths: AppPath[] = ['/', '/supervisor', '/compliance', '/pick', '/pack'];
+		return paths.includes(p as AppPath) ? (p as AppPath) : '/';
+	});
 	const currentState = $derived(page.url.searchParams.get('state') ?? 'happy');
 
-	function hrefFor(path: string, state: string): string {
-		const url = new URL(path, 'http://local');
-		if (state !== 'happy') url.searchParams.set('state', state);
+	function hrefFor(path: AppPath, state: string): string {
+		const resolved = resolve(path);
+		if (state === 'happy') return resolved;
+		const url = new URL(resolved, 'http://local');
+		url.searchParams.set('state', state);
 		return url.pathname + url.search;
 	}
 </script>
@@ -18,7 +28,7 @@
 	<div class="dev-nav__screens">
 		{#each SCREENS as screen}
 			<a
-				class:active={currentPath === screen.path}
+				class:active={routePath === screen.path}
 				href={hrefFor(screen.path, currentState)}
 			>
 				{screen.label}
@@ -31,7 +41,7 @@
 		{#each DEMO_STATES as state}
 			<a
 				class:active={currentState === state}
-				href={hrefFor(currentPath, state)}
+				href={hrefFor(routePath, state)}
 			>
 				{state}
 			</a>

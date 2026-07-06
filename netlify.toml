@@ -1,10 +1,22 @@
-# Monorepo: SvelteKit app lives in prototype/
+# Slides at /, SvelteKit demo at /demo
 [build]
-  base = "prototype"
   command = "npm run build"
-  publish = "build"
+  publish = "dist"
+
+[functions]
+  directory = "prototype/.netlify/functions-internal"
+
+[[redirects]]
+  from = "/demo/*"
+  to = "/.netlify/functions/sveltekit-render"
+  status = 200
+
+[[redirects]]
+  from = "/demo"
+  to = "/demo/"
+  status = 301
 
 [dev]
-  command = "npm run dev"
+  command = "npm run dev --prefix prototype"
   port = 5173
   targetPort = 5173

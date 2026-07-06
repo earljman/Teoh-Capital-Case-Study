@@ -7,7 +7,7 @@ export type BigThreeCardData = {
 	accent?: 'green' | 'red' | 'amber';
 	muted?: boolean;
 	mutedReason?: string;
-	workflowHref: string;
+	workflowHref: '/pick' | '/compliance' | '/pack';
 	workflowLabel: string;
 };
 

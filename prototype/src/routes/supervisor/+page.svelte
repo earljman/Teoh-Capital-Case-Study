@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardChrome from '$lib/components/DashboardChrome.svelte';
@@ -43,7 +44,7 @@
 					{:else}
 						<p class="stat mono">{data.batch.active} active · {data.batch.clusters} clusters</p>
 						<p class="sub mono">{data.batch.walkKmSaved}km saved · shift</p>
-						<a class="link mono" href="/pick">Override batch</a>
+						<a class="link mono" href={resolve('/pick')}>Override batch</a>
 					{/if}
 				</div>
 				<div class="widget">
@@ -52,7 +53,7 @@
 						<div class="skeleton w-skel"></div>
 					{:else}
 						<p class="stat mono">{data.cartonization.utilizationPct}% avg volume utilization</p>
-						<a class="link mono" href="/pack">See pack station →</a>
+						<a class="link mono" href={resolve('/pack')}>See pack station →</a>
 					{/if}
 				</div>
 				<div class="widget heatmap-widget">
@@ -63,7 +64,7 @@
 						<Heatmap />
 						<p class="sub mono">
 							{data.heatmapHotZone} bottleneck · {data.heatmapPickers} pickers
-							<a class="link" href="/pick">View zone →</a>
+							<a class="link" href={resolve('/pick')}>View zone →</a>
 						</p>
 					{/if}
 				</div>

@@ -36,21 +36,14 @@ The sticky **dev nav** switches screens and states during build. Remove or hide 
 ## Commands
 
 ```bash
-npm install
-npm run dev      # http://localhost:5173
-npm run build    # production build
-npm run check    # svelte-check
+# Demo only (http://localhost:5173/demo)
+npm run dev
+
+# Full site build (slides + demo) — from repo root
+cd .. && npm run build
 ```
 
-## Deploy (Netlify)
-
-```bash
-cd prototype
-npx netlify deploy --build        # preview
-npx netlify deploy --build --prod # production
-```
-
-Base directory for Netlify site settings: `prototype`.
+Deployed layout: **slides at `/`**, **demo at `/demo`** on Netlify.
 
 ## Data & telemetry
 

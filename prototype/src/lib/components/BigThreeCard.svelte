@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Sparkline from './Sparkline.svelte';
+	import { resolve } from '$app/paths';
 	import type { BigThreeCardData } from '$lib/data/executive';
 
 	let {
@@ -36,7 +37,7 @@
 			<Sparkline values={card.sparkline} stroke={accentColor} />
 		{/if}
 	{/if}
-	<a class="workflow-link mono" href={card.workflowHref}>{card.workflowLabel}</a>
+	<a class="workflow-link mono" href={resolve(card.workflowHref)}>{card.workflowLabel}</a>
 </article>
 
 <style>

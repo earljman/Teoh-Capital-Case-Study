@@ -1,0 +1,12 @@
+# Local Netlify folder
+.netlify
+
+# Dependencies
+node_modules
+
+# SvelteKit
+prototype/build
+prototype/.svelte-kit
+
+# OS
+.DS_Store

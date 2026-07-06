@@ -1,0 +1,10 @@
+# Monorepo: SvelteKit app lives in prototype/
+[build]
+  base = "prototype"
+  command = "npm run build"
+  publish = "build"
+
+[dev]
+  command = "npm run dev"
+  port = 5173
+  targetPort = 5173

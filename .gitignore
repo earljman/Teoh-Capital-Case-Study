@@ -5,8 +5,8 @@
 node_modules
 
 # SvelteKit
-prototype/build
-prototype/.svelte-kit
+2-build/demo/build
+2-build/demo/.svelte-kit
 dist
 
 # OS

@@ -11,8 +11,8 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 | Phase | Goal | Primary output |
 |-------|------|----------------|
 | **Research** | Ground the bet in market, competitive, and operator reality | `0-research/` artifacts |
-| **Planning** | Lock ICP, AI-native bet, top 3 features, roadmap checkpoints | `1-planning/` decisions + briefs |
-| **Development** | Ship hi-fi mocks + working prototype; prove builder craft | `prototype/` + `slides/` |
+| **Planning** | Lock ICP, AI-native bet, top 3 features, roadmap checkpoints | `1-plan/` decisions + briefs |
+| **Development** | Ship hi-fi mocks + working prototype; prove builder craft | `2-build/demo/` + `slides/` |
 
 **Thread:** Each phase has explicit prompts/personas and pm-skills; nothing is ad-hoc generation.
 
@@ -55,7 +55,7 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 - Step 4: cut to top 3 (1 AI-native + 2 AI-enhanced)
 - Step 5: sequence roadmap + checkpoint rhythm
 
-**Key artifacts** (`1-planning/` — to be populated)
+**Key artifacts** (`1-plan/` — to be populated)
 - Solution brief, feature portfolio rationale, checkpoint decision log
 
 ---
@@ -74,7 +74,7 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 - **Week 12:** working prototype, sample data, error/loading/override paths, demo URL
 
 **Artifacts**
-- `prototype/` — app source
+- `2-build/demo/` — app source
 - `slides/` — presentation
 
 **Talking point:** The process used AI to accelerate research and planning; the *product* is AI-first — the deck proves both.

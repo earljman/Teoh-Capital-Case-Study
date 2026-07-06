@@ -9,7 +9,7 @@ rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 
 cpSync(join(root, 'slides/discover-phase.html'), join(dist, 'index.html'));
-cpSync(join(root, 'prototype/build/demo'), join(dist, 'demo'), { recursive: true });
-cpSync(join(root, 'prototype/build/_headers'), join(dist, '_headers'));
+cpSync(join(root, '2-build/demo/build/demo'), join(dist, 'demo'), { recursive: true });
+cpSync(join(root, '2-build/demo/build/_headers'), join(dist, '_headers'));
 
 console.log('Assembled dist/: slides at /, demo at /demo');

@@ -6,10 +6,10 @@ status: draft
 project: ai-first-wms
 phase: plan
 inputs:
-  - 1-planning/00-phase1-planning-brief.md
-  - 1-planning/01-dashboard-ia.md
-  - 1-planning/02-main-flows.md
-  - 1-planning/04-users-and-checkpoints.md
+  - 1-plan/00-phase1-planning-brief.md
+  - 1-plan/01-dashboard-ia.md
+  - 1-plan/02-main-flows.md
+  - 1-plan/04-users-and-checkpoints.md
   - 0-research/03-ai-feasibility-architecture.md
   - slides/notes.md
   - advisory-panel.md
@@ -72,7 +72,7 @@ No integrations              No production integrations   Sample data; no ERP pr
 | **Pick-path** (slide 12) | Next Pick card + exception reroute | Invisible optimization; <2s reroute |
 | **Cartonization** (slide 13) | Box directive + isometric pack diagram | Single authoritative answer |
 
-**One happy path + one exception per workflow** in the prototype — matches `1-planning/02-main-flows.md`.
+**One happy path + one exception per workflow** in the prototype — matches `1-plan/02-main-flows.md`.
 
 #### Deck-only or static (not required clickable at Demo)
 
@@ -100,11 +100,11 @@ No integrations              No production integrations   Sample data; no ERP pr
 
 | Artifact | Location |
 |----------|----------|
-| Phase 1 planning brief | `1-planning/00-phase1-planning-brief.md` |
-| Dashboard IA | `1-planning/01-dashboard-ia.md` |
-| Workflow flows | `1-planning/02-main-flows.md` |
-| This roadmap | `1-planning/03-roadmap.md` |
-| Users & checkpoints | `1-planning/04-users-and-checkpoints.md` |
+| Phase 1 planning brief | `1-plan/00-phase1-planning-brief.md` |
+| Dashboard IA | `1-plan/01-dashboard-ia.md` |
+| Workflow flows | `1-plan/02-main-flows.md` |
+| This roadmap | `1-plan/03-roadmap.md` |
+| Users & checkpoints | `1-plan/04-users-and-checkpoints.md` |
 | Slide build notes | `slides/notes.md` |
 | Research appendix | `0-research/` |
 

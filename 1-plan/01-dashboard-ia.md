@@ -7,9 +7,9 @@ project: ai-first-wms
 phase: plan
 inputs:
   - 0-research/02-dashboard-specs.md
-  - 1-planning/00-phase1-planning-brief.md
+  - 1-plan/00-phase1-planning-brief.md
   - 0-research/03-ai-feasibility-architecture.md
-  - 1-planning/02-main-flows.md
+  - 1-plan/02-main-flows.md
 decisions:
   - "Big Three margin-killer widgets are executive-only — not shown on supervisor console"
   - "Supervisor layout locked: Layout A (exception queue first)"

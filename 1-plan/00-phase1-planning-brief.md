@@ -10,7 +10,7 @@ inputs:
   - 0-research/03-ai-feasibility-architecture.md
   - 0-research/02-dashboard-specs.md
   - 0-research/01-market-competitive-strategy.md
-  - 1-planning/01-dashboard-ia.md
+  - 1-plan/01-dashboard-ia.md
   - advisory-panel.md
 panel_review: approved 2026-07-06
 changelog:
@@ -50,7 +50,7 @@ Thread this through every slide and mock. Do not lead with OR-Tools, SDK names, 
 | Wholesale-heavy 3PL / B2B | Compliance risk card (equal layout; accent) | Compliance review + ship block |
 | DTC-heavy brand | DIM waste + labor saved cards | Cartonization or pick-path (either works) |
 
-Default deck order assumes **omnichannel** — executive dashboard shows all three margin killers with equal hero cards; workflow drill-downs follow in portfolio order (compliance → pick-path → cartonization). Layout detail: `1-planning/01-dashboard-ia.md`.
+Default deck order assumes **omnichannel** — executive dashboard shows all three margin killers with equal hero cards; workflow drill-downs follow in portfolio order (compliance → pick-path → cartonization). Layout detail: `1-plan/01-dashboard-ia.md`.
 
 ---
 
@@ -135,7 +135,7 @@ Full register (14 items): `0-research/03-ai-feasibility-architecture.md` §8.
 
 ## 5. Mock & Deck Order
 
-**Narrative rule:** Executive dashboard first, then drill into each workflow. Each workflow slide references the executive widget it feeds. Full IA: `1-planning/01-dashboard-ia.md`.
+**Narrative rule:** Executive dashboard first, then drill into each workflow. Each workflow slide references the executive widget it feeds. Full IA: `1-plan/01-dashboard-ia.md`.
 
 Build the **executive dashboard** shell first, then workflow mocks, then supervisor console, then wire drill-down affordances.
 

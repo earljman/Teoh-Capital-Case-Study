@@ -6,17 +6,17 @@ status: draft
 project: ai-first-wms
 phase: plan
 inputs:
-  - 1-planning/01-dashboard-ia.md
-  - 1-planning/02-main-flows.md
-  - 1-planning/03-roadmap.md
-  - 1-planning/00-phase1-planning-brief.md
+  - 1-plan/01-dashboard-ia.md
+  - 1-plan/02-main-flows.md
+  - 1-plan/03-roadmap.md
+  - 1-plan/00-phase1-planning-brief.md
 changelog:
   - "1.0: Personas + screen/flow availability per Demo, Week 4, Week 12"
 ---
 
 # Users & Checkpoint Availability
 
-Who Phase 1 is built for, and what each role can access at **Demo**, **Week 4**, and **Week 12**. Checkpoint definitions: `1-planning/03-roadmap.md`.
+Who Phase 1 is built for, and what each role can access at **Demo**, **Week 4**, and **Week 12**. Checkpoint definitions: `1-plan/03-roadmap.md`.
 
 **Design principle:** Floor workers get embedded directives. Supervisors triage exceptions. Executives see financial impact. Compliance managers own rule activation — nothing auto-ships without human review.
 
@@ -168,4 +168,4 @@ What a full shift looks like when all roles are wired together.
 
 ---
 
-*Dashboard IA: `1-planning/01-dashboard-ia.md` · Workflow detail: `1-planning/02-main-flows.md` · Roadmap: `1-planning/03-roadmap.md`*
+*Dashboard IA: `1-plan/01-dashboard-ia.md` · Workflow detail: `1-plan/02-main-flows.md` · Roadmap: `1-plan/03-roadmap.md`*

@@ -6,8 +6,8 @@ status: draft
 project: ai-first-wms
 phase: plan
 inputs:
-  - 1-planning/00-phase1-planning-brief.md
-  - 1-planning/01-dashboard-ia.md
+  - 1-plan/00-phase1-planning-brief.md
+  - 1-plan/01-dashboard-ia.md
 decisions:
   - "Demo scope: three workflow mocks only (slides 11–13)"
   - "Dashboard flows live in 01-dashboard-ia.md — not here"
@@ -19,7 +19,7 @@ changelog:
 
 # Phase 1 Workflow Flows
 
-Three floor workflows for slides 11–13. Dashboard flows (executive + supervisor) are in `1-planning/01-dashboard-ia.md`.
+Three floor workflows for slides 11–13. Dashboard flows (executive + supervisor) are in `1-plan/01-dashboard-ia.md`.
 
 **Bet:** Floor workers get embedded directives; compliance is enforced at scan time — not summarized in a chat sidebar.
 
@@ -120,4 +120,4 @@ Loading skeletons and empty states are Week 12 — not Week 4.
 
 ---
 
-*Dashboard IA: `1-planning/01-dashboard-ia.md` · Planning brief: `1-planning/00-phase1-planning-brief.md`*
+*Dashboard IA: `1-plan/01-dashboard-ia.md` · Planning brief: `1-plan/00-phase1-planning-brief.md`*

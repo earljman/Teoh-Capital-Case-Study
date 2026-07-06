@@ -1,6 +1,6 @@
 # Meridian WMS — Phase 1 Demo Prototype
 
-Interactive hi-fi mocks for the Teoh Capital case study deck. Planning IA in `../1-planning/` supersedes the visual layout in `../1-planning/claude-design/` (tokens only).
+Interactive hi-fi mocks for the Teoh Capital case study deck. Planning IA in `../../1-plan/` supersedes the visual layout in `../../1-plan/claude-design/` (tokens only).
 
 ## Stack
 
@@ -40,7 +40,7 @@ The sticky **dev nav** switches screens and states during build. Remove or hide 
 npm run dev
 
 # Full site build (slides + demo) — from repo root
-cd .. && npm run build
+cd ../.. && npm run build
 ```
 
 Deployed layout: **slides at `/`**, **demo at `/demo`** on Netlify.

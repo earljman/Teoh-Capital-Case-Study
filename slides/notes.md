@@ -1,6 +1,6 @@
 # Slide Build Notes
 
-**Source of truth:** `1-planning/00-phase1-planning-brief.md` (v1.2) · Dashboard IA: `1-planning/01-dashboard-ia.md`  
+**Source of truth:** `1-plan/00-phase1-planning-brief.md` (v1.2) · Dashboard IA: `1-plan/01-dashboard-ia.md`  
 **Panel routing:** `advisory-panel.md`
 
 - Show developer skills: tech-stack choices and real code matter, not just mocks.
@@ -112,7 +112,7 @@ Appendix: Supervisor console · 8-week trend chart
 
 ### Supervisor console (appendix mock #2)
 
-**No Big Three.** Action queue first, then floor ops, friction rail, exception + AI logs. See `1-planning/01-dashboard-ia.md` §2–3.
+**No Big Three.** Action queue first, then floor ops, friction rail, exception + AI logs. See `1-plan/01-dashboard-ia.md` §2–3.
 
 ### Slide 11 — Feature 1: Compliance (AI-native)
 
@@ -186,7 +186,7 @@ Source detail from `slides/process-documentation.md`.
 | Slide | Content |
 |-------|---------|
 | **16** | Process overview — Research → Planning → Development pipeline |
-| **17** | Research + Planning — skills, prompts, artifacts (`0-research/`, `1-planning/`) |
+| **17** | Research + Planning — skills, prompts, artifacts (`0-research/`, `1-plan/`) |
 | **18** | Development — tech stack, prototype approach, live demo / repo pointer |
 
 Emphasize: AI accelerated *how* the deck was built; the product is AI-first.

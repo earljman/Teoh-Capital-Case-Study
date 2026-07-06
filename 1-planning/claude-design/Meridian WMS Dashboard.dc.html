@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;background:#e7eae7}
+*{box-sizing:border-box}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes rowin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#eef0ee;font-family:'IBM Plex Sans',sans-serif;color:#171a18;display:flex;flex-direction:column">
+
+  <!-- ============ console header ============ -->
+  <div style="display:flex;align-items:center;gap:14px;padding:0 20px;height:50px;background:#f7f8f6;border-bottom:1px solid #cfd3d0;flex:none">
+    <div style="display:flex;align-items:center;gap:9px">
+      <div style="width:15px;height:15px;background:#1f7a4d"></div>
+      <div style="font:600 13px 'IBM Plex Mono';letter-spacing:.04em">MERIDIAN<span style="color:#5b615c">/OPS</span></div>
+      <div style="font:500 10px 'IBM Plex Mono';color:#5b615c;border:1px solid #dfe2df;border-radius:3px;padding:3px 7px">DC-04.RENO · SHIFT-1</div>
+    </div>
+    <div style="flex:1;display:flex;justify-content:center">
+      <div style="display:flex;border:1px solid #cfd3d0;border-radius:4px;overflow:hidden;background:#fff">
+        <div onClick="{{ setAll }}" style="{{ tabAll }}">ALL</div>
+        <div onClick="{{ setExec }}" style="{{ tabExec }}">EXEC</div>
+        <div onClick="{{ setSup }}" style="{{ tabSup }}">SUPV</div>
+        <div onClick="{{ setSys }}" style="{{ tabSys }}">SYS</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="display:flex;align-items:center;gap:7px"><span style="width:6px;height:6px;border-radius:50%;background:#1f7a4d;animation:pulse 1.8s ease-in-out infinite"></span><span style="font:500 10px 'IBM Plex Mono';color:#5b615c">FEED OK · {{ latency }}ms</span></div>
+      <span style="font:500 10px 'IBM Plex Mono';color:#5b615c">{{ scannersOnline }}/48 SCANNERS</span>
+      <span style="font:600 14px 'IBM Plex Mono';font-variant-numeric:tabular-nums">{{ clock }}</span>
+    </div>
+  </div>
+
+  <!-- ============ KPI strip ============ -->
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:#cfd3d0;border-bottom:1px solid #cfd3d0;flex:none;opacity:{{ dimWatch }};transition:opacity .3s">
+    <div style="background:#f7f8f6;padding:11px 16px">
+      <div style="font:600 9px 'IBM Plex Sans';letter-spacing:.1em;color:#7c837d;text-transform:uppercase">Labor saved · today</div>
+      <div style="font:500 23px 'IBM Plex Mono';color:#1f7a4d;font-variant-numeric:tabular-nums;letter-spacing:-.01em">{{ laborStr }}</div>
+      <div style="font:400 10px 'IBM Plex Mono';color:#7c837d">travel −26% vs baseline</div>
+    </div>
+    <div style="background:#f7f8f6;padding:11px 16px">
+      <div style="font:600 9px 'IBM Plex Sans';letter-spacing:.1em;color:#7c837d;text-transform:uppercase">Picks / hr / worker</div>
+      <div style="font:500 23px 'IBM Plex Mono';font-variant-numeric:tabular-nums;letter-spacing:-.01em">{{ picksStr }}</div>
+      <div style="display:flex;align-items:center;gap:5px;margin-top:2px"><span style="flex:1;height:4px;background:#e4e7e4;position:relative"><span style="position:absolute;inset:0;width:{{ picksPct }}%;background:#1f7a4d"></span></span><span style="font:400 9px 'IBM Plex Mono';color:#7c837d">72→120</span></div>
+    </div>
+    <div style="background:#f7f8f6;padding:11px 16px">
+      <div style="font:600 9px 'IBM Plex Sans';letter-spacing:.1em;color:#7c837d;text-transform:uppercase">Chargeback exposure</div>
+      <div style="font:500 23px 'IBM Plex Mono';color:#b3352b;letter-spacing:-.01em">$12,840</div>
+      <div style="font:400 10px 'IBM Plex Mono';color:#7c837d">2 dispatches flagged</div>
+    </div>
+    <div style="background:#f7f8f6;padding:11px 16px">
+      <div style="font:600 9px 'IBM Plex Sans';letter-spacing:.1em;color:#7c837d;text-transform:uppercase">Air shipped · today</div>
+      <div style="font:500 23px 'IBM Plex Mono';color:#a06e08;letter-spacing:-.01em">{{ airStr }}</div>
+      <div style="font:400 10px 'IBM Plex Mono';color:#7c837d">fill 87% · tgt 92%</div>
+    </div>
+    <div style="background:#f7f8f6;padding:11px 16px">
+      <div style="font:600 9px 'IBM Plex Sans';letter-spacing:.1em;color:#7c837d;text-transform:uppercase">Dock-to-stock worst</div>
+      <div style="font:500 23px 'IBM Plex Mono';color:#b3352b;letter-spacing:-.01em">26.4h</div>
+      <div style="font:400 10px 'IBM Plex Mono';color:#7c837d">PO-88213 · limit 24h</div>
+    </div>
+    <div style="background:#f7f8f6;padding:11px 16px">
+      <div style="font:600 9px 'IBM Plex Sans';letter-spacing:.1em;color:#7c837d;text-transform:uppercase">Offline sync queue</div>
+      <div style="font:500 23px 'IBM Plex Mono';font-variant-numeric:tabular-nums;letter-spacing:-.01em">{{ syncPkgs }}</div>
+      <div style="font:400 10px 'IBM Plex Mono';color:#a06e08">3 scanners offline</div>
+    </div>
+  </div>
+
+  <!-- ============ main console grid ============ -->
+  <div style="flex:1;display:grid;grid-template-columns:1.15fr 1.35fr 1.05fr;gap:1px;background:#cfd3d0">
+
+    <!-- ---------- COL 1 ---------- -->
+    <div style="display:flex;flex-direction:column;gap:1px">
+
+      <!-- compliance -->
+      <div style="background:#f7f8f6;padding:14px 16px;opacity:{{ dimWatch }};transition:opacity .3s">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+          <span style="font:600 10px 'IBM Plex Sans';letter-spacing:.1em;text-transform:uppercase;color:#39413b">B2B compliance · fine predictor</span>
+          <span style="font:500 9.5px 'IBM Plex Mono';color:#b3352b">2 FLAGS · $12,840</span>
+        </div>
+        <sc-for list="{{ compliance }}" as="r" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid #e4e7e4">
+            <span style="width:3px;height:26px;background:{{ r.c }}"></span>
+            <div style="width:96px">
+              <div style="font:600 11.5px 'IBM Plex Sans'">{{ r.v }}</div>
+              <div style="font:400 9px 'IBM Plex Mono';color:#7c837d">{{ r.prog }}</div>
+            </div>
+            <div style="flex:1;font:400 10px 'IBM Plex Mono';color:#5b615c">{{ r.d }}</div>
+            <span style="font:600 8.5px 'IBM Plex Mono';letter-spacing:.04em;padding:2.5px 7px;border-radius:3px;color:{{ r.c }};background:{{ r.bg }}">{{ r.s }}</span>
+            <span style="width:52px;text-align:right;font:600 11px 'IBM Plex Mono';color:{{ r.c }}">{{ r.risk }}</span>
+          </div>
+        </sc-for>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+          <span style="font:400 10px 'IBM Plex Mono';color:#5b615c">&gt; DSP-2214 pallet cfg × WMT-OTIF cutoff 14:30</span>
+          <span style="font:600 10px 'IBM Plex Mono';color:#1f7a4d;border:1px solid #b9d6c5;background:#eaf4ee;padding:4px 9px;border-radius:3px;cursor:pointer">RESEQUENCE →</span>
+        </div>
+      </div>
+
+      <!-- dock-to-stock -->
+      <div style="background:#f7f8f6;padding:14px 16px;flex:1;opacity:{{ dimFlow }};transition:opacity .3s">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <span style="font:600 10px 'IBM Plex Sans';letter-spacing:.1em;text-transform:uppercase;color:#39413b">Dock-to-stock clock</span>
+          <span style="font:500 9.5px 'IBM Plex Mono';color:#7c837d">FLAG &gt; 24H · PHANTOM-OOS GUARD</span>
+        </div>
+        <sc-for list="{{ docks }}" as="d" hint-placeholder-count="4">
+          <div style="padding:6px 0">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="width:158px;font:400 10.5px 'IBM Plex Mono';color:#171a18">{{ d.po }}</span>
+              <span style="flex:1;height:9px;background:#e4e7e4;position:relative"><span style="position:absolute;inset:0;width:{{ d.pct }}%;background:{{ d.c }}"></span></span>
+              <span style="width:46px;text-align:right;font:600 11px 'IBM Plex Mono';color:{{ d.c }}">{{ d.hrs }}</span>
+            </div>
+            <div style="font:400 9px 'IBM Plex Mono';color:#b3352b;margin:2px 0 0 166px">{{ d.note }}</div>
+          </div>
+        </sc-for>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;padding-top:11px;border-top:1px solid #e4e7e4">
+          <div><div style="font:400 9px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.08em">Phantom inventory rate</div><div style="font:600 15px 'IBM Plex Mono'">0.83% <span style="font-size:10px;color:#b3352b">· 41 SKU RISK</span></div></div>
+          <div><div style="font:400 9px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.08em">Trend · 30d</div><div style="font:600 15px 'IBM Plex Mono';color:#1f7a4d">↓ 37%</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- COL 2 ---------- -->
+    <div style="display:flex;flex-direction:column;gap:1px">
+
+      <!-- congestion heatmap -->
+      <div style="background:#f7f8f6;padding:14px 16px;opacity:{{ dimFlow }};transition:opacity .3s">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+          <span style="font:600 10px 'IBM Plex Sans';letter-spacing:.1em;text-transform:uppercase;color:#39413b">Aisle congestion · live pickers/zone</span>
+          <span style="font:500 9.5px 'IBM Plex Mono';color:#a06e08">ZONE D–E HOT · 3 REROUTED</span>
+        </div>
+        {{ heat }}
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font:400 9.5px 'IBM Plex Mono';color:#7c837d"><span>AISLE A</span><span>AISLE G</span><span>AISLE N</span></div>
+      </div>
+
+      <!-- outbound telemetry -->
+      <div style="background:#f7f8f6;padding:14px 16px;flex:1;opacity:{{ dimFlow }};transition:opacity .3s">
+        <div style="font:600 10px 'IBM Plex Sans';letter-spacing:.1em;text-transform:uppercase;color:#39413b;margin-bottom:11px">Outbound optimization telemetry</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+          <div style="border-left:2px solid #cfd3d0;padding-left:9px"><div style="font:500 21px 'IBM Plex Mono'">14</div><div style="font:400 9px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.06em">active batches</div></div>
+          <div style="border-left:2px solid #cfd3d0;padding-left:9px"><div style="font:500 21px 'IBM Plex Mono'">23</div><div style="font:400 9px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.06em">affinity clusters</div></div>
+          <div style="border-left:2px solid #1f7a4d;padding-left:9px"><div style="font:500 21px 'IBM Plex Mono';color:#1f7a4d">{{ walkStr }}km</div><div style="font:400 9px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.06em">walk saved today</div></div>
+          <div style="border-left:2px solid #cfd3d0;padding-left:9px"><div style="font:500 21px 'IBM Plex Mono'">1,204</div><div style="font:400 9px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.06em">cartons packed</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:13px;padding-top:11px;border-top:1px solid #e4e7e4">
+          <span style="font:400 10px 'IBM Plex Mono';color:#5b615c;width:120px">CARTONIZATION FILL</span>
+          <span style="flex:1;height:9px;background:#e4e7e4;position:relative"><span style="position:absolute;inset:0;width:92%;background:#1f7a4d"></span><span style="position:absolute;top:-2px;left:92%;width:2px;height:13px;background:#171a18"></span></span>
+          <span style="font:600 12px 'IBM Plex Mono';color:#1f7a4d">92%</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+          <span style="font:400 10px 'IBM Plex Mono';color:#5b615c;width:120px">PATHING INDEX</span>
+          <span style="flex:1;height:9px;background:#e4e7e4;position:relative"><span style="position:absolute;inset:0;width:87%;background:#1f7a4d"></span></span>
+          <span style="font:600 12px 'IBM Plex Mono';color:#1f7a4d">0.87</span>
+          <span style="font:400 10px 'IBM Plex Mono';color:#7c837d">61.3/53.4 km</span>
+        </div>
+      </div>
+
+      <!-- friction monitors -->
+      <div style="background:#f7f8f6;padding:14px 16px;opacity:{{ dimFrict }};transition:opacity .3s">
+        <div style="font:600 10px 'IBM Plex Sans';letter-spacing:.1em;text-transform:uppercase;color:#39413b;margin-bottom:9px">Friction watch · floor reality vs software</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+          <div style="border:1px solid #e4e7e4;padding:9px 10px;background:#fff"><div style="font:400 8.5px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.05em">force-confirms</div><div style="font:600 17px 'IBM Plex Mono';color:#b3352b">4.1%</div><div style="font:400 9px 'IBM Plex Mono';color:#7c837d">tgt&lt;2% · P4=11%</div></div>
+          <div style="border:1px solid #e4e7e4;padding:9px 10px;background:#fff"><div style="font:400 8.5px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.05em">wifi AP-07</div><div style="font:600 17px 'IBM Plex Mono';color:#a06e08">9%</div><div style="font:400 9px 'IBM Plex Mono';color:#7c837d">loss · zone C</div></div>
+          <div style="border:1px solid #e4e7e4;padding:9px 10px;background:#fff"><div style="font:400 8.5px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.05em">sku data gaps</div><div style="font:600 17px 'IBM Plex Mono';color:#a06e08">62</div><div style="font:400 9px 'IBM Plex Mono';color:#7c837d">dims/wt missing</div></div>
+          <div style="border:1px solid #e4e7e4;padding:9px 10px;background:#fff"><div style="font:400 8.5px 'IBM Plex Sans';color:#7c837d;text-transform:uppercase;letter-spacing:.05em">weight gaps</div><div style="font:600 17px 'IBM Plex Mono';color:#a06e08">18</div><div style="font:400 9px 'IBM Plex Mono';color:#7c837d">blocks carton math</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- COL 3 : dark feeds ---------- -->
+    <div style="display:flex;flex-direction:column;gap:1px">
+
+      <!-- exception feed -->
+      <div style="background:#141917;padding:14px 16px;flex:1;display:flex;flex-direction:column;opacity:{{ dimFrict }};transition:opacity .3s">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+          <span style="font:600 10px 'IBM Plex Sans';letter-spacing:.1em;text-transform:uppercase;color:#8fa396">"Happy path" exception log</span>
+          <span style="display:flex;align-items:center;gap:6px;font:400 9px 'IBM Plex Mono';color:#6b7a70">STREAMING <span style="width:6px;height:6px;border-radius:50%;background:#e05c4f;animation:pulse 1.6s ease-in-out infinite"></span></span>
+        </div>
+        <sc-for list="{{ exceptions }}" as="e" hint-placeholder-count="7">
+          <div style="display:flex;gap:9px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06);animation:rowin .3s ease">
+            <span style="font:400 9.5px 'IBM Plex Mono';color:#6b7a70">{{ e.t }}</span>
+            <span style="width:34px;font:600 9.5px 'IBM Plex Mono';color:{{ e.c }}">{{ e.tag }}</span>
+            <span style="flex:1;font:400 10.5px 'IBM Plex Mono';color:#d7ded9">{{ e.msg }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- AI agent log -->
+      <div style="background:#141917;padding:14px 16px;flex:1;display:flex;flex-direction:column;opacity:{{ dimAi }};transition:opacity .3s">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">
+          <span style="font:600 10px 'IBM Plex Sans';letter-spacing:.1em;text-transform:uppercase;color:#8fa396">AI agent log · phase-1</span>
+          <span style="font:400 9px 'IBM Plex Mono';color:#6b7a70">GUIDE-PARSER · BATCH-OPT · CARTON-3D</span>
+        </div>
+        <sc-for list="{{ agent }}" as="a" hint-placeholder-count="5">
+          <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);animation:rowin .3s ease">
+            <span style="font:400 9.5px 'IBM Plex Mono';color:#6b7a70">{{ a.t }}</span>
+            <span style="width:44px;font:600 9.5px 'IBM Plex Mono';color:#7ec49a">{{ a.k }}</span>
+            <span style="flex:1;font:400 10.5px 'IBM Plex Mono';color:#d7ded9;line-height:1.5">{{ a.msg }}</span>
+          </div>
+        </sc-for>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px">
+          <span style="font:400 9.5px 'IBM Plex Mono';color:#6b7a70">PATHING OPT INDEX · TODAY</span>
+          <span style="display:flex;align-items:center;gap:8px"><span style="font:400 9.5px 'IBM Plex Mono';color:#6b7a70">61.3/53.4km</span><span style="font:600 17px 'IBM Plex Mono';color:#7ec49a">0.87</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ status bar ============ -->
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 20px;background:#f7f8f6;border-top:1px solid #cfd3d0;flex:none">
+    <span style="font:400 9.5px 'IBM Plex Mono';color:#7c837d">MERIDIAN AI ENGINE v2.4.1 · {{ viewLabel }} VIEW · MODELS ONLINE 3/3</span>
+    <span style="font:400 9.5px 'IBM Plex Mono';color:#7c837d">LAST FULL SYNC {{ clock }} · UPTIME 99.98%</span>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1512, &quot;height&quot;: 860}, &quot;liveMotion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Simulation&quot;}, &quot;heatIntensity&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 1, &quot;min&quot;: 0.2, &quot;max&quot;: 1.6, &quot;step&quot;: 0.1, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Simulation&quot;}}">
+class Component extends DCLogic {
+  state = {
+    labor: 4213.18, picks: 117.4, air: 318, phase: 0, syncPkgs: 87, walk: 41.2,
+    latency: 42, scannersOnline: 45, clock: '06:42:18', role: 'all',
+    exceptions: [
+      {t:'06:41:52', tag:'BIN', msg:'Bin empty — B-14-03 · SKU 88213', c:'#e05c4f'},
+      {t:'06:41:13', tag:'SCAN', msg:'Barcode unreadable — A-02-11', c:'#e0a13a'},
+      {t:'06:40:38', tag:'PICK', msg:'Short pick — order #40291 (qty 3/4)', c:'#e05c4f'},
+      {t:'06:39:04', tag:'BIN', msg:'Bin empty — D-07-22 · SKU 10442', c:'#e05c4f'},
+      {t:'06:37:51', tag:'SCAN', msg:'Manual override — station P4 (M. Diaz)', c:'#e0a13a'},
+      {t:'06:36:20', tag:'PICK', msg:'Short pick — order #40277 (qty 5/6)', c:'#e05c4f'},
+      {t:'06:35:02', tag:'BIN', msg:'Bin mislabeled — F-03-09', c:'#e0a13a'}
+    ],
+    agent: [
+      {t:'06:38', k:'PARSE', msg:"Parsed 'Home Depot Routing Guide v3.2' → pallet height ≤ 48in set as hard constraint", c:'#7ec49a'},
+      {t:'06:31', k:'RULE', msg:'Walmart OTIF window shift detected → dispatch cutoff moved to 14:30', c:'#7ec49a'},
+      {t:'06:24', k:'SLOT', msg:'Re-slotted 214 SKUs from overnight affinity clustering', c:'#7ec49a'},
+      {t:'06:10', k:'MODEL', msg:'Cartonization model refreshed on 30d parcel history (12,480 cartons)', c:'#7ec49a'},
+      {t:'05:52', k:'PATH', msg:'Zone-D congestion weight raised → 3 pick routes re-optimized', c:'#7ec49a'}
+    ]
+  };
+
+  EX_POOL = [
+    {tag:'BIN', msg:'Bin empty — C-11-08 · SKU 30417', c:'#e05c4f'},
+    {tag:'SCAN', msg:'Barcode unreadable — E-04-19', c:'#e0a13a'},
+    {tag:'PICK', msg:'Short pick — order #40312 (qty 1/2)', c:'#e05c4f'},
+    {tag:'SCAN', msg:'Manual override — station P2 (J. Okafor)', c:'#e0a13a'},
+    {tag:'BIN', msg:'Bin mislabeled — B-09-14', c:'#e0a13a'},
+    {tag:'PICK', msg:'Short pick — order #40331 (qty 2/3)', c:'#e05c4f'},
+    {tag:'SCAN', msg:'Barcode unreadable — G-08-02', c:'#e0a13a'}
+  ];
+  AG_POOL = [
+    {k:'PARSE', msg:"Parsed 'Ace Hardware Guide v1.8' → carton label placement rule updated", c:'#7ec49a'},
+    {k:'SLOT', msg:'Affinity cluster #24 formed: 18 SKUs (seasonal outdoor)', c:'#7ec49a'},
+    {k:'RULE', msg:'Target SQEP check added: pallet tier count ≤ 5 for DSP-2209', c:'#7ec49a'},
+    {k:'MODEL', msg:'Pathing baseline recomputed — zone D congestion weight raised', c:'#7ec49a'},
+    {k:'CARTON', msg:'Right-sized 96 orders → 11 fewer boxes, 0.6m³ air removed', c:'#7ec49a'}
+  ];
+
+  componentDidMount() {
+    this._iv = setInterval(() => {
+      if (!(this.props.liveMotion ?? true)) return;
+      this.setState(s => {
+        const clock = new Date().toLocaleTimeString('en-GB', {hour12: false});
+        const phase = s.phase + 1;
+        const next = {
+          phase, clock,
+          labor: s.labor + 0.31 + Math.random() * 0.25,
+          picks: Math.min(121, Math.max(112, s.picks + (Math.random() - 0.5) * 0.9)),
+          air: Math.max(280, Math.min(360, s.air + (Math.random() - 0.5) * 3)),
+          syncPkgs: Math.max(41, Math.min(140, s.syncPkgs + Math.round((Math.random() - 0.52) * 5))),
+          walk: s.walk + 0.005 + Math.random() * 0.005,
+          latency: Math.max(28, Math.min(74, s.latency + Math.round((Math.random() - 0.5) * 6))),
+          scannersOnline: Math.max(43, Math.min(48, s.scannersOnline + (Math.random() < 0.1 ? (Math.random() < 0.5 ? -1 : 1) : 0)))
+        };
+        if (phase % 5 === 0) {
+          const p = this.EX_POOL[Math.floor(Math.random() * this.EX_POOL.length)];
+          next.exceptions = [{...p, t: clock}, ...s.exceptions].slice(0, 7);
+        }
+        if (phase % 9 === 0) {
+          const p = this.AG_POOL[Math.floor(Math.random() * this.AG_POOL.length)];
+          next.agent = [{...p, t: clock.slice(0, 5)}, ...s.agent].slice(0, 5);
+        }
+        return next;
+      });
+    }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this._iv); }
+
+  heat() {
+    const inten = this.props.heatIntensity ?? 1;
+    const {phase} = this.state;
+    const hots = [[4,3],[9,2],[11,5]];
+    const cells = [];
+    for (let y = 0; y < 7; y++) for (let x = 0; x < 18; x++) {
+      let v = 0;
+      hots.forEach(([hx,hy],i) => {
+        const d2 = (x-hx)*(x-hx) + (y-hy)*(y-hy);
+        v += Math.exp(-d2/5.5) * (0.72 + 0.28 * Math.sin(phase/2.5 + i*2.1 + x*0.3));
+      });
+      v = Math.min(1, Math.max(0, v * inten));
+      const g = Math.round(160 - v*130), b = Math.round(120 - v*100);
+      cells.push(React.createElement('div', {key: x+'-'+y, style: {height: 15, borderRadius: 2, background: `rgba(${Math.round(160+v*40)},${g},${b},${(0.12 + v*0.85).toFixed(2)})`}}));
+    }
+    return React.createElement('div', {style: {display:'grid', gridTemplateColumns:'repeat(18,1fr)', gap:3}}, cells);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const roles = ['all','exec','sup','sys'];
+    const rel = {watch:['exec'], flow:['sup'], frict:['sup','sys'], ai:['sys','exec']};
+    const dim = (k) => (s.role === 'all' || rel[k].includes(s.role)) ? 1 : 0.28;
+    const base = {padding:'6px 15px', font:"500 10.5px 'IBM Plex Mono'", letterSpacing:'.06em', color:'#5b615c', cursor:'pointer', userSelect:'none', borderRight:'1px solid #cfd3d0'};
+    const act = {background:'#1f2b24', color:'#e8f3ec', fontWeight:600};
+    const tab = (r) => s.role === r ? {...base, ...act} : base;
+    const labels = {all:'ALL-ROLE', exec:'EXECUTIVE', sup:'SUPERVISOR', sys:'SYSTEMS'};
+
+    return {
+      clock: s.clock,
+      latency: String(s.latency),
+      scannersOnline: String(s.scannersOnline),
+      laborStr: '$' + s.labor.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}),
+      picksStr: String(Math.round(s.picks)),
+      picksPct: Math.round(s.picks / 130 * 100),
+      airStr: '$' + Math.round(s.air),
+      syncPkgs: String(s.syncPkgs),
+      walkStr: s.walk.toFixed(1),
+      exceptions: s.exceptions,
+      agent: s.agent,
+      viewLabel: labels[s.role],
+      compliance: [
+        {v:'Walmart', prog:'OTIF · DSP-2214', d:'today 14:30', s:'AT RISK', risk:'$8,400', c:'#b3352b', bg:'rgba(179,53,43,.09)'},
+        {v:'Target', prog:'SQEP · DSP-2209', d:'today 11:00', s:'WATCH', risk:'$4,440', c:'#a06e08', bg:'rgba(160,110,8,.1)'},
+        {v:'Home Depot', prog:'Routing v3.2 · DSP-2217', d:'tomorrow 09:00', s:'CLEAR', risk:'—', c:'#1f7a4d', bg:'rgba(31,122,77,.09)'},
+        {v:"Lowe's", prog:'Label 2.1 · DSP-2220', d:'Thu 13:00', s:'CLEAR', risk:'—', c:'#1f7a4d', bg:'rgba(31,122,77,.09)'}
+      ],
+      docks: [
+        {po:'PO-88213 · Hasbro', hrs:'26.4h', pct:100, c:'#b3352b', note:'⚑ phantom-OOS risk on 3 SKUs'},
+        {po:'PO-88219 · Spin Master', hrs:'18.2h', pct:76, c:'#a06e08', note:''},
+        {po:'PO-88224 · Mattel', hrs:'9.6h', pct:40, c:'#1f7a4d', note:''},
+        {po:'PO-88227 · LEGO', hrs:'2.1h', pct:9, c:'#1f7a4d', note:''}
+      ],
+      heat: this.heat(),
+      dimWatch: dim('watch'), dimFlow: dim('flow'), dimFrict: dim('frict'), dimAi: dim('ai'),
+      tabAll: tab('all'), tabExec: tab('exec'), tabSup: tab('sup'), tabSys: tab('sys'),
+      setAll: () => this.setState({role:'all'}),
+      setExec: () => this.setState({role:'exec'}),
+      setSup: () => this.setState({role:'sup'}),
+      setSys: () => this.setState({role:'sys'})
+    };
+  }
+}
+</script>
+</body>
+</html>

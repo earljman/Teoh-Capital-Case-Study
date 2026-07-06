@@ -1,0 +1,46 @@
+---
+description: Teoh Capital AI-first WMS case study — project context and advisory panel usage
+alwaysApply: true
+---
+
+# Teoh Capital Case Study — AI-First WMS
+
+Product scoping pack for an AI-first Warehouse Management System (WMS). The deliverable is a slide deck with a near-term roadmap, the top three Phase 1 features, and high-fidelity mocks/prototypes — plus evidence of PM and builder craft in how the pack was produced.
+
+**Original brief:** `case-study-prompt.md`
+
+## Open questions (still with the reviewer)
+
+- **Target market:** commercial SaaS sold to operators vs. operating system for a Teoh-owned warehousing business
+- **Build ownership:** who builds and maintains the platform long-term
+
+Design work should stay robust under either market assumption until these are resolved.
+
+## How work is organized
+
+Work flows through three phases — **Research → Planning → Development** — each producing inputs for the next. Artifacts live in numbered phase folders and change frequently; discover current state by reading the repo rather than relying on this rule.
+
+PM workflow skills live in `.agents/skills/`. Use them when a task matches their purpose (discovery, planning, delivery docs, slides, etc.).
+
+## Advisory panel (`advisory-panel.md`)
+
+The advisory panel is a **thinking and routing tool**, not deck content. Consult it when making scoping, narrative, or effort-allocation decisions — not on every minor edit.
+
+**Eight members, summoned by role:** The Judge, The Storyteller, The Builder, The Editor, The Investor, The Insider, The Skeptic, The Closer. Each has a distinct lens and signature question defined in the file.
+
+**How to use it:**
+
+1. **Route, don't poll.** For each decision, consult the **four members who have a stake** — the file maps which four apply to each of the 11 build steps.
+2. **Seek tensions, not consensus.** Productive disagreements (e.g. Judge vs. Insider, Investor vs. Editor, Builder vs. Editor, Skeptic vs. Judge) mirror tradeoffs the reviewer will probe. Resolve those tensions; don't average them away.
+3. **Prioritize Judge and Editor early.** With research intentionally light, they set the memorable bet and protect hours for mocks and craft.
+4. **Lock decisions before building.** Steps 2 (differentiating bet) and 3 (market assumption) are decisions, not tasks — everything downstream inherits them.
+5. **Use §A and §B as guardrails.** §A is the include/cut/imply list for scope; §B is the slide skeleton (~18 slides). Refer to these when deciding what earns real effort vs. a light touch vs. a cut.
+
+The panel file also notes how the market question rewires the Investor and Insider lenses once the reviewer answers.
+
+## Working principles
+
+- **One memorable bet** threaded through deck and mocks — not a feature list or architecture tour.
+- **80/20 delivery:** light research, strong mocks and narrative. Kill filler; protect time for hi-fi screens with real data and considered states.
+- **AI-first, not AI-bolted-on:** Phase 1 is 1 AI-native feature + 2 AI-enhanced priority workflows, each with visible operator override.
+- **Show the work:** the deck includes a meta section on process (research, planning, development) to demonstrate PM + builder craft.

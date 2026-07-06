@@ -1,0 +1,149 @@
+/* Ops-console design tokens — visual language from 1-planning/claude-design/ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+	--surface-base: #eef0ee;
+	--surface-panel: #f7f8f6;
+	--surface-page: #e7eae7;
+	--hairline: #cfd3d0;
+	--separator: #e4e7e4;
+	--badge-border: #dfe2df;
+
+	--text-primary: #171a18;
+	--text-secondary: #39413b;
+	--text-muted: #5b615c;
+	--text-faint: #7c837d;
+
+	--green: #1f7a4d;
+	--green-deep: #1f2b24;
+	--green-soft: #e8f3ec;
+	--green-tint: #eaf4ee;
+	--green-outline: #b9d6c5;
+
+	--red: #b3352b;
+	--red-tint: rgba(179, 53, 43, 0.09);
+	--amber: #a06e08;
+	--amber-tint: rgba(160, 110, 8, 0.1);
+
+	--panel-dark: #141917;
+	--panel-dark-muted: #6b7a70;
+	--panel-dark-heading: #8fa396;
+	--panel-dark-body: #d7ded9;
+	--panel-dark-green: #7ec49a;
+	--feed-red: #e05c4f;
+	--feed-amber: #e0a13a;
+
+	--font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+	--radius-sm: 2px;
+	--radius-md: 3px;
+	--radius-lg: 4px;
+
+	--viewport-desktop: 1440px;
+	--viewport-mobile: 390px;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	background: var(--surface-page);
+	color: var(--text-primary);
+	font-family: var(--font-sans);
+	font-size: 14px;
+	line-height: 1.45;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--green);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+button,
+input,
+select {
+	font: inherit;
+}
+
+.tabular-nums {
+	font-variant-numeric: tabular-nums;
+}
+
+.mono {
+	font-family: var(--font-mono);
+}
+
+.label {
+	font-size: 9px;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--text-faint);
+}
+
+.section-title {
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--text-faint);
+}
+
+.pulse {
+	animation: pulse 1.7s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.25;
+	}
+}
+
+@keyframes rowin {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.skeleton {
+	background: linear-gradient(
+		90deg,
+		var(--separator) 0%,
+		var(--surface-panel) 50%,
+		var(--separator) 100%
+	);
+	background-size: 200% 100%;
+	animation: shimmer 1.4s ease-in-out infinite;
+	border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}

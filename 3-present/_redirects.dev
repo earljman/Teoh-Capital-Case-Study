@@ -1,2 +1,0 @@
-/demo/*  http://localhost:5173/demo/:splat  200
-/demo    http://localhost:5173/demo/        200

@@ -1,4 +1,7 @@
 # Slides at /, SvelteKit demo at /demo
+# Production demo routing: dist/_redirects (copied at build time).
+# Local dev routing: scripts/dev-server.mjs proxies /demo → Vite.
+
 [build]
   command = "npm run build"
   publish = "dist"
@@ -6,17 +9,7 @@
 [functions]
   directory = "2-build/demo/.netlify/functions-internal"
 
-[[redirects]]
-  from = "/demo/*"
-  to = "/.netlify/functions/sveltekit-render"
-  status = 200
-
-[[redirects]]
-  from = "/demo"
-  to = "/demo/"
-  status = 301
-
 [dev]
-  framework = "#static"
   publish = "dist"
   port = 8888
+  framework = "#static"

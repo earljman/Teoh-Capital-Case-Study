@@ -2,17 +2,18 @@
 	"name": "teoh-capital-case-study",
 	"private": true,
 	"scripts": {
-		"dev": "concurrently --kill-others-on-fail --names sync,netlify --prefix name \"npm run watch:deck-dist\" \"npm run dev:netlify\"",
+		"dev": "concurrently --kill-others-on-fail --names sync,demo,gateway --prefix name \"npm run watch:deck-dist\" \"npm run dev:demo\" \"npm run dev:gateway\"",
 		"build": "npm ci --prefix 2-build/demo && npm run build --prefix 2-build/demo && node scripts/assemble-dist.mjs",
 		"sync:deck-dist": "node scripts/sync-deck-dist.mjs",
 		"watch:deck-dist": "node scripts/sync-deck-dist.mjs --watch",
 		"dev:demo": "npm run dev --prefix 2-build/demo",
-		"dev:netlify": "netlify dev --config netlify.dev.toml",
+		"dev:gateway": "node scripts/dev-server.mjs",
 		"screenshots:demo": "node scripts/capture-demo-screenshots.mjs",
 		"content-bank": "node scripts/build-content-bank.mjs"
 	},
 	"devDependencies": {
 		"concurrently": "^10.0.3",
+		"netlify-cli": "^23.0.0",
 		"playwright": "^1.52.0"
 	}
 }

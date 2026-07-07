@@ -14,7 +14,8 @@ cpSync(join(root, '3-present/shared'), join(dist, 'shared'), { recursive: true }
 cpSync(join(root, '3-present/images'), join(dist, 'images'), { recursive: true });
 cpSync(join(root, '3-present/slides'), join(dist, 'slides'), { recursive: true });
 cpSync(join(root, '0-research'), join(dist, 'research'), { recursive: true });
+cpSync(join(root, '3-present/_redirects.prod'), join(dist, '_redirects'));
 cpSync(join(root, '2-build/demo/build/demo'), join(dist, 'demo'), { recursive: true });
 cpSync(join(root, '2-build/demo/build/_headers'), join(dist, '_headers'));
 
-console.log('Assembled dist/: deck at /, demo at /demo');
+console.log('Assembled dist/: slides at /, demo at /demo');

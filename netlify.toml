@@ -17,6 +17,6 @@
   status = 301
 
 [dev]
-  command = "npm run dev --prefix 2-build/demo"
-  port = 5173
-  targetPort = 5173
+  framework = "#static"
+  publish = "dist"
+  port = 8888

@@ -26,12 +26,12 @@ PM workflow skills live in `.agents/skills/`. Use them when a task matches their
 
 The advisory panel is a **thinking and routing tool**, not deck content. Consult it when making scoping, narrative, or effort-allocation decisions — not on every minor edit.
 
-**Eight members, summoned by role:** The Judge, The Storyteller, The Builder, The Editor, The Investor, The Insider, The Skeptic, The Closer. Each has a distinct lens and signature question defined in the file.
+**Nine members, summoned by role:** The Judge, The Storyteller, The Builder, The Editor, The Investor, The Insider, The Skeptic, The Closer, The Designer. Each has a distinct lens and signature question defined in the file.
 
 **How to use it:**
 
 1. **Route, don't poll.** For each decision, consult the **four members who have a stake** — the file maps which four apply to each of the 11 build steps.
-2. **Seek tensions, not consensus.** Productive disagreements (e.g. Judge vs. Insider, Investor vs. Editor, Builder vs. Editor, Skeptic vs. Judge) mirror tradeoffs the reviewer will probe. Resolve those tensions; don't average them away.
+2. **Seek tensions, not consensus.** Productive disagreements (e.g. Judge vs. Insider, Investor vs. Editor, Builder vs. Designer, Designer vs. Editor, Skeptic vs. Judge) mirror tradeoffs the reviewer will probe. Resolve those tensions; don't average them away.
 3. **Prioritize Judge and Editor early.** With research intentionally light, they set the memorable bet and protect hours for mocks and craft.
 4. **Lock decisions before building.** Steps 2 (differentiating bet) and 3 (market assumption) are decisions, not tasks — everything downstream inherits them.
 5. **Use §A and §B as guardrails.** §A is the include/cut/imply list for scope; §B is the slide skeleton (~18 slides). Refer to these when deciding what earns real effort vs. a light touch vs. a cut.

@@ -309,6 +309,15 @@ h1 em, h2 em, h3 em {
     line-height: 1.5;
 }
 
+/* Keep inline code/file paths readable in dense slide copy */
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.88em;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
 .stat {
     font-family: var(--font-display);
     font-size: var(--text-3xl);
@@ -956,6 +965,13 @@ h1 em, h2 em, h3 em {
 
 .roadmap-node__head .phase {
     margin-bottom: 0;
+}
+
+.roadmap-node__risk {
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .roadmap-node__now {
@@ -1932,4 +1948,55 @@ body.edit-mode .edit-toggle {
 
 .body-area .icp-visual .stat {
     font-size: var(--text-2xl);
+}
+
+/* Slide 18 fix: prevent fragmented line wrapping in bullet items */
+.slide[data-slide="18"] .dash-list li {
+    display: block;
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.slide[data-slide="18"] .dash-list li::before {
+    position: absolute;
+    left: 0;
+    top: 0.08em;
+    padding-top: 0;
+}
+
+.slide[data-slide="18"] .stack-link-card {
+    display: block;
+    height: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: rgba(30, 43, 250, 0.03);
+    padding: 12px 14px;
+    transition: border-color 0.2s var(--ease-out), background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
+}
+
+.slide[data-slide="18"] .stack-link-card:hover,
+.slide[data-slide="18"] .stack-link-card:focus-visible {
+    border-color: var(--primary);
+    background: rgba(30, 43, 250, 0.08);
+    transform: translateY(-1px);
+}
+
+.slide[data-slide="18"] .stack-link-card .tag {
+    font-size: 16px;
+    line-height: 1.25;
+}
+
+.slide[data-slide="18"] .stack-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.slide[data-slide="18"] .stack-brand-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    flex: 0 0 16px;
 }

@@ -2,7 +2,10 @@
 	"name": "teoh-capital-case-study",
 	"private": true,
 	"scripts": {
+		"dev": "npm run watch:deck-dist & npm run dev:demo & netlify dev",
 		"build": "npm run build --prefix 2-build/demo && node scripts/assemble-dist.mjs",
+		"sync:deck-dist": "node scripts/sync-deck-dist.mjs",
+		"watch:deck-dist": "node scripts/sync-deck-dist.mjs --watch",
 		"dev:demo": "npm run dev --prefix 2-build/demo",
 		"screenshots:demo": "node scripts/capture-demo-screenshots.mjs",
 		"content-bank": "node scripts/build-content-bank.mjs"

@@ -3,6 +3,7 @@
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
+	import HelpTitle from '$lib/components/HelpTitle.svelte';
 	import { OVERRIDE_REASONS, PACK_DIRECTIVE } from '$lib/data/pack';
 	import { recordPackComplete } from '$lib/telemetry';
 
@@ -27,7 +28,14 @@
 		<div>
 			<DashboardBackLink />
 			<p class="label">Slide 13 · Cartonization</p>
-			<h1>Pack station · single authoritative box</h1>
+			<h1>
+				<HelpTitle
+					helpId="pack-workflow"
+					title="Pack station · single authoritative box"
+					variant="h1"
+					as="span"
+				/>
+			</h1>
 		</div>
 		<p class="order mono">Order {PACK_DIRECTIVE.orderId}</p>
 	</header>
@@ -38,11 +46,15 @@
 				<div class="skeleton d-skel"></div>
 			{:else if demoState === 'gated'}
 				<div class="block">
-					<h2>Pack blocked</h2>
+					<h2>
+						<HelpTitle helpId="pack-directive" title="Pack blocked" variant="h2" as="span" />
+					</h2>
 					<p class="mono">SKU-99201 missing dimensions — capture at receiving</p>
 				</div>
 			{:else}
-				<p class="use-label section-title">Use carton</p>
+				<p class="use-label section-title">
+					<HelpTitle helpId="pack-directive" title="Use carton" variant="section-title" />
+				</p>
 				<p class="carton mono">{PACK_DIRECTIVE.carton} — {PACK_DIRECTIVE.dimensions}</p>
 				<p class="billable mono">Est. billable: {PACK_DIRECTIVE.billableWeight}</p>
 
@@ -68,7 +80,9 @@
 		</section>
 
 		<aside class="override-panel">
-			<p class="section-title">Override</p>
+			<p class="section-title">
+				<HelpTitle helpId="override-panel" title="Override" variant="section-title" />
+			</p>
 			<label class="mono" for="reason">Reason code (required)</label>
 			<select id="reason" bind:value={overrideReason}>
 				{#each OVERRIDE_REASONS as reason}

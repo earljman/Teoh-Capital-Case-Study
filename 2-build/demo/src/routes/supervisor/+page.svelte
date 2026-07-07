@@ -5,6 +5,13 @@
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardChrome from '$lib/components/DashboardChrome.svelte';
 	import Heatmap from '$lib/components/Heatmap.svelte';
+	import MiniBarChart from '$lib/components/MiniBarChart.svelte';
+	import StackedHorizontalBar from '$lib/components/StackedHorizontalBar.svelte';
+	import BaselineSparkline from '$lib/components/BaselineSparkline.svelte';
+	import ThresholdGauge from '$lib/components/ThresholdGauge.svelte';
+	import AgingHistogram from '$lib/components/AgingHistogram.svelte';
+	import Sparkline from '$lib/components/Sparkline.svelte';
+	import HelpTitle from '$lib/components/HelpTitle.svelte';
 	import { SUPERVISOR_ALERT, SUPERVISOR_HAPPY } from '$lib/data/supervisor';
 
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
@@ -25,20 +32,29 @@
 			<section class="action-queue" class:alert={!data.allClear}>
 				{#if loading}
 					<div class="skeleton queue-skel"></div>
-				{:else if data.allClear}
-					<p class="queue-title">All clear — 0 items need attention</p>
-					<p class="queue-sub mono">Floor ops nominal · last scan 12s ago</p>
 				{:else}
-					<p class="queue-title alert-text">
-						⚠ {data.actionQueue.map((i) => `${i.count} ${i.label.toLowerCase()}`).join(' · ')}
-					</p>
-					<button type="button" class="triage mono">Triage all →</button>
+					<div class="queue-body">
+						<HelpTitle helpId="action-queue" title="Action queue" variant="label" />
+						{#if data.allClear}
+							<p class="queue-title">All clear — 0 items need attention</p>
+							<p class="queue-sub mono">Floor ops nominal · last scan 12s ago</p>
+						{:else}
+							<p class="queue-title alert-text">
+								⚠ {data.actionQueue.map((i) => `${i.count} ${i.label.toLowerCase()}`).join(' · ')}
+							</p>
+						{/if}
+					</div>
+					{#if !data.allClear}
+						<button type="button" class="triage mono">Triage all →</button>
+					{/if}
 				{/if}
 			</section>
 
 			<section class="floor-ops">
 				<div class="widget">
-					<h2 class="section-title">Dynamic batch</h2>
+					<h2 class="section-title">
+						<HelpTitle helpId="dynamic-batch" title="Dynamic batch" variant="section-title" as="span" />
+					</h2>
 					{#if loading}
 						<div class="skeleton w-skel"></div>
 					{:else}
@@ -48,7 +64,14 @@
 					{/if}
 				</div>
 				<div class="widget">
-					<h2 class="section-title">Cartonization efficiency</h2>
+					<h2 class="section-title">
+						<HelpTitle
+							helpId="cartonization-efficiency"
+							title="Cartonization efficiency"
+							variant="section-title"
+							as="span"
+						/>
+					</h2>
 					{#if loading}
 						<div class="skeleton w-skel"></div>
 					{:else}
@@ -57,7 +80,14 @@
 					{/if}
 				</div>
 				<div class="widget heatmap-widget">
-					<h2 class="section-title">Aisle congestion heatmap</h2>
+					<h2 class="section-title">
+						<HelpTitle
+							helpId="aisle-congestion-heatmap"
+							title="Aisle congestion heatmap"
+							variant="section-title"
+							as="span"
+						/>
+					</h2>
 					{#if loading}
 						<div class="skeleton h-skel"></div>
 					{:else}
@@ -72,11 +102,21 @@
 
 			<section class="exception-log">
 				<div class="log-head">
-					<h2 class="section-title">Exception log</h2>
+					<h2 class="section-title">
+						<HelpTitle helpId="exception-log" title="Exception log" variant="section-title" as="span" />
+					</h2>
 					{#if !loading && data.unresolvedAgingCount > 0}
 						<span class="aging-chip mono">{data.unresolvedAgingCount} unresolved &gt;30m</span>
 					{/if}
 				</div>
+				{#if !loading}
+					<div class="aging-viz">
+						<p class="viz-label mono">
+							<HelpTitle helpId="exception-aging" title="Exception aging" variant="label" />
+						</p>
+						<AgingHistogram buckets={data.exceptionAgingBuckets} width={280} height={36} />
+					</div>
+				{/if}
 				{#each data.exceptions as row (`${row.time}-${row.type}-${row.entity}`)}
 					<div class="ex-row">
 						<span class="time mono">{row.time}</span>
@@ -90,10 +130,14 @@
 
 		<aside class="rail">
 			<section class="friction">
-				<h2 class="section-title">Friction watch</h2>
+				<h2 class="section-title">
+					<HelpTitle helpId="friction-watch" title="Friction watch" variant="section-title" as="span" />
+				</h2>
 				<div class="friction-grid">
 					<div class="mini-card">
-						<span class="label">Sync queue</span>
+						<span class="label">
+							<HelpTitle helpId="sync-queue" title="Sync queue" variant="label" />
+						</span>
 						<span
 							class="value mono"
 							class:warn={data.friction.syncQueue > 10}
@@ -102,36 +146,104 @@
 							{data.friction.syncQueue}
 						</span>
 						<span class="meta mono">Oldest event {data.friction.oldestUnsyncedMinutes}m</span>
+						{#if !loading}
+							<MiniBarChart
+								values={data.friction.syncQueueHourly}
+								width={108}
+								height={22}
+								fill="var(--green)"
+								warnFrom={10}
+							/>
+						{/if}
 					</div>
-					<div class="mini-card">
-						<span class="label">Override rate</span>
+					<div class="mini-card span-2">
+						<span class="label">
+							<HelpTitle helpId="override-rate" title="Override rate" variant="label" />
+						</span>
 						<span class="value mono" class:warn={data.friction.overrideRatePct > 5}>
 							{data.friction.overrideRatePct}%
 						</span>
-						<span class="meta mono">
-							{data.friction.overrideApprovedPct}% approved · {data.friction.overrideFlaggedPct}% flagged
-						</span>
+						{#if !loading}
+							<StackedHorizontalBar
+								segments={[
+									{
+										value: data.friction.overrideApprovedPct,
+										color: 'var(--green)',
+										label: `${data.friction.overrideApprovedPct}% ok`
+									},
+									{
+										value: data.friction.overrideFlaggedPct,
+										color: 'var(--amber)',
+										label: `${data.friction.overrideFlaggedPct}% flagged`
+									}
+								]}
+							/>
+							<BaselineSparkline
+								values={data.friction.overrideTrend}
+								baseline={data.friction.overrideBaselinePct / 100}
+								width={108}
+								height={22}
+								stroke={data.friction.overrideRatePct > 5 ? 'var(--amber)' : 'var(--green)'}
+							/>
+						{/if}
 					</div>
 					<div class="mini-card">
-						<span class="label">Hygiene gate</span>
+						<span class="label">
+							<HelpTitle helpId="hygiene-gate" title="Hygiene gate" variant="label" />
+						</span>
 						<span class="value mono">{data.friction.hygienePct}%</span>
 					</div>
 					<div class="mini-card">
-						<span class="label">A-item accuracy</span>
+						<span class="label">
+							<HelpTitle helpId="a-item-accuracy" title="A-item accuracy" variant="label" />
+						</span>
 						<span class="value mono" class:warn={data.friction.inventoryAccuracyPct < 90}>
 							{data.friction.inventoryAccuracyPct}%
 						</span>
+						{#if !loading}
+							<ThresholdGauge value={data.friction.inventoryAccuracyPct} threshold={90} width={108} />
+						{/if}
 					</div>
 				</div>
 				<div class="deferred mono">
-					<p class="deferred-title">Phase 1.5 signals</p>
-					<p>Dock-to-stock avg: {data.deferredMetrics.dockToStockHoursAvg}h</p>
-					<p>Phantom risk: {data.deferredMetrics.phantomRiskPct}%</p>
+					<p class="deferred-title">
+						<HelpTitle helpId="phase-1-5-signals" title="Phase 1.5 signals" variant="label" />
+					</p>
+					<div class="deferred-row">
+						<span>Dock-to-stock avg: {data.deferredMetrics.dockToStockHoursAvg}h</span>
+						{#if !loading}
+							<Sparkline
+								values={data.deferredMetrics.dockToStockTrend.map((h) => h / 20)}
+								width={72}
+								height={18}
+								stroke="var(--amber)"
+							/>
+						{/if}
+					</div>
+					<div class="deferred-row">
+						<span>Phantom risk: {data.deferredMetrics.phantomRiskPct}%</span>
+						{#if !loading}
+							<Sparkline
+								values={data.deferredMetrics.phantomRiskTrend.map((p) => p / 6)}
+								width={72}
+								height={18}
+								stroke="var(--red)"
+							/>
+						{/if}
+					</div>
 				</div>
 			</section>
 
 			<section class="ai-log dark-panel">
-				<h2 class="section-title light">AI engine log</h2>
+				<h2 class="section-title light">
+					<HelpTitle
+						helpId="ai-engine-log"
+						title="AI engine log"
+						variant="section-title"
+						as="span"
+						light
+					/>
+				</h2>
 				{#each data.aiLog as entry (`${entry.time}-${entry.kind}`)}
 					<div class="log-row">
 						<span class="time mono">{entry.time}</span>
@@ -147,7 +259,7 @@
 <style>
 	.supervisor {
 		display: grid;
-		grid-template-columns: 1fr 280px;
+		grid-template-columns: 1fr 300px;
 		gap: 1px;
 		background: var(--hairline);
 		min-height: calc(900px - 52px);
@@ -175,6 +287,12 @@
 
 	.action-queue.alert {
 		border-left: 3px solid var(--red);
+	}
+
+	.queue-body {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
 	}
 
 	.queue-title {
@@ -328,6 +446,10 @@
 		color: var(--text-faint);
 	}
 
+	.mini-card.span-2 {
+		grid-column: 1 / -1;
+	}
+
 	.deferred {
 		margin-top: 10px;
 		padding-top: 10px;
@@ -341,6 +463,26 @@
 		font-weight: 600;
 		letter-spacing: 0.02em;
 		color: var(--text-muted);
+	}
+
+	.aging-viz {
+		margin: 8px 0 10px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid var(--separator);
+	}
+
+	.viz-label {
+		margin: 0 0 4px;
+		font-size: 9px;
+		color: var(--text-faint);
+	}
+
+	.deferred-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 6px;
+		margin-bottom: 4px;
 	}
 
 	.deferred p {

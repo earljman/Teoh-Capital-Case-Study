@@ -1,7 +1,15 @@
 <script lang="ts">
 	import Sparkline from './Sparkline.svelte';
+	import HelpTitle from './HelpTitle.svelte';
 	import { demoHref } from '$lib/demo/href';
 	import type { BigThreeCardData } from '$lib/data/executive';
+	import type { HelpId } from '$lib/data/help-content';
+
+	const CARD_HELP: Record<BigThreeCardData['id'], HelpId> = {
+		labor: 'labor-saved',
+		compliance: 'compliance-risk',
+		dim: 'dim-waste'
+	};
 
 	let {
 		card,
@@ -27,7 +35,9 @@
 </script>
 
 <article class="big-three-card" class:muted={card.muted} class:loading>
-	<header class="label">{card.title}</header>
+	<header>
+		<HelpTitle helpId={CARD_HELP[card.id]} title={card.title} variant="label" />
+	</header>
 	{#if loading}
 		<div class="skeleton primary-skel"></div>
 		<div class="skeleton secondary-skel"></div>

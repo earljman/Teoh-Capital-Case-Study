@@ -3,6 +3,7 @@
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
+	import HelpTitle from '$lib/components/HelpTitle.svelte';
 	import { COMPLIANCE_RULES, SHIP_BLOCK_ORDER } from '$lib/data/compliance';
 
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
@@ -27,7 +28,14 @@
 		<div>
 			<DashboardBackLink />
 			<p class="label">Slide 11 · Compliance</p>
-			<h1>Routing guide → rules → ship enforcement</h1>
+			<h1>
+				<HelpTitle
+					helpId="compliance-workflow"
+					title="Routing guide → rules → ship enforcement"
+					variant="h1"
+					as="span"
+				/>
+			</h1>
 		</div>
 		<button type="button" class="upload mono">Upload routing guide PDF</button>
 	</header>
@@ -35,7 +43,13 @@
 	<main class="compliance">
 		<section class="review-pane">
 			<div class="pdf-pane">
-				<p class="section-title">Source · Walmart Routing Guide v4.1</p>
+				<p class="section-title">
+					<HelpTitle
+						helpId="source-pdf"
+						title="Source · Walmart Routing Guide v4.1"
+						variant="section-title"
+					/>
+				</p>
 				{#if processing}
 					<div class="processing mono">Extracting rules… 47 found · 3 ambiguous</div>
 					<div class="skeleton pdf-skel"></div>
@@ -51,7 +65,13 @@
 			</div>
 
 			<div class="rules-pane">
-				<p class="section-title">Extracted rules · human review required</p>
+				<p class="section-title">
+					<HelpTitle
+						helpId="extracted-rules"
+						title="Extracted rules · human review required"
+						variant="section-title"
+					/>
+				</p>
 				{#each COMPLIANCE_RULES as rule (rule.id)}
 					<div
 						class="rule-card"
@@ -86,7 +106,9 @@
 		</section>
 
 		<section class="floor-pane">
-			<p class="section-title">Ship station · enforcement</p>
+			<p class="section-title">
+				<HelpTitle helpId="ship-station" title="Ship station · enforcement" variant="section-title" />
+			</p>
 			<div class="ship-card">
 				<p class="mono">Order {SHIP_BLOCK_ORDER.po} · {SHIP_BLOCK_ORDER.retailer}</p>
 				{#if showBlock}

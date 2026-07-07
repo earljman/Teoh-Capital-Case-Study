@@ -3,6 +3,7 @@
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
+	import HelpTitle from '$lib/components/HelpTitle.svelte';
 	import { PICK_REROUTE, PICK_TASK } from '$lib/data/pick';
 	import { recordPickComplete } from '$lib/telemetry';
 
@@ -64,7 +65,9 @@
 			</div>
 		{:else}
 			<section class="next-pick">
-				<p class="label">Next pick</p>
+				<p class="label">
+					<HelpTitle helpId="next-pick" title="Next pick" variant="label" />
+				</p>
 				<p class="location mono">{task.location}</p>
 				<p class="sku mono">{task.sku}</p>
 				<p class="desc">{task.description}</p>
@@ -73,6 +76,9 @@
 					<span class="mono">{task.toteSlot}</span>
 				</div>
 
+				<div class="progress-head">
+					<HelpTitle helpId="batch-progress" title="Batch progress" variant="label" />
+				</div>
 				<div class="progress-ring" aria-label="Batch progress">
 					<svg viewBox="0 0 100 100">
 						<circle cx="50" cy="50" r="42" class="track" />
@@ -106,7 +112,9 @@
 		{#if showException && !rerouting}
 			<div class="sheet-backdrop" role="presentation" onclick={() => (showException = false)}></div>
 			<aside class="sheet" aria-label="Exception report">
-				<p class="section-title">Report exception</p>
+				<p class="section-title">
+					<HelpTitle helpId="report-exception" title="Report exception" variant="section-title" />
+				</p>
 				<button type="button" class="sheet-btn" onclick={reportEmpty}>Bin empty</button>
 				<button type="button" class="sheet-btn">Damaged</button>
 				<button type="button" class="sheet-btn">Wrong item</button>
@@ -174,6 +182,12 @@
 		margin-top: 8px;
 		font-size: 12px;
 		color: var(--text-secondary);
+	}
+
+	.progress-head {
+		display: flex;
+		justify-content: center;
+		margin-top: 16px;
 	}
 
 	.progress-ring {

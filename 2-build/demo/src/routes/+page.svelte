@@ -4,6 +4,9 @@
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardChrome from '$lib/components/DashboardChrome.svelte';
 	import BigThreeCard from '$lib/components/BigThreeCard.svelte';
+	import ExecutiveMetricChip from '$lib/components/ExecutiveMetricChip.svelte';
+	import PortfolioTrendChart from '$lib/components/PortfolioTrendChart.svelte';
+	import HelpTitle from '$lib/components/HelpTitle.svelte';
 	import {
 		EXECUTIVE_ALERT,
 		EXECUTIVE_GATED,
@@ -54,12 +57,39 @@
 				<div class="skeleton band-skel"></div>
 			{:else}
 				<p class="impact mono">
-					Est. annual margin protected:
+					<HelpTitle helpId="impact-band" title="Est. annual margin protected" variant="portfolio" />
+					:
 					<strong class="tabular-nums">{marginFormatted}</strong>
 				</p>
 				{#if data.hygieneNote}
 					<p class="hygiene mono">{data.hygieneNote}</p>
 				{/if}
+			{/if}
+		</section>
+
+		<section class="top-six" aria-label="Top six executive metrics">
+			{#if loading}
+				<div class="skeleton top-six-skel"></div>
+			{:else}
+				{#each data.topMetrics as metric (metric.id)}
+					<ExecutiveMetricChip {metric} />
+				{/each}
+			{/if}
+		</section>
+
+		<section class="portfolio-band" aria-label="8-week portfolio trend">
+			{#if loading}
+				<div class="skeleton portfolio-skel"></div>
+			{:else}
+				<p class="portfolio-title">
+					<HelpTitle helpId="portfolio-trend" title="8-week portfolio trend" variant="portfolio" />
+				</p>
+				<PortfolioTrendChart
+					weeks={data.portfolioTrend.weeks}
+					labor={data.portfolioTrend.labor}
+					compliance={data.portfolioTrend.compliance}
+					dim={data.portfolioTrend.dim}
+				/>
 			{/if}
 		</section>
 	</main>
@@ -104,14 +134,53 @@
 		color: var(--amber);
 	}
 
+	.top-six {
+		margin-top: 1px;
+		padding: 12px 22px 14px;
+		background: var(--surface-panel);
+		border-top: 1px solid var(--hairline);
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		gap: 8px;
+	}
+
+	.portfolio-band {
+		margin-top: 1px;
+		padding: 14px 22px 18px;
+		background: var(--surface-panel);
+		border-top: 1px solid var(--hairline);
+	}
+
+	.portfolio-title {
+		margin: 0 0 4px;
+		font-size: 11px;
+		font-weight: 600;
+		color: var(--text-muted);
+		letter-spacing: 0.02em;
+	}
+
 	.band-skel {
 		height: 20px;
 		width: 60%;
 	}
 
+	.top-six-skel {
+		height: 72px;
+		width: 100%;
+	}
+
+	.portfolio-skel {
+		height: 120px;
+		width: 100%;
+	}
+
 	@media (max-width: 900px) {
 		.big-three {
 			grid-template-columns: 1fr;
+		}
+
+		.top-six {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 </style>

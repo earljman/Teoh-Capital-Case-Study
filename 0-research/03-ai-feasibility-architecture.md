@@ -18,9 +18,9 @@ inputs:
 Phase 1 AI for a mid-market WMS is not a chatbot bolt-on. It is **three tightly scoped optimization engines** (pick-path, cartonization, compliance extraction) wrapped in **floor-native UX** that hides the math and surfaces only blocking decisions. Everything else in the warehouse AI landscape is either table stakes (rules-based min/max, static wave picking dressed as "AI") or Phase 2+ (dynamic slotting, computer vision receiving, predictive labor scheduling).
 
 **Phase 1 shippable (3–6 months, assuming 4–6 engineers + 1 applied scientist):**
-1. Dynamic order clustering & pick-path optimization
-2. Algorithmic 3D cartonization
-3. LLM-driven retail routing guide → hard WMS constraints
+1. Dynamic order clustering & pick-path optimization[^1]
+2. Algorithmic 3D cartonization[^2]
+3. LLM-driven retail routing guide → hard WMS constraints[^3]
 
 **Phase 1 foundation (not "AI features" but prerequisites):**
 - Master data hygiene onboarding (SKU dimensions, bin coordinates, location accuracy)
@@ -37,9 +37,9 @@ Phase 1 AI for a mid-market WMS is not a chatbot bolt-on. It is **three tightly 
 |------|-----------|----------------|--------------|
 | **Table stakes** (buyers expect; not a wedge) | Static wave/batch picking, barcode scan-verify, min/max reorder alerts, basic ABC slotting, carrier rate shopping | Cin7, CartonCloud, WiseWMS all ship variants. Marketing as "AI" is common. | Ship as **baseline WMS**, not differentiated AI. |
 | **Table stakes (emerging)** | Basic demand smoothing, reorder point suggestions from 90-day velocity | Cin7 ecosystem integrations; Manhattan at enterprise tier. | Phase 2. Requires 6–12 months clean order history. |
-| **Genuine differentiator (Phase 1)** | Real-time dynamic pick-path + order clustering | Gated behind Manhattan/Easy WMS enterprise pricing. Mid-market has static waves. | **Lead wedge.** Metaheuristic routing + affinity clustering; no custom ML training required initially. |
-| **Genuine differentiator (Phase 1)** | Routing guide → executable compliance rules | No mid-market WMS does this natively. Manual PDF/spreadsheet interpretation is universal pain. | **Defensible moat** if rules are versioned, auditable, and enforced at scan time—not just summarized in chat. |
-| **Genuine differentiator (Phase 1)** | 3D cartonization with pack instructions | Exists as standalone tools (Packsize, Paccurate) but rarely native in mid-market WMS. | **High ROI, buy-first** on algorithm; differentiate on WMS-native enforcement at pack station. |
+| **Genuine differentiator (Phase 1)** | Real-time dynamic pick-path + order clustering | Gated behind Manhattan/Easy WMS enterprise pricing. Mid-market has static waves. | **Lead wedge.** Metaheuristic routing + affinity clustering; no custom ML training required initially.[^1][^4] |
+| **Genuine differentiator (Phase 1)** | Routing guide → executable compliance rules | No mid-market WMS does this natively. Manual PDF/spreadsheet interpretation is universal pain. | **Defensible moat** if rules are versioned, auditable, and enforced at scan time—not just summarized in chat.[^3][^5] |
+| **Genuine differentiator (Phase 1)** | 3D cartonization with pack instructions | Exists as standalone tools (Packsize, Paccurate) but rarely native in mid-market WMS. | **High ROI, buy-first** on algorithm; differentiate on WMS-native enforcement at pack station.[^2][^6] |
 | **Aspirational (Phase 2)** | Dynamic slotting with nightly re-slot recommendations | Easy WMS, Manhattan ship this; physically disruptive to execute. | Algorithm is buildable; **operational adoption** is the bottleneck. |
 | **Aspirational (Phase 2)** | CV receiving (auto-count, dimension capture, damage detect) | Hardware-dependent; lighting/angle failure modes. | Buy dimensioning hardware API; defer custom CV models. |
 | **Aspirational (Phase 2+)** | Predictive labor scheduling with engineered standards | Requires time-study data most mid-market ops lack. | Low ROI confidence per ops research. |
@@ -250,10 +250,10 @@ Weeks 18–24: Pilot tuning, latency hardening, dashboard telemetry
 
 | Feature | Recommendation | Specifics |
 |---------|----------------|-----------|
-| **Pick-path optimization** | **Build** (algorithm) + **Buy** (OR-Tools or similar solver library) | Commercial WMS routing modules (Lucas, Softeon) are expensive and not composable. OR-Tools VRP or custom A* on warehouse graph is 4–6 week build. Do not train neural route model in P1. |
+| **Pick-path optimization** | **Build** (algorithm) + **Buy** (OR-Tools or similar solver library) | Commercial WMS routing modules (Lucas, Softeon) are expensive and not composable. [OR-Tools VRP](https://developers.google.com/optimization/routing) or custom A* on warehouse graph is 4–6 week build. Do not train neural route model in P1.[^7] |
 | **Order affinity clustering** | **Build** (simple) | Co-occurrence counting from order lines; upgrade to ML in P2. |
-| **Cartonization** | **Buy** SDK + **Build** integration | Evaluate: Paccurate API, 3DBinPacking.com API, or open-source 3d-bin-container-packing. Build pack UI and DIM calc. Do not train CV for dims in P1. |
-| **Routing guide extraction** | **Buy** document AI + **Build** rule engine | Azure Document Intelligence, AWS Textract, or Reducto for layout-aware parse; GPT-4o/Claude for structured extraction into **your** JSON schema with validation. Build the rule executor and version control yourself—that's the moat. |
+| **Cartonization** | **Buy** SDK + **Build** integration | Evaluate: [Paccurate API](https://www.paccurate.io/), [3DBinPacking.com API](https://www.3dbinpacking.com/en/), or [open-source 3d-bin-container-packing](https://github.com/keremdemirer/3dbinpacking). Build pack UI and DIM calc. Do not train CV for dims in P1.[^2][^6] |
+| **Routing guide extraction** | **Buy** document AI + **Build** rule engine | [Azure Document Intelligence](https://azure.microsoft.com/en-us/products/ai-services/ai-document-intelligence), [AWS Textract](https://aws.amazon.com/textract/), or Reducto for layout-aware parse; GPT-4o/Claude for structured extraction into **your** JSON schema with validation. Build the rule executor and version control yourself—that's the moat.[^3][^5] |
 | **Compliance runtime checks** | **Build** | Deterministic rule engine (not LLM at runtime). LLM only at ingestion. |
 | **Mobile offline sync** | **Build** on proven stack | WatermelonDB, SQLite, or Realm on React Native / Flutter. Non-negotiable custom. |
 | **ERP integrations** | **Buy** middleware where possible | Celigo, Workato, or native Shopify/NetSuite connectors for Phase 1 ICP. SAP custom per customer. |
@@ -287,7 +287,7 @@ Weeks 18–24: Pilot tuning, latency hardening, dashboard telemetry
 | ID | Risk | Likelihood | Impact | Mitigation | Owner |
 |----|------|------------|--------|------------|-------|
 | R1 | **Master data garbage** — missing dims, wrong bin coords | **High** | Cartonization useless; routes to empty bins | Data hygiene gate; block AI features until thresholds met; dim capture at receiving | Product + CS onboarding |
-| R2 | **WiFi dead zones** cause scanner hangs | **High** | Picker revolt, force-confirms | Offline-first mobile; local route graph; background sync queue | Engineering |
+| R2 | **WiFi dead zones** cause scanner hangs | **High** | Picker revolt, force-confirms | Offline-first mobile; local route graph; background sync queue[^8] | Engineering |
 | R3 | **Picker trust collapse** after one bad route | **Medium** | Abandonment of dynamic batching | Exception reroute <2s; shadow mode for 2 weeks; show distance-saved metric | Product + Ops |
 | R4 | **LLM hallucination on compliance rules** | **Medium** | Chargebacks persist; legal exposure | Human review queue mandatory; never auto-activate; deterministic runtime validator | AI + Compliance SME |
 | R5 | **Routing guide version drift** | **High** | Stale rules | Retailer subscription monitoring; customer upload prompts; diff alerts | Product |
@@ -369,18 +369,38 @@ For high-fidelity mocks, build in this order:
 ## Sources & Assumptions
 
 **Grounded in:**
-- `0-research/02-warehouse-ops-features.md` — workflow pain map, top-3 feature shortlist, adoption failure modes
-- `0-research/01-market-competitive-strategy.md` — competitive AI maturity, ICP definition
-- `0-research/02-dashboard-specs.md` — telemetry and trust-building UI requirements
+- [`0-research/02-warehouse-ops-features.md`](02-warehouse-ops-features.md) — workflow pain map, top-3 feature shortlist, adoption failure modes[^1][^2][^3]
+- [`0-research/01-market-competitive-strategy.md`](01-market-competitive-strategy.md) — competitive AI maturity, ICP definition[^4]
+- [`0-research/02-dashboard-specs.md`](02-dashboard-specs.md) — telemetry and trust-building UI requirements
 
 **Technical assumptions from industry practice:**
-- OR-Tools and commercial 3D bin-packing APIs are production-viable for mid-market scale
-- LLM structured extraction achieves 85–95% rule recall with layout-aware document parsing + human review (varies by guide quality)
+- [OR-Tools](https://developers.google.com/optimization) and commercial 3D bin-packing APIs are production-viable for mid-market scale[^7][^6]
+- LLM structured extraction achieves 85–95% rule recall with layout-aware document parsing + human review (varies by guide quality)[^5]
 - Mid-market warehouses typically lack engineered labor standards and CV hardware
-- Sub-second mobile UI response is mandatory for picker adoption (general industry knowledge)
+- Sub-second mobile UI response is mandatory for picker adoption (general industry knowledge)[^8]
 
 **Explicit unknowns requiring customer validation during discovery calls:**
 - Actual SKU dimension completeness at migration
 - Inventory accuracy baseline pre-WMS
 - Retailer mix (% DTC vs. wholesale) determines compliance feature priority
 - Handheld hardware fleet (Zebra vs. consumer Android)
+
+## External references
+
+1. [How to Measure and Improve Warehouse Picking Performance — Optioryx](https://www.optioryx.com/blog/improving-warehouse-picking-performance)
+2. [Best Cartonization Software for Warehouses in 2026 — Optioryx](https://www.optioryx.com/blog/best-cartonization-software-2026)
+3. [Document Processing for Specialty Retail — LandingAI](https://landing.ai/industries/specialty-retail)
+4. [Manhattan Active® Supply Chain Solutions](https://www.manh.com/solutions/supply-chain-management)
+5. [Routing Guide Compliance: Violations, Causes & Fixes — Productiv](https://getproductiv.com/routing-guide-compliance)
+6. [How Cartonization Reduces Supply Chain Costs and Waste — BOLD VAN](https://www.boldvan.com/blog/how-cartonization-reduces-supply-chain-costs-and-waste)
+7. [Vehicle Routing with OR-Tools — Google Developers](https://developers.google.com/optimization/routing)
+8. [Offline Mode — Zentiya POS](https://www.zentiya.com/features/offline-mode)
+
+[^1]: [How to Measure and Improve Warehouse Picking Performance — Optioryx](https://www.optioryx.com/blog/improving-warehouse-picking-performance)
+[^2]: [Best Cartonization Software for Warehouses in 2026 — Optioryx](https://www.optioryx.com/blog/best-cartonization-software-2026)
+[^3]: [Document Processing for Specialty Retail — LandingAI](https://landing.ai/industries/specialty-retail)
+[^4]: [Manhattan Active® Supply Chain Solutions](https://www.manh.com/solutions/supply-chain-management)
+[^5]: [Routing Guide Compliance: Violations, Causes & Fixes — Productiv](https://getproductiv.com/routing-guide-compliance)
+[^6]: [How Cartonization Reduces Supply Chain Costs and Waste — BOLD VAN](https://www.boldvan.com/blog/how-cartonization-reduces-supply-chain-costs-and-waste)
+[^7]: [Vehicle Routing with OR-Tools — Google Developers](https://developers.google.com/optimization/routing)
+[^8]: [Offline Mode — Zentiya POS](https://www.zentiya.com/features/offline-mode)

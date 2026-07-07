@@ -75,13 +75,11 @@ const sections = [
 	},
 	{
 		id: 'slide-03',
-		title: 'Slide 03 — Market & wedge',
+		title: 'Slide 03 — Positioning',
 		blocks: [
-			{ label: '3-present/notes.md — Act I table (slide 3)', file: '3-present/notes.md', start: 37, end: 43 },
-			{ label: '_meta/advisory-panel.md — slide 3', file: '_meta/advisory-panel.md', start: 119, end: 119 },
-			{ label: '1-plan/00-phase1-planning-brief.md — §2 ICP Assumption (full)', file: '1-plan/00-phase1-planning-brief.md', start: 35, end: 54 },
-			{ label: '1-plan/03-roadmap.md — ICP assumption paragraph', file: '1-plan/03-roadmap.md', start: 30, end: 32 },
-			{ label: '1-plan/04-users-and-checkpoints.md — operator context', file: '1-plan/04-users-and-checkpoints.md', start: 25, end: 39 },
+			{ label: '3-present/notes.md — Act I table (slide 3)', file: '3-present/notes.md', start: 37, end: 45 },
+			{ label: '_meta/advisory-panel.md — slide 3', file: '_meta/advisory-panel.md', start: 121, end: 121 },
+			{ label: '_meta/case-study-prompt.md — Competitors list', file: '_meta/case-study-prompt.md', start: 14, end: 19 },
 		],
 	},
 	{
@@ -99,11 +97,13 @@ const sections = [
 	},
 	{
 		id: 'slide-05',
-		title: 'Slide 05 — Positioning',
+		title: 'Slide 05 — Market & wedge',
 		blocks: [
 			{ label: '3-present/notes.md — Act I table (slide 5)', file: '3-present/notes.md', start: 37, end: 45 },
-			{ label: '_meta/advisory-panel.md — slide 5', file: '_meta/advisory-panel.md', start: 121, end: 121 },
-			{ label: '_meta/case-study-prompt.md — Competitors list', file: '_meta/case-study-prompt.md', start: 14, end: 19 },
+			{ label: '_meta/advisory-panel.md — slide 5', file: '_meta/advisory-panel.md', start: 119, end: 119 },
+			{ label: '1-plan/00-phase1-planning-brief.md — §2 ICP Assumption (full)', file: '1-plan/00-phase1-planning-brief.md', start: 35, end: 54 },
+			{ label: '1-plan/03-roadmap.md — ICP assumption paragraph', file: '1-plan/03-roadmap.md', start: 30, end: 32 },
+			{ label: '1-plan/04-users-and-checkpoints.md — operator context', file: '1-plan/04-users-and-checkpoints.md', start: 25, end: 39 },
 		],
 	},
 	{

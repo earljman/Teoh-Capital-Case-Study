@@ -38,9 +38,9 @@ If the reviewer sees only **slides 1, 4, 6, and 10** — do they get the bet, th
 |-------|---------|
 | **1** | **AI-First WMS** — one-liner: mid-market (10k–50k orders/mo); Phase 1 attacks three money leaks — picking labor, retail compliance fines, oversize-box freight waste |
 | **2** | The problem — headcount ceiling; 50–70% labor is picking; chargebacks + DIM waste |
-| **3** | Market & wedge — missing middle ICP (10k–50k orders/mo, 2–5 locations, 25–150 staff); $3k–8k/mo budget |
+| **3** | Positioning — one view vs. CartonCloud, Cin7, WiseWMS, Easy WMS, Manhattan; where we don't play |
 | **4** | The AI-first bet — embedded floor directives + scan-time enforcement; thin (chat summary) vs. thick (hard block) |
-| **5** | Positioning — one view vs. CartonCloud, Cin7, WiseWMS, Easy WMS, Manhattan; where we don't play |
+| **5** | Market & wedge — missing middle ICP (10k–50k orders/mo, 2–5 locations, 25–150 staff); $3k–8k/mo budget |
 
 **ICP open question:** Commercial SaaS vs. Teoh-owned operator. State as deliberate call on slide 14.
 
@@ -62,7 +62,7 @@ Call out operator override on each. Executive dashboard surfaces all three margi
 
 ### Slide 7 — Roadmap arc
 
-Investable sequence: wedge → expand → moat. Pace with **Week 4** (validated prototype) and **Week 12** (production-ready Phase 1 slice).
+Three checkpoints pace delivery: **Demo** (case-study pack) → **Week 4** (validate direction) → **Week 12** (production-ready Phase 1 slice).
 
 ### Slides 8–9 — Checkpoint detail
 

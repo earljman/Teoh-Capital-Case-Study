@@ -19,7 +19,7 @@ Each member is named by function so they can be summoned by role alone ("what do
 | 2   | **The Storyteller** | Narrative architect            | The deck as a story with a spine an exec can follow at a glance                            | *"If they only see slides 1, 5, and the mock — do they still get it?"*         |
 | 3   | **The Builder**     | Prototype craftsperson         | Mocks that read as a real, shipped product — real data, considered states                  | *"Does this look built, or does it look sketched?"*                            |
 | 4   | **The Editor**      | Scope editor                   | Light-research / strong-delivery; guards hours, kills filler, enforces the 80/20           | *"Is this earning its place, or are you avoiding the hard part — the mock?"*   |
-| 5   | **The Investor**    | Commercial / Teoh lens         | Value, moat, why-now; keeps it commercially literate without becoming a diligence memo     | *"Does the strategy read like an investable thesis, or a feature list?"*       |
+| 5   | **The Investor**    | Commercial / Teoh lens         | Value, why-now; keeps it commercially literate without becoming a diligence memo           | *"Does the strategy read like an investable thesis, or a feature list?"*       |
 | 6   | **The Insider**     | WMS plausibility check (light) | Domain sanity — nothing that makes a logistics person wince                                | *"Would someone who knows WMS nod, or cringe?"*                                |
 | 7   | **The Skeptic**     | Dedicated adversary            | Attacks the bet, the market assumption, and the roadmap for weakness                       | *"Where does this fall apart under one hard question?"*                        |
 | 8   | **The Closer**      | Live delivery                  | How the pack plays when presented and defended in the next round; Q&A handling             | *"When they push back live, what's your answer?"*                              |
@@ -36,7 +36,7 @@ Don't poll everyone on everything. **Route each decision to the four members who
 ### The productive tensions
 
 - **The Judge** wants a bold, differentiated swing ↔ **The Insider** wants nothing naïve. Your edge lives in the gap between them.
-- **The Investor** wants a sharp niche wedge ↔ **The Editor** caps the total effort. That fight *is* your scope allocation.
+- **The Investor** wants a sharp commercial thesis ↔ **The Editor** caps the total effort. That fight *is* your scope allocation.
 - **The Builder** and **Storyteller** want hours poured into craft ↔ **The Editor** protects the budget. That fight *is* your effort allocation.
 - **The Skeptic** attacks for weakness ↔ **The Judge** evaluates for appeal. Different jobs; run both.
 
@@ -62,7 +62,7 @@ Steps 2 and 3 are **decisions, not tasks** — everything downstream inherits th
 | 2   | **Choose the differentiating bet** — the memorable "AI-first" angle (highest-leverage decision) | Judge, Investor, Skeptic, Insider     |
 | 3   | **Lock the market assumption** — state it boldly, make it defensible                            | Investor, Insider, Skeptic, Editor    |
 | 4   | Cut to the top 3 features — painkiller-vs-vitamin on every candidate                            | Editor, Investor, Insider, Skeptic    |
-| 5   | Sequence the roadmap — as an investable arc (wedge → expand → moat)                             | Storyteller, Investor, Editor, Judge  |
+| 5   | Sequence the roadmap — checkpoint-paced delivery with explicit gates (Demo → Week 4 → Week 12)      | Storyteller, Investor, Editor, Judge  |
 | 6   | Set the depth dial per feature — what to detail vs. plausibly imply                             | Editor, Insider, Builder, Skeptic     |
 | 7   | Mock information architecture — screens, states, where AI surfaces and is overridden            | Builder, Insider, Storyteller, Editor |
 | 8   | Produce the hi-fi mocks — fidelity where the eye lands                                          | Builder, Insider, Judge, Editor       |
@@ -90,7 +90,7 @@ What the panel is meant to produce before you build a single slide: a **ruthless
 - The three phase-1 feature mocks — high fidelity, real data, considered empty/error/loading states, visible AI + operator override.
 - The **roadmap checkpoint slides** (Week 4 + Week 12) — build scope, meetings, documents, decisions; shows you can run a real delivery rhythm.
 - The narrative spine — problem → insight → thesis → portfolio → roadmap → features → why-this-wins.
-- The commercial thesis — enough Teoh-flavored value/moat/why-now to read as investable.
+- The commercial thesis — enough Teoh-flavored value and why-now to read as investable.
 - The **process section** (slides 15–18) — Research → Planning → Development with prompts/skills; proves PM + builder craft.
 
 **Imply convincingly (light touch, don't over-build):**
@@ -116,7 +116,7 @@ What the panel is meant to produce before you build a single slide: a **ruthless
 
 1. **Title + one-liner** — the memorable thesis in a single sentence.
 2. **The problem** — one sharp framing; the pain, not a landscape survey.
-3. **Market & wedge** — the stated ICP assumption, owned confidently.
+3. **Market & ICP** — the stated ICP assumption, owned confidently.
 4. **The AI-first bet** — the differentiating idea; why this is *AI-first*, not AI-bolted-on.
 5. **Positioning** — one view vs. the five named competitors; where you deliberately don't play.
 
@@ -128,7 +128,7 @@ What the panel is meant to produce before you build a single slide: a **ruthless
   - **1 AI-native feature** — the anchor bet; AI is the product, not a layer on top.
   - **2 priority features** — core WMS workflows that the prototype will focus on; each **AI-enhanced** (suggest, automate, explain — with operator override).
   - Painkiller logic for each; how AI shows up differently in native vs. enhanced.
-2. **Roadmap arc** — investable sequence (wedge → expand → moat) plus the **two prototype checkpoints** that pace delivery: **Week 4** (validated prototype) and **Week 12** (production-ready Phase 1 slice).
+2. **Roadmap arc** — checkpoint-paced delivery (**Demo** → **Week 4** → **Week 12**); each gate has explicit build scope, stakeholder touchpoints, and decisions to lock.
 3. **Checkpoint: Week 4 prototype** — what ships, who signs off, what gets decided:
   - **Build scope:** clickable hi-fi mocks for all 3 features; happy-path flows; AI surfaces visible; no production integrations.
   - **Stakeholder meetings:** concept review with ops lead + sponsor (60 min); mock walkthrough with 1–2 warehouse personas (45 min each).
@@ -152,7 +152,7 @@ What the panel is meant to produce before you build a single slide: a **ruthless
 
 #### Act IV — Commercial close (slides 13–14)
 
-1. **Why this wins** — commercial thesis, moat, why-now (Teoh lens).
+1. **Why this wins** — commercial thesis and why-now (Teoh lens).
 2. **Assumptions & risks** — including open market/ownership questions, framed as deliberate calls.
 
 

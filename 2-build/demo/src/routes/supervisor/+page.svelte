@@ -4,7 +4,7 @@
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardChrome from '$lib/components/DashboardChrome.svelte';
-	import Heatmap from '$lib/components/Heatmap.svelte';
+	import WarehouseFloorMap from '$lib/components/WarehouseFloorMap.svelte';
 	import MiniBarChart from '$lib/components/MiniBarChart.svelte';
 	import StackedHorizontalBar from '$lib/components/StackedHorizontalBar.svelte';
 	import BaselineSparkline from '$lib/components/BaselineSparkline.svelte';
@@ -17,6 +17,7 @@
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
 	const loading = $derived(demoState === 'loading');
 	const data = $derived(demoState === 'alert' ? SUPERVISOR_ALERT : SUPERVISOR_HAPPY);
+	let floorLayer = $state<'congestion' | 'stock'>('congestion');
 </script>
 
 <ViewportFrame>
@@ -80,18 +81,38 @@
 					{/if}
 				</div>
 				<div class="widget heatmap-widget">
-					<h2 class="section-title">
-						<HelpTitle
-							helpId="aisle-congestion-heatmap"
-							title="Aisle congestion heatmap"
-							variant="section-title"
-							as="span"
-						/>
-					</h2>
+					<div class="heatmap-head">
+						<h2 class="section-title">
+							<HelpTitle
+								helpId="aisle-congestion-heatmap"
+								title="Aisle congestion heatmap"
+								variant="section-title"
+								as="span"
+							/>
+						</h2>
+						{#if !loading}
+							<div class="layer-toggle mono" role="group" aria-label="Floor map layer">
+								<button
+									type="button"
+									class:active={floorLayer === 'congestion'}
+									onclick={() => (floorLayer = 'congestion')}
+								>
+									Congestion
+								</button>
+								<button
+									type="button"
+									class:active={floorLayer === 'stock'}
+									onclick={() => (floorLayer = 'stock')}
+								>
+									Stock
+								</button>
+							</div>
+						{/if}
+					</div>
 					{#if loading}
 						<div class="skeleton h-skel"></div>
 					{:else}
-						<Heatmap />
+						<WarehouseFloorMap floor={data.floorMap} layer={floorLayer} />
 						<p class="sub mono">
 							{data.heatmapHotZone} bottleneck · {data.heatmapPickers} pickers
 							<a class="link" href={resolve('/pick')}>View zone →</a>
@@ -101,22 +122,22 @@
 			</section>
 
 			<section class="exception-log">
-				<div class="log-head">
-					<h2 class="section-title">
-						<HelpTitle helpId="exception-log" title="Exception log" variant="section-title" as="span" />
-					</h2>
-					{#if !loading && data.unresolvedAgingCount > 0}
-						<span class="aging-chip mono">{data.unresolvedAgingCount} unresolved &gt;30m</span>
-					{/if}
-				</div>
 				{#if !loading}
 					<div class="aging-viz">
-						<p class="viz-label mono">
-							<HelpTitle helpId="exception-aging" title="Exception aging" variant="label" />
-						</p>
+						<div class="aging-head">
+							<p class="viz-label mono">
+								<HelpTitle helpId="exception-aging" title="Exception aging" variant="label" />
+							</p>
+							{#if data.unresolvedAgingCount > 0}
+								<span class="aging-chip mono">{data.unresolvedAgingCount} unresolved &gt;30m</span>
+							{/if}
+						</div>
 						<AgingHistogram buckets={data.exceptionAgingBuckets} width={280} height={36} />
 					</div>
 				{/if}
+				<h2 class="section-title log-title">
+					<HelpTitle helpId="exception-log" title="Exception log" variant="section-title" as="span" />
+				</h2>
 				{#each data.exceptions as row (`${row.time}-${row.type}-${row.entity}`)}
 					<div class="ex-row">
 						<span class="time mono">{row.time}</span>
@@ -338,6 +359,44 @@
 		grid-column: 1 / -1;
 	}
 
+	.heatmap-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 10px;
+	}
+
+	.heatmap-head .section-title {
+		margin: 0;
+	}
+
+	.layer-toggle {
+		display: inline-flex;
+		border: 1px solid var(--separator);
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.layer-toggle button {
+		padding: 4px 10px;
+		border: none;
+		background: white;
+		color: var(--text-muted);
+		font-size: 9px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
+	.layer-toggle button + button {
+		border-left: 1px solid var(--separator);
+	}
+
+	.layer-toggle button.active {
+		background: var(--green-tint);
+		color: var(--green);
+	}
+
 	.stat {
 		margin: 8px 0 4px;
 		font-size: 18px;
@@ -364,11 +423,16 @@
 		overflow: auto;
 	}
 
-	.log-head {
+	.aging-head {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 10px;
+		margin-bottom: 4px;
+	}
+
+	.log-title {
+		margin: 0 0 8px;
 	}
 
 	.aging-chip {
@@ -466,13 +530,13 @@
 	}
 
 	.aging-viz {
-		margin: 8px 0 10px;
-		padding-bottom: 8px;
+		margin: 0 0 16px;
+		padding-bottom: 12px;
 		border-bottom: 1px solid var(--separator);
 	}
 
 	.viz-label {
-		margin: 0 0 4px;
+		margin: 0;
 		font-size: 9px;
 		color: var(--text-faint);
 	}
@@ -522,6 +586,6 @@
 	}
 
 	.h-skel {
-		height: 120px;
+		height: 220px;
 	}
 </style>

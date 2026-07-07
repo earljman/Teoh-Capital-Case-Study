@@ -4,43 +4,85 @@
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
 	import HelpTitle from '$lib/components/HelpTitle.svelte';
-	import { PICK_REROUTE, PICK_TASK } from '$lib/data/pick';
+	import WarehouseFloorMap from '$lib/components/WarehouseFloorMap.svelte';
+	import {
+		PICK_BATCH,
+		PICK_BATCH_START,
+		PICK_BATCH_TOTAL,
+		PICK_REROUTE,
+		PICK_TASK,
+		pickTaskAt
+	} from '$lib/data/pick';
+	import { WAREHOUSE_FLOOR_HAPPY, pinForLocation, routePathForPick, zoneLabelFromId } from '$lib/data/warehouse-floor';
 	import { recordPickComplete } from '$lib/telemetry';
 
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
 
 	let showException = $state(false);
 	let rerouting = $state(false);
+	let isReroute = $state(false);
+	let batchIndex = $state(PICK_BATCH_START);
+	let pickerPosition = $state({
+		...pinForLocation(PICK_BATCH[PICK_BATCH_START - 1].location)
+	});
 	let task = $state({ ...PICK_TASK });
 
 	$effect(() => {
 		showException = demoState === 'alert';
 	});
 
+	const pickPin = $derived(pinForLocation(task.location));
+	const pickRoute = $derived(
+		routePathForPick(
+			pickerPosition,
+			{ x: pickPin.x, y: pickPin.y },
+			task.avoidHotZone ?? false
+		)
+	);
+	const routeCaption = $derived(
+		isReroute
+			? `Rerouted · ~${task.routeM}m · avoiding Zone C bottleneck`
+			: `Route · ~${task.routeM}m to next bin`
+	);
+	const batchZone = $derived(zoneLabelFromId(pickPin.zoneId));
+
 	async function reportEmpty() {
-		showException = true;
+		showException = false;
 		rerouting = true;
 		await new Promise((r) => setTimeout(r, 2000));
 		task = {
 			...task,
-			location: PICK_REROUTE.location,
-			batchProgress: { ...task.batchProgress, current: task.batchProgress.current + 1 }
+			...PICK_REROUTE,
+			batchProgress: task.batchProgress,
+			walkSavedM: task.walkSavedM
 		};
+		isReroute = true;
 		rerouting = false;
-		recordPickComplete();
 	}
 
 	function completeScan() {
 		recordPickComplete();
-		if (task.batchProgress.current < task.batchProgress.total) {
+		pickerPosition = { x: pickPin.x, y: pickPin.y, zoneId: pickPin.zoneId };
+
+		if (isReroute) {
+			isReroute = false;
+		}
+
+		const nextIndex = batchIndex + 1;
+		if (nextIndex >= PICK_BATCH.length) {
+			batchIndex = nextIndex;
 			task = {
 				...task,
-				batchProgress: {
-					...task.batchProgress,
-					current: task.batchProgress.current + 1
-				}
+				batchProgress: { current: nextIndex, total: PICK_BATCH_TOTAL },
+				walkSavedM: task.walkSavedM + 40
 			};
+			return;
 		}
+
+		batchIndex = nextIndex;
+		task = {
+			...pickTaskAt(nextIndex, task.walkSavedM + 40)
+		};
 	}
 
 	const progressPct = $derived(
@@ -54,7 +96,7 @@
 			<DashboardBackLink />
 			<span class="label">Slide 12 · Pick-path</span>
 		</div>
-		<span class="mono batch">Batch 7 · Zone A</span>
+		<span class="mono batch">Batch 7 · {batchZone}</span>
 	</header>
 
 	<main class="pick">
@@ -75,6 +117,25 @@
 					<span class="mono">Qty {task.qty}</span>
 					<span class="mono">{task.toteSlot}</span>
 				</div>
+
+				<section class="floor-route" aria-label="Pick route on warehouse floor">
+					<p class="label">
+						<HelpTitle helpId="pick-route" title="Your route" variant="label" />
+					</p>
+					{#key task.location}
+						<WarehouseFloorMap
+							floor={WAREHOUSE_FLOOR_HAPPY}
+							variant="picker"
+							width={358}
+							height={148}
+							activeZoneId={pickPin.zoneId}
+							targetPin={{ x: pickPin.x, y: pickPin.y, label: task.location }}
+							selfPosition={pickerPosition}
+							routePath={pickRoute}
+							routeLabel={routeCaption}
+						/>
+					{/key}
+				</section>
 
 				<div class="progress-head">
 					<HelpTitle helpId="batch-progress" title="Batch progress" variant="label" />
@@ -97,14 +158,18 @@
 				</div>
 
 				<div class="scan-actions">
-					<button type="button" class="scan primary" onclick={completeScan}>Scan bin · item · tote</button>
-					<button
-						type="button"
-						class="scan ghost"
-						onclick={() => (showException = true)}
-					>
-						Long-press · report issue
-					</button>
+					{#if batchIndex >= PICK_BATCH.length}
+						<p class="batch-done mono">Batch complete — return to staging</p>
+					{:else}
+						<button type="button" class="scan primary" onclick={completeScan}>Scan bin · item · tote</button>
+						<button
+							type="button"
+							class="scan ghost"
+							onclick={() => (showException = true)}
+						>
+							Long-press · report issue
+						</button>
+					{/if}
 				</div>
 			</section>
 		{/if}
@@ -184,6 +249,18 @@
 		color: var(--text-secondary);
 	}
 
+	.floor-route {
+		margin-top: 14px;
+		padding: 12px;
+		border: 1px solid var(--separator);
+		border-radius: var(--radius-lg);
+		background: white;
+	}
+
+	.floor-route .label {
+		margin-bottom: 8px;
+	}
+
 	.progress-head {
 		display: flex;
 		justify-content: center;
@@ -261,6 +338,17 @@
 		border: 1px solid var(--hairline);
 		background: white;
 		color: var(--text-secondary);
+	}
+
+	.batch-done {
+		margin: 0;
+		padding: 14px;
+		border-radius: var(--radius-lg);
+		background: var(--green-tint);
+		color: var(--green);
+		font-size: 12px;
+		font-weight: 600;
+		text-align: center;
 	}
 
 	.reroute {

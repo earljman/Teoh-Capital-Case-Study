@@ -92,6 +92,7 @@ export type HelpId =
 	| 'extracted-rules'
 	| 'ship-station'
 	| 'next-pick'
+	| 'pick-route'
 	| 'batch-progress'
 	| 'report-exception'
 	| 'pack-workflow'
@@ -492,6 +493,15 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 		usedFor:
 			'Primary UI for warehouse associates during batch picking.'
 	},
+	'pick-route': {
+		title: 'Your route',
+		what: 'A live floor map showing where you are, where the next bin is, and the path the system wants you to walk — including congestion zones to avoid.',
+		why: 'Pickers shouldn’t memorize the floor. A visual route cuts wrong turns and makes reroutes obvious when a bin is empty.',
+		howToRead:
+			'Green dot is you. Pulsing pin is the next pick. Dashed line is the optimized path. Red-tinted zones are bottlenecks — reroutes may steer around them.',
+		usedFor:
+			'Wayfinding during batch picking and after exception reroutes.'
+	},
 	'batch-progress': {
 		title: 'Batch progress',
 		what: 'A ring showing how many picks are done in the current batch, plus estimated walking distance saved vs. an unoptimized path.',
@@ -529,7 +539,7 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 	},
 	'pack-workflow': {
 		title: 'Pack station',
-		what: 'The cartonization screen where the system recommends exactly one box size per order — the “single authoritative box.”',
+		what: 'The cartonization screen where the system recommends exactly one box size per order.',
 		why: 'Letting every packer guess box size recreates DIM waste and inconsistent compliance. One recommendation removes debate.',
 		howToRead:
 			'Header shows order context. Main panel is the directive; side panel handles overrides with required reason codes.',

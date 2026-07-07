@@ -1,3 +1,6 @@
+import type { WarehouseFloorData } from './warehouse-floor';
+import { WAREHOUSE_FLOOR_ALERT, WAREHOUSE_FLOOR_HAPPY } from './warehouse-floor';
+
 export type ActionQueueItem = {
 	label: string;
 	count: number;
@@ -28,6 +31,7 @@ export type SupervisorDashboardData = {
 	};
 	heatmapHotZone: string;
 	heatmapPickers: number;
+	floorMap: WarehouseFloorData;
 	friction: {
 		syncQueue: number;
 		syncQueueHourly: number[];
@@ -67,6 +71,7 @@ export const SUPERVISOR_HAPPY: SupervisorDashboardData = {
 	cartonization: { utilizationPct: 92, blocked: false },
 	heatmapHotZone: 'Zone C',
 	heatmapPickers: 4,
+	floorMap: WAREHOUSE_FLOOR_HAPPY,
 	friction: {
 		syncQueue: 7,
 		syncQueueHourly: [3, 4, 5, 6, 8, 6, 7],
@@ -94,7 +99,12 @@ export const SUPERVISOR_HAPPY: SupervisorDashboardData = {
 	exceptions: [
 		{ time: '09:14', type: 'Bin empty', entity: 'A-12', action: 'Auto-rerouted' },
 		{ time: '09:11', type: 'Override', entity: 'Zone B', action: 'Force-confirm flagged' },
-		{ time: '09:08', type: 'Pick complete', entity: 'Batch 7', action: '4.2km saved (shift)' }
+		{ time: '09:08', type: 'Pick complete', entity: 'Batch 7', action: '4.2km saved (shift)' },
+		{ time: '09:05', type: 'Barcode', entity: 'C-08', action: 'Rescan OK' },
+		{ time: '09:02', type: 'Bin empty', entity: 'B-44', action: 'Auto-rerouted' },
+		{ time: '08:58', type: 'Override', entity: 'Picker 12', action: 'Approved — dim mismatch' },
+		{ time: '08:54', type: 'Sync', entity: 'Zone D', action: 'Queue cleared' },
+		{ time: '08:49', type: 'Cartonization', entity: 'Pack 3', action: 'Oversize — box upsized' }
 	],
 	aiLog: [
 		{ time: '09:12', kind: 'GUIDE', message: 'Home Depot Guide v3.2 — height limit constraint set' },
@@ -111,6 +121,9 @@ export const SUPERVISOR_ALERT: SupervisorDashboardData = {
 		{ label: 'Sync dead zones', count: 1, severity: 'warn' },
 		{ label: 'Open exceptions', count: 5, severity: 'warn' }
 	],
+	heatmapHotZone: 'Zone C',
+	heatmapPickers: 9,
+	floorMap: WAREHOUSE_FLOOR_ALERT,
 	friction: {
 		syncQueue: 28,
 		syncQueueHourly: [8, 12, 16, 20, 24, 26, 28],
@@ -138,6 +151,14 @@ export const SUPERVISOR_ALERT: SupervisorDashboardData = {
 	exceptions: [
 		{ time: '09:18', type: 'Ship block', entity: 'PO-8842', action: 'Blocked — label position' },
 		{ time: '09:16', type: 'Ship block', entity: 'PO-8839', action: 'Blocked — pallet height' },
-		{ time: '09:14', type: 'Bin empty', entity: 'A-12', action: 'Unresolved' }
+		{ time: '09:14', type: 'Ship block', entity: 'PO-8856', action: 'Blocked — SSCC mismatch' },
+		{ time: '09:12', type: 'Compliance hold', entity: 'PO-8851', action: 'Hazmat cert missing' },
+		{ time: '09:09', type: 'Compliance hold', entity: 'PO-8847', action: 'Retail guide v4.1 fail' },
+		{ time: '09:06', type: 'Bin empty', entity: 'A-12', action: 'Unresolved — 12m' },
+		{ time: '09:02', type: 'Barcode', entity: 'D-22', action: 'Unresolved — 3 retries' },
+		{ time: '08:45', type: 'Sync dead zone', entity: 'Zone F', action: 'Unresolved — 33m' },
+		{ time: '08:38', type: 'Override', entity: 'Zone C', action: 'Force-confirm flagged — 40m' },
+		{ time: '08:31', type: 'Bin empty', entity: 'E-03', action: 'Auto-rerouted' },
+		{ time: '08:27', type: 'Cartonization', entity: 'Pack 2', action: 'Blocked — weight limit' }
 	]
 };

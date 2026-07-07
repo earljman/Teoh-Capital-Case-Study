@@ -31,7 +31,7 @@
 			<h1>
 				<HelpTitle
 					helpId="pack-workflow"
-					title="Pack station · single authoritative box"
+					title="Pack station"
 					variant="h1"
 					as="span"
 				/>

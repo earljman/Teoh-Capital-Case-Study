@@ -1,0 +1,92 @@
+[
+  {
+    "file": "01-title.html",
+    "slide": 1,
+    "title": "Opening"
+  },
+  {
+    "file": "02-the-problem.html",
+    "slide": 2,
+    "title": "The Problem"
+  },
+  {
+    "file": "03-market-wedge.html",
+    "slide": 3,
+    "title": "Market & Wedge"
+  },
+  {
+    "file": "04-the-ai-first-bet.html",
+    "slide": 4,
+    "title": "The AI-First Bet"
+  },
+  {
+    "file": "05-positioning.html",
+    "slide": 5,
+    "title": "Positioning"
+  },
+  {
+    "file": "06-phase-1-feature-portfolio.html",
+    "slide": 6,
+    "title": "Phase 1 Portfolio"
+  },
+  {
+    "file": "07-roadmap-arc.html",
+    "slide": 7,
+    "title": "Roadmap Arc"
+  },
+  {
+    "file": "08-checkpoint-week-4.html",
+    "slide": 8,
+    "title": "Checkpoint · Week 4"
+  },
+  {
+    "file": "09-checkpoint-week-12.html",
+    "slide": 9,
+    "title": "Checkpoint · Week 12"
+  },
+  {
+    "file": "10-executive-dashboard.html",
+    "slide": 10,
+    "title": "Executive Dashboard"
+  },
+  {
+    "file": "11-compliance-ai-native.html",
+    "slide": 11,
+    "title": "Feature 1 · Compliance"
+  },
+  {
+    "file": "12-pick-path-ai-enhanced.html",
+    "slide": 12,
+    "title": "Feature 2 · Pick-Path"
+  },
+  {
+    "file": "13-cartonization-ai-enhanced.html",
+    "slide": 13,
+    "title": "Feature 3 · Cartonization"
+  },
+  {
+    "file": "14-why-this-wins.html",
+    "slide": 14,
+    "title": "Why This Wins"
+  },
+  {
+    "file": "15-assumptions-risks.html",
+    "slide": 15,
+    "title": "Assumptions & Risks"
+  },
+  {
+    "file": "16-process-overview.html",
+    "slide": 16,
+    "title": "Process Overview"
+  },
+  {
+    "file": "17-research-planning.html",
+    "slide": 17,
+    "title": "Research + Planning"
+  },
+  {
+    "file": "18-development-present.html",
+    "slide": 18,
+    "title": "Development + Present"
+  }
+]

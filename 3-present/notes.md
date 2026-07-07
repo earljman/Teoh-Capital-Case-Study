@@ -1,8 +1,11 @@
 # Slide Build Notes
 
+*This document is for notes that will be implemented in the building of the slides. It should be cleared and deleted by the end of the project*
+
 **Source of truth:** `1-plan/00-phase1-planning-brief.md` (v1.2) · Dashboard IA: `1-plan/01-dashboard-ia.md`  
 **Panel routing:** `_meta/advisory-panel.md`
 
+- add a download slides button to download the slides as pdf
 - Show developer skills: tech-stack choices and real code matter, not just mocks.
 - Deck target: **18 slides** (core spine below).
 - **Narrative arc:** Thesis → portfolio + roadmap → **executive dashboard** → workflow drill-downs → commercial close → process.
@@ -33,7 +36,7 @@ If the reviewer sees only **slides 1, 4, 6, and 10** — do they get the bet, th
 
 | Slide | Content |
 |-------|---------|
-| **1** | Title + one-liner (the bet, compressed) |
+| **1** | **AI-First WMS** — one-liner: mid-market (10k–50k orders/mo); Phase 1 attacks three money leaks — picking labor, retail compliance fines, oversize-box freight waste |
 | **2** | The problem — headcount ceiling; 50–70% labor is picking; chargebacks + DIM waste |
 | **3** | Market & wedge — missing middle ICP (10k–50k orders/mo, 2–5 locations, 25–150 staff); $3k–8k/mo budget |
 | **4** | The AI-first bet — embedded floor directives + scan-time enforcement; thin (chat summary) vs. thick (hard block) |

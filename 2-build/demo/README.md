@@ -31,6 +31,8 @@ Append `?state=` to any route:
 
 Example: `/compliance?state=alert` shows the Walmart PO-8842 ship block modal.
 
+Append `?screenshot=1` to hide the dev nav for deck captures. Toggle **Screenshot** in the dev nav to switch.
+
 The sticky **dev nav** switches screens and states during build. Remove or hide before final deck screenshots if desired.
 
 ## Commands

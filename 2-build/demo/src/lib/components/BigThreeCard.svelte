@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Sparkline from './Sparkline.svelte';
-	import { resolve } from '$app/paths';
+	import { demoHref } from '$lib/demo/href';
 	import type { BigThreeCardData } from '$lib/data/executive';
 
 	let {
@@ -20,6 +20,10 @@
 					? 'var(--amber)'
 					: 'var(--green)'
 	);
+
+	const workflowUrl = $derived(
+		demoHref(card.workflowHref, { state: card.workflowState })
+	);
 </script>
 
 <article class="big-three-card" class:muted={card.muted} class:loading>
@@ -37,7 +41,7 @@
 			<Sparkline values={card.sparkline} stroke={accentColor} />
 		{/if}
 	{/if}
-	<a class="workflow-link mono" href={resolve(card.workflowHref)}>{card.workflowLabel}</a>
+	<a class="workflow-link mono" href={workflowUrl}>{card.workflowLabel}</a>
 </article>
 
 <style>

@@ -2,11 +2,19 @@
 	import { page } from '$app/state';
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
+	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
 	import { COMPLIANCE_RULES, SHIP_BLOCK_ORDER } from '$lib/data/compliance';
 
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
-	const showBlock = $derived(demoState === 'alert');
 	const processing = $derived(demoState === 'loading');
+
+	let blockDismissed = $state(false);
+	const showBlock = $derived(demoState === 'alert' && !blockDismissed);
+
+	$effect(() => {
+		void demoState;
+		blockDismissed = false;
+	});
 
 	let selectedRuleId = $state(COMPLIANCE_RULES[0].id);
 	const selectedRule = $derived(
@@ -17,6 +25,7 @@
 <ViewportFrame>
 	<header class="workflow-header">
 		<div>
+			<DashboardBackLink />
 			<p class="label">Slide 11 · Compliance</p>
 			<h1>Routing guide → rules → ship enforcement</h1>
 		</div>
@@ -84,7 +93,13 @@
 					<div class="block-modal" role="alertdialog" aria-labelledby="block-title">
 						<h2 id="block-title">Ship blocked</h2>
 						<p>{SHIP_BLOCK_ORDER.violation}</p>
-						<button type="button" class="fix mono">{SHIP_BLOCK_ORDER.fixAction}</button>
+						<button
+							type="button"
+							class="fix mono"
+							onclick={() => (blockDismissed = true)}
+						>
+							{SHIP_BLOCK_ORDER.fixAction}
+						</button>
 					</div>
 				{:else}
 					<p class="pass mono">Validator passed · label printed</p>

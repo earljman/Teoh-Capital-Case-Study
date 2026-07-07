@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
+	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
 	import { OVERRIDE_REASONS, PACK_DIRECTIVE } from '$lib/data/pack';
 	import { recordPackComplete } from '$lib/telemetry';
 
@@ -24,6 +25,7 @@
 <ViewportFrame>
 	<header class="workflow-header">
 		<div>
+			<DashboardBackLink />
 			<p class="label">Slide 13 · Cartonization</p>
 			<h1>Pack station · single authoritative box</h1>
 		</div>

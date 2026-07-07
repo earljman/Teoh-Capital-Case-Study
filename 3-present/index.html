@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI-First WMS — Phase 1 Scoping Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="shared/deck.css" />
+</head>
+<body>
+<div class="edit-hotzone" aria-hidden="true"></div>
+<button class="edit-toggle" id="editToggle" type="button" title="Edit mode (E)">Edit</button>
+
+<div class="deck-shell">
+<nav class="deck-controls" aria-label="Presentation controls">
+    <button type="button" id="prevBtn" aria-label="Previous slide">Prev</button>
+    <span id="progressLabel">01 / 18</span>
+    <button type="button" id="nextBtn" aria-label="Next slide">Next</button>
+    <button type="button" id="pdfBtn" aria-label="Download slides as PDF">PDF</button>
+    <a href="content-bank.html" aria-label="Open deck content bank">Content</a>
+</nav>
+<div class="deck-viewport">
+<main class="deck-stage" id="deckStage" aria-busy="true"></main>
+</div>
+
+<nav class="deck-tracker" id="deckTracker" aria-label="Slide navigation"></nav>
+</div>
+
+<script src="shared/deck.js"></script>
+</body>
+</html>

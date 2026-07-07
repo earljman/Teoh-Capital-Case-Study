@@ -3,6 +3,11 @@
 	"private": true,
 	"scripts": {
 		"build": "npm run build --prefix 2-build/demo && node scripts/assemble-dist.mjs",
-		"dev:demo": "npm run dev --prefix 2-build/demo"
+		"dev:demo": "npm run dev --prefix 2-build/demo",
+		"screenshots:demo": "node scripts/capture-demo-screenshots.mjs",
+		"content-bank": "node scripts/build-content-bank.mjs"
+	},
+	"devDependencies": {
+		"playwright": "^1.52.0"
 	}
 }

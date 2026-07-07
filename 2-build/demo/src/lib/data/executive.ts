@@ -1,3 +1,5 @@
+import type { DemoState } from '$lib/demo/types';
+
 export type BigThreeCardData = {
 	id: 'labor' | 'compliance' | 'dim';
 	title: string;
@@ -9,6 +11,8 @@ export type BigThreeCardData = {
 	mutedReason?: string;
 	workflowHref: '/pick' | '/compliance' | '/pack';
 	workflowLabel: string;
+	/** Drill-down state — e.g. compliance always opens ship block */
+	workflowState?: DemoState;
 };
 
 export type ExecutiveDashboardData = {
@@ -45,7 +49,8 @@ export const EXECUTIVE_HAPPY: ExecutiveDashboardData = {
 			sparkline: [0.5, 0.48, 0.52, 0.44, 0.4, 0.38, 0.35],
 			accent: 'green',
 			workflowHref: '/compliance',
-			workflowLabel: 'See compliance →'
+			workflowLabel: 'See compliance →',
+			workflowState: 'alert'
 		},
 		{
 			id: 'dim',
@@ -72,7 +77,8 @@ export const EXECUTIVE_GATED: ExecutiveDashboardData = {
 					muted: true,
 					mutedReason: 'Blocked — master data hygiene below 90%',
 					primary: '—',
-					secondary: 'Cartonization gated'
+					secondary: 'Cartonization gated',
+					workflowState: 'gated' as const
 				}
 			: card
 	),

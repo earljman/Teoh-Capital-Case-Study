@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import { parseDemoState } from '$lib/demo/parse-state';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
+	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
 	import { PICK_REROUTE, PICK_TASK } from '$lib/data/pick';
 	import { recordPickComplete } from '$lib/telemetry';
 
@@ -48,7 +49,10 @@
 
 <ViewportFrame variant="mobile">
 	<header class="mobile-header">
-		<span class="label">Slide 12 · Pick-path</span>
+		<div class="header-left">
+			<DashboardBackLink />
+			<span class="label">Slide 12 · Pick-path</span>
+		</div>
 		<span class="mono batch">Batch 7 · Zone A</span>
 	</header>
 
@@ -119,6 +123,12 @@
 		padding: 14px 16px;
 		background: var(--surface-panel);
 		border-bottom: 1px solid var(--hairline);
+	}
+
+	.header-left {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
 	}
 
 	.batch {

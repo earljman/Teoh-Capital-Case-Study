@@ -8,7 +8,10 @@ const dist = join(root, 'dist');
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 
-cpSync(join(root, '3-present/discover-phase.html'), join(dist, 'index.html'));
+cpSync(join(root, '3-present/index.html'), join(dist, 'index.html'));
+cpSync(join(root, '3-present/content-bank.html'), join(dist, 'content-bank.html'));
+cpSync(join(root, '3-present/shared'), join(dist, 'shared'), { recursive: true });
+cpSync(join(root, '3-present/slides'), join(dist, 'slides'), { recursive: true });
 cpSync(join(root, '2-build/demo/build/demo'), join(dist, 'demo'), { recursive: true });
 cpSync(join(root, '2-build/demo/build/_headers'), join(dist, '_headers'));
 

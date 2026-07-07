@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { base, resolve } from '$app/paths';
+	import { base } from '$app/paths';
 	import { DEMO_STATES, type AppPath } from '$lib/demo/types';
 	import { SCREENS } from '$lib/demo/screens';
+	import { demoHref, isScreenshotMode } from '$lib/demo/href';
 
 	const routePath = $derived.by((): AppPath => {
 		const p =
@@ -13,12 +14,22 @@
 		return paths.includes(p as AppPath) ? (p as AppPath) : '/';
 	});
 	const currentState = $derived(page.url.searchParams.get('state') ?? 'happy');
+	const screenshot = $derived(isScreenshotMode(page.url.searchParams));
 
 	function hrefFor(path: AppPath, state: string): string {
-		const resolved = resolve(path);
-		if (state === 'happy') return resolved;
-		const url = new URL(resolved, 'http://local');
-		url.searchParams.set('state', state);
+		return demoHref(path, {
+			state: state === 'happy' ? undefined : (state as import('$lib/demo/types').DemoState),
+			screenshot
+		});
+	}
+
+	function toggleScreenshot(): string {
+		const url = new URL(page.url);
+		if (screenshot) {
+			url.searchParams.delete('screenshot');
+		} else {
+			url.searchParams.set('screenshot', '1');
+		}
 		return url.pathname + url.search;
 	}
 </script>
@@ -37,6 +48,14 @@
 		{/each}
 	</div>
 	<div class="dev-nav__states">
+		<a
+			class="screenshot-toggle"
+			class:active={screenshot}
+			href={toggleScreenshot()}
+			title="Hide nav for deck screenshots"
+		>
+			{screenshot ? 'Screenshot on' : 'Screenshot'}
+		</a>
 		<span class="label">State</span>
 		{#each DEMO_STATES as state}
 			<a
@@ -111,5 +130,10 @@
 	.dev-nav__states .label {
 		color: var(--panel-dark-muted);
 		margin-right: 4px;
+	}
+
+	.screenshot-toggle {
+		margin-right: 8px;
+		border: 1px solid rgba(255, 255, 255, 0.15);
 	}
 </style>

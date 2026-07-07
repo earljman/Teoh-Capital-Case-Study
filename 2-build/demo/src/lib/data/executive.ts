@@ -5,6 +5,7 @@ export type BigThreeCardData = {
 	title: string;
 	primary: string;
 	secondary: string;
+	microLine?: string;
 	sparkline: number[];
 	accent?: 'green' | 'red' | 'amber';
 	muted?: boolean;
@@ -21,8 +22,6 @@ export type ExecutiveDashboardData = {
 	lastRefreshed: string;
 	cards: BigThreeCardData[];
 	annualMarginProtected: number;
-	aiFeaturesActive: number;
-	aiFeaturesTotal: number;
 	hygieneNote?: string;
 };
 
@@ -46,6 +45,7 @@ export const EXECUTIVE_HAPPY: ExecutiveDashboardData = {
 			title: 'Compliance risk',
 			primary: '2R · 5Y · 41G',
 			secondary: '~$2.1K exposure',
+			microLine: 'OTIF at-risk today: 7',
 			sparkline: [0.5, 0.48, 0.52, 0.44, 0.4, 0.38, 0.35],
 			accent: 'green',
 			workflowHref: '/compliance',
@@ -63,9 +63,7 @@ export const EXECUTIVE_HAPPY: ExecutiveDashboardData = {
 			workflowLabel: 'See cartonization →'
 		}
 	],
-	annualMarginProtected: 342_000,
-	aiFeaturesActive: 3,
-	aiFeaturesTotal: 3
+	annualMarginProtected: 342_000
 };
 
 export const EXECUTIVE_GATED: ExecutiveDashboardData = {
@@ -82,7 +80,6 @@ export const EXECUTIVE_GATED: ExecutiveDashboardData = {
 				}
 			: card
 	),
-	aiFeaturesActive: 2,
 	hygieneNote: 'SKU dimension coverage at 87% — cartonization inactive'
 };
 
@@ -94,7 +91,8 @@ export const EXECUTIVE_ALERT: ExecutiveDashboardData = {
 					...card,
 					accent: 'red' as const,
 					primary: '4R · 8Y · 36G',
-					secondary: '~$8.4K exposure · 2 ship blocks'
+					secondary: '~$8.4K exposure · 2 ship blocks',
+					microLine: 'OTIF at-risk today: 14'
 				}
 			: card
 	),

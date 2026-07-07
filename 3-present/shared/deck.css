@@ -1851,6 +1851,40 @@ code {
     color: var(--text-light);
 }
 
+/* Act divider slides */
+.slide.act-divider .slide-inner {
+    justify-content: center;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.act-divider-meta {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.act-divider-rule {
+    width: 120px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--primary);
+    margin: 6px 0 0;
+}
+
+.act-divider-context {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin: 0;
+}
+
 body.edit-mode [contenteditable="true"] {
     outline: 1px dashed rgba(30, 43, 250, 0.4);
     outline-offset: 4px;

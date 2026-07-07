@@ -25,6 +25,11 @@
     "title": "Market & Wedge"
   },
   {
+    "file": "05b-act-ii-title.html",
+    "slide": null,
+    "title": "Act II · Scope & Roadmap"
+  },
+  {
     "file": "06-phase-1-feature-portfolio.html",
     "slide": 6,
     "title": "Phase 1 Portfolio"
@@ -43,6 +48,11 @@
     "file": "09-checkpoint-week-12.html",
     "slide": 9,
     "title": "Checkpoint · Week 12"
+  },
+  {
+    "file": "09b-act-iii-title.html",
+    "slide": null,
+    "title": "Act III · Dashboard & Workflows"
   },
   {
     "file": "10-executive-dashboard.html",
@@ -65,9 +75,19 @@
     "title": "Feature 3 · Cartonization"
   },
   {
+    "file": "13b-act-iv-title.html",
+    "slide": null,
+    "title": "Act IV · Commercial Close"
+  },
+  {
     "file": "14-why-this-wins.html",
     "slide": 14,
     "title": "Why This Wins"
+  },
+  {
+    "file": "14b-act-v-title.html",
+    "slide": null,
+    "title": "Act V · Appendix"
   },
   {
     "file": "15-assumptions-risks.html",

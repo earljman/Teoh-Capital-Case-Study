@@ -4,9 +4,9 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 
 ---
 
-## Slide 15 — Process overview
+## Slide 15 — Appendix bridge
 
-**Headline:** Research → Planning → Development → Present
+**Headline:** Appendix: build method and controls
 
 | Phase | Goal | Primary output |
 |-------|------|----------------|
@@ -19,37 +19,26 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 
 ---
 
-## Slide 16 — Research
+## Slide 16 — Workflow overview
 
-**Inputs**
-- `_meta/case-study-prompt.md` — scope, competitors, deliverable format
-- `0-research/research-team.md` — three parallel research personas (Market & Competitive Strategist, Operator & Workflow Ethnographer, AI/Product Technologist)
+**Headline:** Research -> Planning -> Development -> Present
 
-**Skills invoked**
-- `discover-competitive-analysis` — five-competitor positioning, AI maturity audit
-- `discover-market-sizing` — TAM/SAM/SOM for mid-market AI-first WMS
-- `discover-journey-map` — operator journey → Phase 1 feature signals
-- `discover-stakeholder-summary` — buyer vs. operator vs. sponsor reads
-
-**Key artifacts** (`0-research/archive/`)
-- Competitive analysis, market sizing, journey map, stakeholder summary
-
-**Decision surfaced:** ICP wedge, white space, where incumbents are AI-washed vs. real.
+**Message:** AI accelerated artifact creation across all four phases, with human gates enforcing decision quality before moving to the next phase.
 
 ---
 
-## Slide 17 — Planning
+## Slide 17 — Research + Planning workflow
 
 **Inputs**
+- `_meta/case-study-prompt.md` and research personas
 - Research synthesis + `_meta/advisory-panel.md` routing
 
 **Skills invoked**
-- `define-problem-statement` — single sharp framing for slide 2
+- `discover-competitive-analysis` / `discover-market-sizing` / `discover-journey-map` / `discover-stakeholder-summary`
 - `foundation-prioritized-action-plan` — cut list, effort allocation
+- `define-problem-statement` — single sharp framing for slide 2
 - `develop-solution-brief` — one-pager for Week 4 checkpoint
 - `deliver-prd` — Phase 1 slice for Week 12 checkpoint
-- `deliver-acceptance-criteria` — Given/When/Then per feature
-- `deliver-edge-cases` — states the mocks must show
 
 **Advisory panel gates**
 - Steps 2–3: lock AI-native bet + market assumption (before mocks)
@@ -61,9 +50,9 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 
 ---
 
-## Slide 18 — Development
+## Slide 18 — Development + Delivery workflow
 
-**Emphasis:** Show developer skills — stack choices, real code, deployable demo.
+**Emphasis:** show toolchain plus quality controls; prove AI usage without surrendering judgment.
 
 **Skills / tools invoked**
 - `frontend-slides` / `utility-slideshow-creator` — deck build
@@ -78,4 +67,4 @@ Content for Act V (slides 15–18). Pull from here when building the deck; keep 
 - `2-build/demo/` — app source
 - `3-present/` — presentation deck + slide build notes
 
-**Talking point:** The process used AI to accelerate research and planning; the *product* is AI-first — the deck proves both.
+**Talking point:** AI increased throughput, but humans owned scope decisions, risk tradeoffs, and final story quality.

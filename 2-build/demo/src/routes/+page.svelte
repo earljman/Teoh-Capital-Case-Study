@@ -56,12 +56,6 @@
 				<p class="impact mono">
 					Est. annual margin protected:
 					<strong class="tabular-nums">{marginFormatted}</strong>
-					<span class="dot">·</span>
-					AI features active:
-					<strong>{data.aiFeaturesActive}/{data.aiFeaturesTotal}</strong>
-					{#if data.aiFeaturesActive === data.aiFeaturesTotal}
-						<span class="check">✓</span>
-					{/if}
 				</p>
 				{#if data.hygieneNote}
 					<p class="hygiene mono">{data.hygieneNote}</p>
@@ -102,16 +96,6 @@
 	.impact strong {
 		color: var(--text-primary);
 		font-weight: 600;
-	}
-
-	.dot {
-		margin: 0 10px;
-		color: var(--text-faint);
-	}
-
-	.check {
-		color: var(--green);
-		margin-left: 4px;
 	}
 
 	.hygiene {

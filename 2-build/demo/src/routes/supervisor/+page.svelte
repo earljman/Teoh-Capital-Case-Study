@@ -71,8 +71,13 @@
 			</section>
 
 			<section class="exception-log">
-				<h2 class="section-title">Exception log</h2>
-				{#each data.exceptions as row}
+				<div class="log-head">
+					<h2 class="section-title">Exception log</h2>
+					{#if !loading && data.unresolvedAgingCount > 0}
+						<span class="aging-chip mono">{data.unresolvedAgingCount} unresolved &gt;30m</span>
+					{/if}
+				</div>
+				{#each data.exceptions as row (`${row.time}-${row.type}-${row.entity}`)}
 					<div class="ex-row">
 						<span class="time mono">{row.time}</span>
 						<span class="type">{row.type}</span>
@@ -96,11 +101,15 @@
 						>
 							{data.friction.syncQueue}
 						</span>
+						<span class="meta mono">Oldest event {data.friction.oldestUnsyncedMinutes}m</span>
 					</div>
 					<div class="mini-card">
 						<span class="label">Override rate</span>
 						<span class="value mono" class:warn={data.friction.overrideRatePct > 5}>
 							{data.friction.overrideRatePct}%
+						</span>
+						<span class="meta mono">
+							{data.friction.overrideApprovedPct}% approved · {data.friction.overrideFlaggedPct}% flagged
 						</span>
 					</div>
 					<div class="mini-card">
@@ -108,15 +117,22 @@
 						<span class="value mono">{data.friction.hygienePct}%</span>
 					</div>
 					<div class="mini-card">
-						<span class="label">AI ready</span>
-						<span class="value mono ok">{data.friction.aiReady ? '✓' : '—'}</span>
+						<span class="label">A-item accuracy</span>
+						<span class="value mono" class:warn={data.friction.inventoryAccuracyPct < 90}>
+							{data.friction.inventoryAccuracyPct}%
+						</span>
 					</div>
+				</div>
+				<div class="deferred mono">
+					<p class="deferred-title">Phase 1.5 signals</p>
+					<p>Dock-to-stock avg: {data.deferredMetrics.dockToStockHoursAvg}h</p>
+					<p>Phantom risk: {data.deferredMetrics.phantomRiskPct}%</p>
 				</div>
 			</section>
 
 			<section class="ai-log dark-panel">
 				<h2 class="section-title light">AI engine log</h2>
-				{#each data.aiLog as entry}
+				{#each data.aiLog as entry (`${entry.time}-${entry.kind}`)}
 					<div class="log-row">
 						<span class="time mono">{entry.time}</span>
 						<span class="kind mono">{entry.kind}</span>
@@ -230,6 +246,23 @@
 		overflow: auto;
 	}
 
+	.log-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+	}
+
+	.aging-chip {
+		padding: 3px 8px;
+		border-radius: 999px;
+		border: 1px solid color-mix(in oklab, var(--red) 24%, white);
+		background: color-mix(in oklab, var(--red) 9%, white);
+		color: var(--red);
+		font-size: 10px;
+		font-weight: 600;
+	}
+
 	.ex-row {
 		display: grid;
 		grid-template-columns: 48px 100px 80px 1fr;
@@ -288,8 +321,30 @@
 		color: var(--red);
 	}
 
-	.mini-card .value.ok {
-		color: var(--green);
+	.mini-card .meta {
+		display: block;
+		margin-top: 3px;
+		font-size: 9px;
+		color: var(--text-faint);
+	}
+
+	.deferred {
+		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px dashed var(--separator);
+		font-size: 9px;
+		color: var(--text-faint);
+	}
+
+	.deferred-title {
+		margin: 0 0 4px;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		color: var(--text-muted);
+	}
+
+	.deferred p {
+		margin: 0 0 2px;
 	}
 
 	.dark-panel {

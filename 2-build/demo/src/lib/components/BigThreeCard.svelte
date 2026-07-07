@@ -35,6 +35,9 @@
 	{:else}
 		<p class="primary mono tabular-nums" style:color={accentColor}>{card.primary}</p>
 		<p class="secondary mono">{card.secondary}</p>
+		{#if card.microLine}
+			<p class="micro mono">{card.microLine}</p>
+		{/if}
 		{#if card.muted && card.mutedReason}
 			<p class="muted-note">{card.mutedReason}</p>
 		{:else}
@@ -70,6 +73,12 @@
 		margin: 0;
 		font-size: 11px;
 		color: var(--text-muted);
+	}
+
+	.micro {
+		margin: -2px 0 0;
+		font-size: 10px;
+		color: var(--text-faint);
 	}
 
 	.muted-note {

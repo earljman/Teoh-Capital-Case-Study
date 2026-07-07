@@ -132,6 +132,11 @@ Aggregated count of items requiring supervisor attention. Tapping opens filtered
 | **Scanner override rate** | Manual force-confirms vs. algorithmic scans | Spike vs. 7-day baseline |
 | **Master data hygiene gate** | % SKUs with dims + bin coords | <90% blocks AI features |
 
+**Optional micro-metrics (no layout change):**
+- **Inventory accuracy (A-items):** "A-item accuracy 93%" chip in friction rail. Alert <90%.
+- **Data freshness:** "Oldest unsynced event: 11m" beneath offline sync queue.
+- **Override quality split:** "Overrides: 8% (6.4% approved, 1.6% flagged)" in drawer/tooltip, not primary rail text.
+
 ### 3.4 Exception log (main column, below floor ops)
 
 Real-time feed — bin empty, barcode unreadable, ship blocks, force-confirms, reroute events.
@@ -142,6 +147,8 @@ Real-time feed — bin empty, barcode unreadable, ship blocks, force-confirms, r
 | Type | Bin empty · Ship block · Override |
 | Location / entity | A-12 · PO-8842 |
 | System action | Auto-rerouted · Blocked · Flagged |
+
+**Operational quality add-on:** Show unresolved-aging chip above feed (e.g., "2 exceptions >30m unresolved").
 
 **Interaction:** Tap row → detail drawer with single fix action where applicable.
 
@@ -155,6 +162,15 @@ Compact trust-building stream — not a chat panel.
 | Pathing index | "87% vs. optimized baseline (shift)" |
 
 Hold for Phase 1.5: read-only ops copilot (`03-ai-feasibility-architecture.md` §5.5).
+
+### 3.6 Deferred-but-visible placeholders (supervisor)
+
+To signal roadmap completeness without adding Phase 1 cognitive load, include muted chips at the bottom of the rail:
+
+- **Dock-to-stock clock (deferred):** "Inbound lag: 14h avg" (muted, non-actionable in Phase 1)
+- **Phantom inventory rate (deferred):** "Phantom risk: 3.2%" (muted, non-actionable in Phase 1)
+
+These remain explicitly out-of-scope for Week 4 interactions.
 
 ---
 
@@ -194,6 +210,8 @@ Hold for Phase 1.5: read-only ops copilot (`03-ai-feasibility-architecture.md` �
 | **Labor saved** | Est. labor capital saved ($/wk) | Avg picks/hr vs. 60–80 baseline | Per-card sparkline | Slide 12 |
 | **Compliance risk** | R/Y/G counts + $ exposure | At-risk / OTIF-adjacent count | R/Y/G board + sparkline | Slide 11 |
 | **DIM waste** | $ lost to oversize boxes (/wk) | Avg volume utilization % | Cost curve vs. optimal | Slide 13 |
+
+**Optional compliance micro-line (no card resize):** "OTIF at-risk today: 7" below secondary line on compliance card.
 
 **ROI anchors for mock copy** (from planning brief §7):
 
@@ -314,6 +332,7 @@ Each drill-down affordance: **"See workflow →"** annotation on mock + tappable
 | **Empty / gated** | — | Cartonization blocked if hygiene <90% | Hygiene gate red, "AI not ready" | — |
 | **Error / alert** | High counts, red accent | Zone C highlighted on heatmap | Sync backlog red | Unresolved exceptions stacked |
 | **Override spike** | — | — | Override rate flagged | Force-confirm entries highlighted |
+| **Aging alert** | Queue count elevated | — | Rail nominal | ">30m unresolved" chip appears |
 
 ---
 

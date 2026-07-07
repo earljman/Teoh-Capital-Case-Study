@@ -31,8 +31,16 @@ export type SupervisorDashboardData = {
 	friction: {
 		syncQueue: number;
 		overrideRatePct: number;
+		overrideApprovedPct: number;
+		overrideFlaggedPct: number;
 		hygienePct: number;
-		aiReady: boolean;
+		inventoryAccuracyPct: number;
+		oldestUnsyncedMinutes: number;
+	};
+	unresolvedAgingCount: number;
+	deferredMetrics: {
+		dockToStockHoursAvg: number;
+		phantomRiskPct: number;
 	};
 	exceptions: ExceptionRow[];
 	aiLog: { time: string; kind: string; message: string }[];
@@ -53,7 +61,17 @@ export const SUPERVISOR_HAPPY: SupervisorDashboardData = {
 	cartonization: { utilizationPct: 92, blocked: false },
 	heatmapHotZone: 'Zone C',
 	heatmapPickers: 4,
-	friction: { syncQueue: 7, overrideRatePct: 3.2, hygienePct: 94, aiReady: true },
+	friction: {
+		syncQueue: 7,
+		overrideRatePct: 3.2,
+		overrideApprovedPct: 2.7,
+		overrideFlaggedPct: 0.5,
+		hygienePct: 94,
+		inventoryAccuracyPct: 93,
+		oldestUnsyncedMinutes: 11
+	},
+	unresolvedAgingCount: 0,
+	deferredMetrics: { dockToStockHoursAvg: 14, phantomRiskPct: 3.2 },
 	exceptions: [
 		{ time: '09:14', type: 'Bin empty', entity: 'A-12', action: 'Auto-rerouted' },
 		{ time: '09:11', type: 'Override', entity: 'Zone B', action: 'Force-confirm flagged' },
@@ -74,7 +92,17 @@ export const SUPERVISOR_ALERT: SupervisorDashboardData = {
 		{ label: 'Sync dead zones', count: 1, severity: 'warn' },
 		{ label: 'Open exceptions', count: 5, severity: 'warn' }
 	],
-	friction: { syncQueue: 28, overrideRatePct: 8.1, hygienePct: 94, aiReady: true },
+	friction: {
+		syncQueue: 28,
+		overrideRatePct: 8.1,
+		overrideApprovedPct: 6.4,
+		overrideFlaggedPct: 1.7,
+		hygienePct: 94,
+		inventoryAccuracyPct: 89,
+		oldestUnsyncedMinutes: 37
+	},
+	unresolvedAgingCount: 2,
+	deferredMetrics: { dockToStockHoursAvg: 17, phantomRiskPct: 4.8 },
 	exceptions: [
 		{ time: '09:18', type: 'Ship block', entity: 'PO-8842', action: 'Blocked — label position' },
 		{ time: '09:16', type: 'Ship block', entity: 'PO-8839', action: 'Blocked — pallet height' },

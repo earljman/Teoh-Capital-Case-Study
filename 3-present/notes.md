@@ -188,11 +188,11 @@ Source detail from `3-present/process-documentation.md`.
 
 | Slide | Content |
 |-------|---------|
-| **16** | Process overview — Research → Planning → Development → Present pipeline |
-| **17** | Research + Planning — skills, prompts, artifacts (`0-research/`, `1-plan/`) |
-| **18** | Development + Present — tech stack, prototype, deck (`2-build/`, `3-present/`) |
+| **16** | Workflow overview — where acceleration happened and where human gates controlled quality |
+| **17** | Research + Planning workflow — tools used, outputs generated, and decisions locked (`0-research/`, `1-plan/`) |
+| **18** | Development + Delivery workflow — toolchain plus controls and proof (`2-build/`, `3-present/`) |
 
-Emphasize: AI accelerated *how* the deck was built; the product is AI-first.
+Emphasize: this is an appendix-style proof section for interviewer deep dive; AI accelerated *how* the work was built while product judgment stayed human-owned.
 
 ---
 

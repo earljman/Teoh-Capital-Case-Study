@@ -19,7 +19,8 @@ const MIME = {
 	'.jpg': 'image/jpeg',
 	'.jpeg': 'image/jpeg',
 	'.svg': 'image/svg+xml',
-	'.woff2': 'font/woff2'
+	'.woff2': 'font/woff2',
+	'.pdf': 'application/pdf'
 };
 
 async function serveStatic(req, res, url) {
@@ -41,10 +42,20 @@ async function serveStatic(req, res, url) {
 			return;
 		}
 
-		res.writeHead(200, {
-			'Content-Type': MIME[extname(filePath)] ?? 'application/octet-stream',
-			'Cache-Control': 'no-store'
-		});
+		const ext = extname(filePath);
+		const headers = {
+			'Content-Type': MIME[ext] ?? 'application/octet-stream',
+			'Cache-Control': 'no-store',
+			'Content-Length': String(fileStat.size)
+		};
+
+		// Honor ?download=1 / download attribute intent for research PDFs
+		if (ext === '.pdf' && url.searchParams.has('download')) {
+			const name = filePath.split('/').pop() ?? 'download.pdf';
+			headers['Content-Disposition'] = `attachment; filename="${name}"`;
+		}
+
+		res.writeHead(200, headers);
 		createReadStream(filePath).pipe(res);
 	} catch {
 		res.writeHead(404);

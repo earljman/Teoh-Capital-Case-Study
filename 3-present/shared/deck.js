@@ -7,7 +7,7 @@
     const pdfBtn = document.getElementById('pdfBtn');
     const trackerEl = document.getElementById('deckTracker');
     let current = 0;
-    const storageKey = 'wms-deck-v1';
+    const storageKey = 'wms-deck-v2';
 
     function total() {
         return slides.length;
@@ -16,9 +16,9 @@
     const ACTS = {
         I: { label: 'Act I', title: 'Thesis & Positioning' },
         II: { label: 'Act II', title: 'Scope & Roadmap' },
-        III: { label: 'Act III', title: 'Dashboard & Workflows' },
+        III: { label: 'Act III', title: 'Surfaces & Flows' },
         IV: { label: 'Act IV', title: 'Commercial Close' },
-        V: { label: 'Act V', title: 'How This Deck Was Built' }
+        V: { label: 'Act V', title: 'How This Was Built' }
     };
 
     const trackerSegs = [];
@@ -35,6 +35,16 @@
         return ACTS[key] || { label: 'Act', title: '' };
     }
 
+    function isActTitleSlide(slide) {
+        return slide.classList.contains('act-divider');
+    }
+
+    function findActTitleIndex(actKey) {
+        return slides.findIndex(function (slide) {
+            return slide.dataset.act === actKey && isActTitleSlide(slide);
+        });
+    }
+
     function buildTracker() {
         if (!trackerEl) return;
         trackerEl.innerHTML = '';
@@ -44,12 +54,23 @@
 
         slides.forEach(function (slide, index) {
             const act = slide.dataset.act;
+            const actTitle = isActTitleSlide(slide);
 
             if (act !== lastAct) {
                 if (lastAct !== null) {
-                    const divider = document.createElement('div');
+                    const titleIndex = findActTitleIndex(act);
+                    const divider = document.createElement('button');
+                    divider.type = 'button';
                     divider.className = 'deck-tracker-divider';
-                    divider.setAttribute('aria-hidden', 'true');
+                    const actMeta = ACTS[act] || { label: 'Act', title: '' };
+                    const label = actMeta.label + (actMeta.title ? ' · ' + actMeta.title : '');
+                    divider.setAttribute('aria-label', 'Go to ' + label);
+                    divider.title = label;
+                    if (titleIndex >= 0) {
+                        divider.addEventListener('click', function () { showSlide(titleIndex); });
+                    } else {
+                        divider.disabled = true;
+                    }
                     trackerEl.appendChild(divider);
                 }
                 currentGroup = document.createElement('div');
@@ -58,6 +79,9 @@
                 trackerEl.appendChild(currentGroup);
                 lastAct = act;
             }
+
+            // Act title slides are reached via the divider, not a tracker segment
+            if (actTitle) return;
 
             const actMeta = getActMeta(slide);
             const title = getSlideTitle(slide, index);
@@ -84,11 +108,21 @@
     }
 
     function updateTracker() {
-        trackerSegs.forEach(function (seg, i) {
-            seg.classList.toggle('active', i === current);
-            seg.classList.toggle('passed', i < current);
-            if (i === current) seg.setAttribute('aria-current', 'step');
+        trackerSegs.forEach(function (seg) {
+            const index = parseInt(seg.dataset.index, 10);
+            seg.classList.toggle('active', index === current);
+            seg.classList.toggle('passed', index < current);
+            if (index === current) seg.setAttribute('aria-current', 'step');
             else seg.removeAttribute('aria-current');
+        });
+
+        if (!trackerEl) return;
+        trackerEl.querySelectorAll('.deck-tracker-divider').forEach(function (divider) {
+            const actGroup = divider.nextElementSibling;
+            const actKey = actGroup && actGroup.dataset ? actGroup.dataset.act : null;
+            const titleIndex = actKey ? findActTitleIndex(actKey) : -1;
+            divider.classList.toggle('active', titleIndex === current);
+            divider.classList.toggle('passed', titleIndex >= 0 && titleIndex < current);
         });
     }
 
@@ -115,7 +149,10 @@
         const t = String(total()).padStart(2, '0');
         progressLabel.textContent = n + ' / ' + t;
         updateTracker();
-        location.hash = String(current + 1);
+        const nextHash = String(current + 1);
+        if (location.hash.replace(/^#/, '') !== nextHash) {
+            location.hash = nextHash;
+        }
     }
 
     function next() { showSlide(current + 1); }
@@ -136,8 +173,18 @@
         slides = Array.from(stage.querySelectorAll('.slide'));
         try {
             const saved = localStorage.getItem(storageKey);
-            if (saved) stage.innerHTML = saved;
-            slides = Array.from(stage.querySelectorAll('.slide'));
+            if (saved) {
+                const probe = document.createElement('div');
+                probe.innerHTML = saved;
+                const savedSlides = probe.querySelectorAll('.slide');
+                // Only restore inline edits when the deck structure still matches
+                if (savedSlides.length === slides.length) {
+                    stage.innerHTML = saved;
+                    slides = Array.from(stage.querySelectorAll('.slide'));
+                } else {
+                    localStorage.removeItem(storageKey);
+                }
+            }
         } catch (err) { /* ignore */ }
         buildTracker();
         wireGotoButtons();
@@ -163,7 +210,62 @@
 
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
-    pdfBtn.addEventListener('click', function () { window.print(); });
+
+    function eagerLoadSlideImages() {
+        stage.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+            img.loading = 'eager';
+            // Force fetch while still on screen (lazy images on later slides may never load)
+            if (!img.complete && img.dataset.src) img.src = img.dataset.src;
+            else if (!img.complete && img.src) {
+                const src = img.getAttribute('src');
+                if (src) img.src = src;
+            }
+        });
+    }
+
+    function waitForImages(timeoutMs) {
+        const images = Array.from(stage.querySelectorAll('img'));
+        if (!images.length) return Promise.resolve();
+        return Promise.race([
+            Promise.all(
+                images.map(function (img) {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(function (resolve) {
+                        img.addEventListener('load', resolve, { once: true });
+                        img.addEventListener('error', resolve, { once: true });
+                    });
+                })
+            ),
+            new Promise(function (resolve) { setTimeout(resolve, timeoutMs || 4000); })
+        ]);
+    }
+
+    function preparePrint() {
+        document.title = 'AI-First-WMS-Phase-1-Scoping-Pack';
+        document.body.classList.add('is-printing');
+        eagerLoadSlideImages();
+        return waitForImages(4000);
+    }
+
+    function cleanupPrint() {
+        document.body.classList.remove('is-printing');
+    }
+
+    window.addEventListener('beforeprint', function () {
+        document.body.classList.add('is-printing');
+        eagerLoadSlideImages();
+    });
+    window.addEventListener('afterprint', cleanupPrint);
+
+    pdfBtn.addEventListener('click', function () {
+        pdfBtn.disabled = true;
+        pdfBtn.setAttribute('aria-busy', 'true');
+        preparePrint().finally(function () {
+            window.print();
+            pdfBtn.disabled = false;
+            pdfBtn.removeAttribute('aria-busy');
+        });
+    });
 
     document.addEventListener('keydown', function (e) {
         if (e.target && e.target.getAttribute('contenteditable') === 'true') {
@@ -210,6 +312,10 @@
     }, { passive: true });
 
     window.addEventListener('resize', fitStage);
+    window.addEventListener('hashchange', function () {
+        const hash = parseInt(location.hash.replace('#', ''), 10);
+        if (!isNaN(hash) && hash - 1 !== current) showSlide(hash - 1);
+    });
     fitStage();
 
     const editor = {

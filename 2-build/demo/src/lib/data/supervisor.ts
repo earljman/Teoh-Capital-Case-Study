@@ -8,6 +8,7 @@ export type ActionQueueItem = {
 };
 
 export type ExceptionRow = {
+	id?: string;
 	time: string;
 	type: string;
 	entity: string;

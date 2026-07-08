@@ -33,73 +33,30 @@
 	});
 
 	let tel = $state<TelemetrySnapshot>({ ...DEFAULT_TELEMETRY });
-	let tickKeys = $state<Set<string>>(new Set());
-	let telemetryReady = false;
-	let prevTel = $state<TelemetrySnapshot | null>(null);
+	let refreshClock = $state(Date.now());
 
 	$effect(() => {
 		if (!liveTelemetry) {
 			tel = { ...DEFAULT_TELEMETRY };
-			tickKeys = new Set();
-			telemetryReady = false;
-			prevTel = null;
 			return;
 		}
 
+		const clock = setInterval(() => {
+			refreshClock = Date.now();
+		}, 5000);
+
 		const unsub = telemetry.subscribe((value) => {
 			tel = value;
-			if (!telemetryReady) {
-				prevTel = { ...value };
-				telemetryReady = true;
-			}
 		});
+
 		return () => {
+			clearInterval(clock);
 			unsub();
-			telemetryReady = false;
-			prevTel = null;
 		};
 	});
 
-	$effect(() => {
-		if (!liveTelemetry || !telemetryReady || !prevTel) return;
-
-		const keys = new Set<string>();
-		if (tel.laborSavedWeek !== prevTel.laborSavedWeek || tel.picksPerHour !== prevTel.picksPerHour) {
-			keys.add('labor');
-			keys.add('metric-labor');
-		}
-		if (tel.dimWasteWeek !== prevTel.dimWasteWeek || tel.volumeUtilizationPct !== prevTel.volumeUtilizationPct) {
-			keys.add('dim');
-			keys.add('metric-dim');
-		}
-		if (tel.inventoryAccuracyPct !== prevTel.inventoryAccuracyPct) {
-			keys.add('metric-inventory');
-		}
-		if (tel.complianceExposure !== prevTel.complianceExposure) {
-			keys.add('compliance');
-			keys.add('metric-compliance');
-		}
-		if (
-			tel.picksCompleted !== prevTel.picksCompleted ||
-			tel.packsCompleted !== prevTel.packsCompleted ||
-			tel.laborSavedWeek !== prevTel.laborSavedWeek ||
-			tel.dimWasteWeek !== prevTel.dimWasteWeek
-		) {
-			keys.add('margin');
-		}
-
-		prevTel = { ...tel };
-		if (keys.size === 0) return;
-
-		tickKeys = keys;
-		const timer = setTimeout(() => {
-			tickKeys = new Set();
-		}, 650);
-		return () => clearTimeout(timer);
-	});
-
 	const data = $derived(
-		liveTelemetry ? applyTelemetryToExecutive(baseData, tel) : baseData
+		liveTelemetry ? applyTelemetryToExecutive(baseData, tel, refreshClock) : baseData
 	);
 
 	const loading = $derived(demoState === 'loading');
@@ -123,7 +80,7 @@
 	<main class="executive">
 		<section class="big-three" aria-label="Big Three margin killers">
 			{#each data.cards as card (card.id)}
-				<BigThreeCard {card} {loading} liveTick={tickKeys.has(card.id)} />
+				<BigThreeCard {card} {loading} />
 			{/each}
 		</section>
 
@@ -131,7 +88,7 @@
 			{#if loading}
 				<div class="skeleton band-skel"></div>
 			{:else}
-				<p class="impact mono" class:motion-value-tick={tickKeys.has('margin')}>
+				<p class="impact mono">
 					<HelpTitle helpId="impact-band" title="Est. annual margin protected" variant="portfolio" />
 					:
 					<strong class="tabular-nums">{marginFormatted}</strong>
@@ -147,7 +104,7 @@
 				<div class="skeleton top-six-skel"></div>
 			{:else}
 				{#each data.topMetrics as metric (metric.id)}
-					<ExecutiveMetricChip {metric} liveTick={tickKeys.has(`metric-${metric.id}`)} />
+					<ExecutiveMetricChip {metric} />
 				{/each}
 			{/if}
 		</section>

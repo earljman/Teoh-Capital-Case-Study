@@ -43,7 +43,6 @@
 				href={hrefFor(screen.path, currentState)}
 			>
 				{screen.label}
-				<span class="dev-nav__slide">· {screen.slide}</span>
 			</a>
 		{/each}
 	</div>
@@ -120,11 +119,6 @@
 	.dev-nav__states {
 		margin-left: auto;
 		gap: 6px;
-	}
-
-	.dev-nav__slide {
-		opacity: 0.65;
-		font-weight: 400;
 	}
 
 	.dev-nav__states .label {

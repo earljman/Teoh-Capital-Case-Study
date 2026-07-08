@@ -1,0 +1,5 @@
+# Research PDFs — correct MIME + allow same-origin download attribute
+/research/*.pdf
+  Content-Type: application/pdf
+  X-Content-Type-Options: nosniff
+  Cache-Control: public, max-age=3600

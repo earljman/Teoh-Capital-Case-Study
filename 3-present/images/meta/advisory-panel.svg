@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" fill="none">
+  <rect width="640" height="360" fill="#FDFAE7"/>
+  <!-- center brief -->
+  <rect x="278" y="148" width="84" height="64" rx="8" fill="#fff" stroke="#1E2BFA" stroke-width="2"/>
+  <rect x="292" y="162" width="56" height="6" rx="2" fill="#111" fill-opacity="0.7"/>
+  <rect x="292" y="176" width="44" height="4" rx="1" fill="#1E2BFA" fill-opacity="0.35"/>
+  <rect x="292" y="186" width="50" height="4" rx="1" fill="#111" fill-opacity="0.2"/>
+  <!-- ring -->
+  <circle cx="320" cy="180" r="110" stroke="#1E2BFA" stroke-opacity="0.18" stroke-width="1.5" stroke-dasharray="4 6"/>
+  <!-- 9 seats -->
+  <g>
+    <!-- highlighted 4 (routed) -->
+    <circle cx="320" cy="70" r="16" fill="#1E2BFA"/><circle cx="320" cy="70" r="6" fill="#FDFAE7"/>
+    <circle cx="430" cy="110" r="16" fill="#1E2BFA"/><circle cx="430" cy="110" r="6" fill="#FDFAE7"/>
+    <circle cx="455" cy="210" r="16" fill="#1E2BFA"/><circle cx="455" cy="210" r="6" fill="#FDFAE7"/>
+    <circle cx="210" cy="110" r="16" fill="#1E2BFA"/><circle cx="210" cy="110" r="6" fill="#FDFAE7"/>
+    <!-- others -->
+    <circle cx="185" cy="210" r="14" fill="#1E2BFA" fill-opacity="0.18"/>
+    <circle cx="230" cy="275" r="14" fill="#1E2BFA" fill-opacity="0.18"/>
+    <circle cx="320" cy="295" r="14" fill="#1E2BFA" fill-opacity="0.18"/>
+    <circle cx="410" cy="275" r="14" fill="#1E2BFA" fill-opacity="0.18"/>
+    <circle cx="460" cy="160" r="0"/>
+  </g>
+  <!-- routing paths from center to 4 -->
+  <path d="M320 148 L320 86" stroke="#1E2BFA" stroke-width="2" stroke-opacity="0.55"/>
+  <path d="M350 160 L416 122" stroke="#1E2BFA" stroke-width="2" stroke-opacity="0.55"/>
+  <path d="M360 190 L440 208" stroke="#1E2BFA" stroke-width="2" stroke-opacity="0.55"/>
+  <path d="M290 160 L224 122" stroke="#1E2BFA" stroke-width="2" stroke-opacity="0.55"/>
+</svg>

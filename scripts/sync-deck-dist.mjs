@@ -33,7 +33,6 @@ const resetCopyDir = (from, to) => {
 function syncDeckToDist() {
 	mkdirSync(dist, { recursive: true });
 	rmSync(join(dist, 'demo'), { recursive: true, force: true });
-	rmSync(join(dist, '_headers'), { force: true });
 	copyFile('3-present/index.html', 'index.html');
 	copyFile('3-present/content-bank.html', 'content-bank.html');
 	resetCopyDir('3-present/shared', 'shared');
@@ -41,6 +40,8 @@ function syncDeckToDist() {
 	resetCopyDir('3-present/screenshots', 'screenshots');
 	resetCopyDir('3-present/slides', 'slides');
 	resetCopyDir('0-research', 'research');
+	copyFile('3-present/_redirects.prod', '_redirects');
+	copyFile('3-present/_headers.prod', '_headers');
 
 	if (watchMode) {
 		const html = readFileSync(join(root, '3-present/index.html'), 'utf8').replace(

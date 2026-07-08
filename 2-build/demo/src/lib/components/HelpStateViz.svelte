@@ -43,7 +43,7 @@
 		</div>
 	{:else if viz.kind === 'timeline'}
 		<div class="timeline-row" role="img" aria-label={viz.heading ?? 'State timeline'}>
-			{#each viz.items as item, i (item.label)}
+			{#each viz.items as item, i (`${item.label}-${i}`)}
 				<div class="timeline-item">
 					<span class="dot" style:background={toneColor[item.tone]}></span>
 					<span class="timeline-label">{item.label}</span>

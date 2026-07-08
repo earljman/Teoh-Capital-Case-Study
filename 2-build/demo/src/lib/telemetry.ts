@@ -22,6 +22,9 @@ export type TelemetrySnapshot = {
 	inventoryAccuracyPct: number;
 	picksCompleted: number;
 	packsCompleted: number;
+	syncQueue: number;
+	batchActive: number;
+	updatedAt: number;
 	liveExceptions: LiveExceptionRow[];
 };
 
@@ -38,6 +41,9 @@ export const DEFAULT_TELEMETRY: TelemetrySnapshot = {
 	inventoryAccuracyPct: 93,
 	picksCompleted: 0,
 	packsCompleted: 0,
+	syncQueue: 7,
+	batchActive: 12,
+	updatedAt: Date.now(),
 	liveExceptions: []
 };
 
@@ -52,11 +58,18 @@ function prependException(
 	exceptions: LiveExceptionRow[],
 	row: Omit<LiveExceptionRow, 'id'>
 ): LiveExceptionRow[] {
-	return [{ ...row, id: `${row.type}-${Date.now()}` }, ...exceptions].slice(0, 8);
+	return [
+		{ ...row, id: `${row.type}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}` },
+		...exceptions
+	].slice(0, 12);
+}
+
+function stamp(t: TelemetrySnapshot): TelemetrySnapshot {
+	return { ...t, updatedAt: Date.now() };
 }
 
 export function recordPickReroute(location: string): void {
-	telemetry.update((t) => ({
+	telemetry.update((t) => stamp({
 		...t,
 		liveExceptions: prependException(t.liveExceptions, {
 			time: nowTime(),
@@ -68,7 +81,7 @@ export function recordPickReroute(location: string): void {
 }
 
 export function recordPickComplete(walkSavedM = 67): void {
-	telemetry.update((t) => ({
+	telemetry.update((t) => stamp({
 		...t,
 		picksCompleted: t.picksCompleted + 1,
 		walkDistanceSavedM: t.walkDistanceSavedM + walkSavedM,
@@ -84,7 +97,7 @@ export function recordPickComplete(walkSavedM = 67): void {
 }
 
 export function recordPackComplete(): void {
-	telemetry.update((t) => ({
+	telemetry.update((t) => stamp({
 		...t,
 		packsCompleted: t.packsCompleted + 1,
 		dimWasteWeek: Math.max(3_800, t.dimWasteWeek - 12),

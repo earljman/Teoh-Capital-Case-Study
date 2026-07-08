@@ -26,6 +26,7 @@
 
 	let tel = $state<TelemetrySnapshot>({ ...DEFAULT_TELEMETRY });
 	let liveExceptionIds = $state<Set<string>>(new Set());
+	let refreshClock = $state(Date.now());
 	let telemetryReady = false;
 
 	$effect(() => {
@@ -35,6 +36,10 @@
 			telemetryReady = false;
 			return;
 		}
+
+		const clock = setInterval(() => {
+			refreshClock = Date.now();
+		}, 5000);
 
 		const unsub = telemetry.subscribe((value) => {
 			if (!telemetryReady) {
@@ -53,22 +58,27 @@
 			}
 		});
 		return () => {
+			clearInterval(clock);
 			unsub();
 			telemetryReady = false;
 		};
 	});
 
 	const data = $derived(
-		liveTelemetry ? applyTelemetryToSupervisor(baseData, tel) : baseData
+		liveTelemetry ? applyTelemetryToSupervisor(baseData, tel, refreshClock) : baseData
 	);
 
 	let floorLayer = $state<'congestion' | 'stock'>('congestion');
 
-	function exceptionKey(row: { time: string; type: string; entity: string }) {
-		return `${row.time}-${row.type}-${row.entity}`;
+	function exceptionKey(
+		row: { id?: string; time: string; type: string; entity: string },
+		index: number
+	) {
+		return row.id ?? `base-${row.time}-${row.type}-${row.entity}-${index}`;
 	}
 
-	function isLiveException(row: { time: string; type: string; entity: string }) {
+	function isLiveException(row: { id?: string; time: string; type: string; entity: string }) {
+		if (row.id) return liveExceptionIds.has(row.id);
 		return tel.liveExceptions.some(
 			(live) =>
 				live.time === row.time &&
@@ -197,14 +207,16 @@
 				<h2 class="section-title log-title">
 					<HelpTitle helpId="exception-log" title="Exception log" variant="section-title" as="span" />
 				</h2>
-				{#each data.exceptions as row (exceptionKey(row))}
-					<div class="ex-row" class:motion-rowin={isLiveException(row)}>
-						<span class="time mono">{row.time}</span>
-						<span class="type">{row.type}</span>
-						<span class="entity mono">{row.entity}</span>
-						<span class="action mono">{row.action}</span>
-					</div>
-				{/each}
+				<div class="exception-log__rows">
+					{#each data.exceptions as row, i (exceptionKey(row, i))}
+						<div class="ex-row" class:motion-rowin={isLiveException(row)}>
+							<span class="time mono">{row.time}</span>
+							<span class="type">{row.type}</span>
+							<span class="entity mono">{row.entity}</span>
+							<span class="action mono">{row.action}</span>
+						</div>
+					{/each}
+				</div>
 			</section>
 		</div>
 
@@ -346,18 +358,36 @@
 		grid-template-columns: 1fr 300px;
 		gap: 1px;
 		background: var(--hairline);
-		min-height: calc(900px - 52px);
+		/* One screen: viewport minus sticky .dev-nav (~42px) and dashboard chrome (~52px). */
+		height: calc(100vh - 42px - 52px);
+		max-height: calc(100vh - 42px - 52px);
+		overflow: hidden;
+	}
+
+	:global(.screenshot-mode) .supervisor {
+		height: calc(100vh - 52px);
+		max-height: calc(100vh - 52px);
 	}
 
 	.main-col,
 	.rail {
 		background: var(--surface-base);
+		min-height: 0;
+		overflow: hidden;
 	}
 
 	.main-col {
 		display: flex;
 		flex-direction: column;
 		gap: 1px;
+	}
+
+	.floor-ops {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1px;
+		background: var(--hairline);
+		flex-shrink: 0;
 	}
 
 	.action-queue {
@@ -367,6 +397,7 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 12px;
+		flex-shrink: 0;
 	}
 
 	.action-queue.alert {
@@ -404,13 +435,6 @@
 		font-size: 10px;
 		font-weight: 600;
 		cursor: pointer;
-	}
-
-	.floor-ops {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1px;
-		background: var(--hairline);
 	}
 
 	.widget {
@@ -482,9 +506,19 @@
 
 	.exception-log {
 		flex: 1;
+		min-height: 0;
 		padding: 16px 18px;
 		background: var(--surface-panel);
-		overflow: auto;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	.exception-log__rows {
+		flex: 1;
+		min-height: 0;
+		overflow-y: auto;
+		overscroll-behavior: contain;
 	}
 
 	.aging-head {
@@ -531,11 +565,14 @@
 		flex-direction: column;
 		gap: 1px;
 		background: var(--hairline);
+		min-height: 0;
+		overflow: hidden;
 	}
 
 	.friction {
 		padding: 16px;
 		background: var(--surface-panel);
+		flex-shrink: 0;
 	}
 
 	.friction-grid {
@@ -620,6 +657,7 @@
 
 	.dark-panel {
 		flex: 1;
+		min-height: 0;
 		padding: 14px 16px;
 		background: var(--panel-dark);
 		color: var(--panel-dark-body);

@@ -26,87 +26,87 @@
   },
   {
     "file": "05b-act-ii-title.html",
-    "slide": null,
+    "slide": 6,
     "title": "Act II · Scope & Roadmap"
   },
   {
     "file": "06-phase-1-feature-portfolio.html",
-    "slide": 6,
+    "slide": 7,
     "title": "Phase 1 Portfolio"
   },
   {
     "file": "07-roadmap-arc.html",
-    "slide": 7,
+    "slide": 8,
     "title": "Roadmap Arc"
   },
   {
     "file": "08-checkpoint-week-4.html",
-    "slide": 8,
+    "slide": 9,
     "title": "Checkpoint · Week 4"
   },
   {
     "file": "09-checkpoint-week-12.html",
-    "slide": 9,
+    "slide": 10,
     "title": "Checkpoint · Week 12"
   },
   {
     "file": "09b-act-iii-title.html",
-    "slide": null,
-    "title": "Act III · Dashboard & Workflows"
+    "slide": 11,
+    "title": "Act III · Surfaces & Flows"
   },
   {
-    "file": "10-executive-dashboard.html",
-    "slide": 10,
-    "title": "Executive Dashboard"
+    "file": "10-case-study-pack-dashboards.html",
+    "slide": 12,
+    "title": "Case Study Pack · Dashboards"
+  },
+  {
+    "file": "10b-case-study-pack-flows.html",
+    "slide": 13,
+    "title": "Case Study Pack · Flows"
   },
   {
     "file": "11-compliance-ai-native.html",
-    "slide": 11,
-    "title": "Feature 1 · Compliance"
+    "slide": 14,
+    "title": "Flow 1 · Compliance"
   },
   {
     "file": "12-pick-path-ai-enhanced.html",
-    "slide": 12,
-    "title": "Feature 2 · Pick-Path"
+    "slide": 15,
+    "title": "Flow 2 · Pick-Path"
   },
   {
     "file": "13-cartonization-ai-enhanced.html",
-    "slide": 13,
-    "title": "Feature 3 · Cartonization"
+    "slide": 16,
+    "title": "Flow 3 · Cartonization"
   },
   {
     "file": "13b-act-iv-title.html",
-    "slide": null,
+    "slide": 17,
     "title": "Act IV · Commercial Close"
   },
   {
     "file": "14-why-this-wins.html",
-    "slide": 14,
-    "title": "Why This Wins"
+    "slide": 18,
+    "title": "The Margin Case"
   },
   {
     "file": "14b-act-v-title.html",
-    "slide": null,
-    "title": "Act V · Appendix"
+    "slide": 19,
+    "title": "Act V · How This Was Built"
   },
   {
     "file": "15-assumptions-risks.html",
-    "slide": 15,
+    "slide": 20,
     "title": "How We Built This"
   },
   {
     "file": "16-process-overview.html",
-    "slide": 16,
-    "title": "Process Overview"
+    "slide": 21,
+    "title": "Workflow Overview"
   },
   {
-    "file": "17-research-planning.html",
-    "slide": 17,
-    "title": "Research + Planning"
-  },
-  {
-    "file": "18-development-present.html",
-    "slide": 18,
-    "title": "Development + Present"
+    "file": "17-tools-and-skills.html",
+    "slide": 22,
+    "title": "Tools & Skills"
   }
 ]

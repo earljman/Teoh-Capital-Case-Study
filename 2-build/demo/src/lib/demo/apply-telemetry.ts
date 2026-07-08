@@ -1,5 +1,6 @@
 import type { ExecutiveDashboardData } from '$lib/data/executive';
 import type { ExceptionRow, SupervisorDashboardData } from '$lib/data/supervisor';
+import { formatLastRefreshed } from '$lib/demo/last-refreshed';
 import { DEFAULT_TELEMETRY, type TelemetrySnapshot } from '$lib/telemetry';
 
 const usd = (n: number, maxFrac = 0) =>
@@ -16,7 +17,8 @@ const usdK = (n: number) => {
 
 export function applyTelemetryToExecutive(
 	base: ExecutiveDashboardData,
-	t: TelemetrySnapshot
+	t: TelemetrySnapshot,
+	now = Date.now()
 ): ExecutiveDashboardData {
 	const laborPrimary = usd(t.laborSavedWeek);
 	const dimPrimary = usd(t.dimWasteWeek);
@@ -24,6 +26,7 @@ export function applyTelemetryToExecutive(
 
 	return {
 		...base,
+		lastRefreshed: formatLastRefreshed(t.updatedAt, now),
 		cards: base.cards.map((card) => {
 			if (card.muted) return card;
 			switch (card.id) {
@@ -70,15 +73,17 @@ export function applyTelemetryToExecutive(
 			}
 		}),
 		annualMarginProtected:
-			base.annualMarginProtected + t.picksCompleted * 120 + t.packsCompleted * 85
+			base.annualMarginProtected + t.picksCompleted * 480 + t.packsCompleted * 320
 	};
 }
 
 export function applyTelemetryToSupervisor(
 	base: SupervisorDashboardData,
-	t: TelemetrySnapshot
+	t: TelemetrySnapshot,
+	now = Date.now()
 ): SupervisorDashboardData {
 	const liveRows: ExceptionRow[] = t.liveExceptions.map((row) => ({
+		id: row.id,
 		time: row.time,
 		type: row.type,
 		entity: row.entity,
@@ -87,8 +92,10 @@ export function applyTelemetryToSupervisor(
 
 	return {
 		...base,
+		lastRefreshed: formatLastRefreshed(t.updatedAt, now),
 		batch: {
 			...base.batch,
+			active: t.batchActive,
 			walkKmSaved:
 				Math.round(
 					(base.batch.walkKmSaved +
@@ -102,6 +109,7 @@ export function applyTelemetryToSupervisor(
 		},
 		friction: {
 			...base.friction,
+			syncQueue: t.syncQueue,
 			inventoryAccuracyPct: Math.round(t.inventoryAccuracyPct * 10) / 10
 		},
 		exceptions: [...liveRows, ...base.exceptions]

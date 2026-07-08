@@ -17,7 +17,7 @@
 		override: 'override-rate'
 	};
 
-	let { metric, liveTick = false }: { metric: TopMetric; liveTick?: boolean } = $props();
+	let { metric }: { metric: TopMetric } = $props();
 
 	const stroke = $derived(
 		metric.tone === 'critical'
@@ -35,7 +35,6 @@
 	class:good={metric.tone === 'good'}
 	class:warn={metric.tone === 'warn'}
 	class:critical={metric.tone === 'critical'}
-	class:motion-value-tick={liveTick}
 >
 	<p class="chip-label">
 		<HelpTitle helpId={METRIC_HELP[metric.id]} title={metric.label} variant="chip-label" />

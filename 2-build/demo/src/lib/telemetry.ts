@@ -1,5 +1,13 @@
 import { writable } from 'svelte/store';
 
+export type LiveExceptionRow = {
+	id: string;
+	time: string;
+	type: string;
+	entity: string;
+	action: string;
+};
+
 /** Week 12: cross-route telemetry bus. Workflow screens emit; dashboards subscribe. */
 export type TelemetrySnapshot = {
 	laborSavedWeek: number;
@@ -11,8 +19,10 @@ export type TelemetrySnapshot = {
 	complianceExposure: number;
 	dimWasteWeek: number;
 	volumeUtilizationPct: number;
+	inventoryAccuracyPct: number;
 	picksCompleted: number;
 	packsCompleted: number;
+	liveExceptions: LiveExceptionRow[];
 };
 
 export const DEFAULT_TELEMETRY: TelemetrySnapshot = {
@@ -24,12 +34,38 @@ export const DEFAULT_TELEMETRY: TelemetrySnapshot = {
 	complianceGreen: 41,
 	complianceExposure: 2_100,
 	dimWasteWeek: 4_200,
-	volumeUtilizationPct: 82,
+	volumeUtilizationPct: 92,
+	inventoryAccuracyPct: 93,
 	picksCompleted: 0,
-	packsCompleted: 0
+	packsCompleted: 0,
+	liveExceptions: []
 };
 
 export const telemetry = writable<TelemetrySnapshot>({ ...DEFAULT_TELEMETRY });
+
+function nowTime(): string {
+	const d = new Date();
+	return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+}
+
+function prependException(
+	exceptions: LiveExceptionRow[],
+	row: Omit<LiveExceptionRow, 'id'>
+): LiveExceptionRow[] {
+	return [{ ...row, id: `${row.type}-${Date.now()}` }, ...exceptions].slice(0, 8);
+}
+
+export function recordPickReroute(location: string): void {
+	telemetry.update((t) => ({
+		...t,
+		liveExceptions: prependException(t.liveExceptions, {
+			time: nowTime(),
+			type: 'Bin empty',
+			entity: location,
+			action: 'Auto-rerouted'
+		})
+	}));
+}
 
 export function recordPickComplete(walkSavedM = 67): void {
 	telemetry.update((t) => ({
@@ -37,7 +73,13 @@ export function recordPickComplete(walkSavedM = 67): void {
 		picksCompleted: t.picksCompleted + 1,
 		walkDistanceSavedM: t.walkDistanceSavedM + walkSavedM,
 		laborSavedWeek: t.laborSavedWeek + 18,
-		picksPerHour: Math.min(120, t.picksPerHour + 0.2)
+		picksPerHour: Math.min(120, t.picksPerHour + 0.2),
+		liveExceptions: prependException(t.liveExceptions, {
+			time: nowTime(),
+			type: 'Pick complete',
+			entity: 'Batch 7',
+			action: `+${walkSavedM}m walk saved`
+		})
 	}));
 }
 
@@ -46,6 +88,13 @@ export function recordPackComplete(): void {
 		...t,
 		packsCompleted: t.packsCompleted + 1,
 		dimWasteWeek: Math.max(3_800, t.dimWasteWeek - 12),
-		volumeUtilizationPct: Math.min(96, t.volumeUtilizationPct + 0.3)
+		volumeUtilizationPct: Math.min(96, t.volumeUtilizationPct + 0.3),
+		inventoryAccuracyPct: Math.min(99, t.inventoryAccuracyPct + 0.05),
+		liveExceptions: prependException(t.liveExceptions, {
+			time: nowTime(),
+			type: 'Cartonization',
+			entity: 'Pack 3',
+			action: 'Optimal fill confirmed'
+		})
 	}));
 }

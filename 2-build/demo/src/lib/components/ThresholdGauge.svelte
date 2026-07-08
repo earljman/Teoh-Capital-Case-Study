@@ -39,7 +39,9 @@
 	.fill {
 		height: 100%;
 		border-radius: 999px;
-		transition: width 0.2s ease;
+		transition:
+			width 0.45s ease,
+			background 0.3s ease;
 	}
 
 	.threshold {

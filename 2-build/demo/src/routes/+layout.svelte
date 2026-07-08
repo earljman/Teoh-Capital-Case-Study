@@ -4,10 +4,20 @@
 	import { page } from '$app/state';
 	import DevNav from '$lib/components/DevNav.svelte';
 	import { isScreenshotMode } from '$lib/demo/href';
+	import { startTelemetrySimulator, stopTelemetrySimulator } from '$lib/telemetry-simulator';
 
 	let { children } = $props();
 
 	const hideDevNav = $derived(isScreenshotMode(page.url.searchParams));
+
+	$effect(() => {
+		if (hideDevNav) {
+			stopTelemetrySimulator();
+			return;
+		}
+		startTelemetrySimulator();
+		return () => stopTelemetrySimulator();
+	});
 </script>
 
 <svelte:head>
@@ -18,4 +28,6 @@
 {#if !hideDevNav}
 	<DevNav />
 {/if}
-{@render children()}
+<div class="demo-root" class:screenshot-mode={hideDevNav}>
+	{@render children()}
+</div>

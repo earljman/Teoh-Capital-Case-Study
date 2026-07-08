@@ -1,0 +1,245 @@
+/* Shared demo motion — story beats only; respects prefers-reduced-motion */
+
+@keyframes backdrop-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes sheet-up {
+	from {
+		transform: translateY(100%);
+	}
+	to {
+		transform: translateY(0);
+	}
+}
+
+@keyframes modal-in {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes banner-in {
+	from {
+		opacity: 0;
+		transform: translateY(-6px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes reveal-up {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pass-in {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes validator-pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.45;
+	}
+}
+
+@keyframes activation-pulse {
+	0% {
+		box-shadow: 0 0 0 0 color-mix(in oklab, var(--green) 35%, transparent);
+	}
+	70% {
+		box-shadow: 0 0 0 8px transparent;
+	}
+	100% {
+		box-shadow: 0 0 0 0 transparent;
+	}
+}
+
+@keyframes route-draw {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes rowin {
+	from {
+		opacity: 0;
+		transform: translateY(-4px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes value-tick {
+	0%,
+	100% {
+		background-color: transparent;
+	}
+	35% {
+		background-color: color-mix(in oklab, var(--green) 14%, white);
+	}
+}
+
+@keyframes check-pop {
+	from {
+		transform: scale(0.5);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes weight-win {
+	0% {
+		box-shadow: 0 0 0 0 color-mix(in oklab, var(--green) 38%, transparent);
+	}
+	70% {
+		box-shadow: 0 0 0 10px transparent;
+	}
+	100% {
+		box-shadow: 0 0 0 0 transparent;
+	}
+}
+
+@keyframes crossfade-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.motion-backdrop {
+	animation: backdrop-in 0.2s ease-out both;
+}
+
+.motion-sheet {
+	animation: sheet-up 0.28s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.motion-modal {
+	animation: modal-in 0.25s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.motion-block-modal {
+	animation: modal-in 0.3s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.motion-banner {
+	animation: banner-in 0.25s ease-out both;
+}
+
+.motion-reveal {
+	animation: reveal-up 0.38s ease-out both;
+}
+
+.motion-pass {
+	animation: pass-in 0.28s ease-out both;
+}
+
+.motion-validating {
+	animation: validator-pulse 0.18s ease-in-out 2;
+}
+
+.motion-activate-pulse {
+	animation: activation-pulse 0.55s ease-out;
+}
+
+.route-draw {
+	animation: route-draw 0.55s ease-out forwards;
+}
+
+.motion-rowin {
+	animation: rowin 0.35s ease-out both;
+}
+
+.motion-value-tick {
+	animation: value-tick 0.65s ease-out;
+}
+
+.motion-check-pop {
+	animation: check-pop 0.25s ease-out both;
+}
+
+.motion-weight-win {
+	animation: weight-win 0.75s ease-out;
+}
+
+.motion-crossfade {
+	animation: crossfade-in 0.28s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.motion-backdrop,
+	.motion-sheet,
+	.motion-modal,
+	.motion-block-modal,
+	.motion-banner,
+	.motion-reveal,
+	.motion-pass,
+	.motion-validating,
+	.motion-activate-pulse,
+	.route-draw,
+	.motion-rowin,
+	.motion-value-tick,
+	.motion-check-pop,
+	.motion-weight-win,
+	.motion-crossfade {
+		animation: none;
+	}
+}
+
+/* Deck captures use ?screenshot=1 — freeze at final frame */
+.screenshot-mode .motion-backdrop,
+.screenshot-mode .motion-sheet,
+.screenshot-mode .motion-modal,
+.screenshot-mode .motion-block-modal,
+.screenshot-mode .motion-banner,
+.screenshot-mode .motion-reveal,
+.screenshot-mode .motion-pass,
+.screenshot-mode .motion-validating,
+.screenshot-mode .motion-activate-pulse,
+.screenshot-mode .route-draw,
+.screenshot-mode .motion-rowin,
+.screenshot-mode .motion-value-tick,
+.screenshot-mode .motion-check-pop,
+.screenshot-mode .motion-weight-win,
+.screenshot-mode .motion-crossfade {
+	animation: none;
+}

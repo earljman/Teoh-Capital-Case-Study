@@ -34,6 +34,19 @@
 	let hoveredZone = $state<FloorZone | null>(null);
 	let phase = $state(0);
 
+	function routeDraw(node: SVGPathElement) {
+		const apply = () => {
+			const len = node.getTotalLength();
+			node.style.strokeDasharray = `${len}`;
+			node.style.strokeDashoffset = `${len}`;
+			node.classList.remove('route-draw');
+			void node.getBoundingClientRect();
+			node.classList.add('route-draw');
+		};
+		apply();
+		return { update: apply };
+	}
+
 	$effect(() => {
 		const id = setInterval(() => {
 			phase += 1;
@@ -209,7 +222,9 @@
 		{/each}
 
 		{#if routePath}
-			<path d={routePath} class="route" />
+			{#key routePath}
+				<path d={routePath} class="route" use:routeDraw />
+			{/key}
 		{/if}
 
 		{#if !isPicker && layer === 'congestion'}

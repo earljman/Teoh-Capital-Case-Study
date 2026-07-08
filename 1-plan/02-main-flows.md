@@ -87,14 +87,17 @@ Picker never sees maps, batch logic, or "AI reasoning."
 
 ## Slide 13 — Cartonization (AI-enhanced)
 
-**Story:** One authoritative box replaces packer guesswork.
+**Story:** One authoritative box replaces packer guesswork — scan to ship with compliance at label print.
 
-1. Scan order at pack station.
-2. If any SKU missing dims → block with alert (skip for happy-path demo).
-3. System recommends **one carton** ("Use Box #4 — 12×9×6").
-4. Show isometric pack diagram + "Est. billable: 2.4 lb ✓."
-5. Packer packs and confirms.
-6. **Override:** reason code required → feeds hygiene alerts (show dropdown, don't build alert system).
+1. **Scan** tote / order barcode at pack station.
+2. If any SKU missing dims → block with alert (routes to receiving — imply, don't mock receiving flow).
+3. System recommends **one carton** ("Use Box #4 — 12×9×6") + isometric diagram.
+4. **Implied in diagram copy:** placement order, void fill/dunnage, single-carton vs. split (deferred).
+5. Packer confirms pack. **Override:** reason code required → feeds hygiene alerts.
+6. **Weigh:** actual scale weight vs. billable (DIM) inline — carrier bills whichever is higher.
+7. **Print label** → deterministic compliance validator (<200ms) → pass or ship block (same modal pattern as slide 11).
+
+**Packer persona** owns cartonization through ship; slide 13 shows the full pack-station arc. Slide 11 still owns compliance *rule authoring* — enforcement outcome appears on both screens.
 
 ---
 
@@ -104,7 +107,7 @@ Picker never sees maps, batch logic, or "AI reasoning."
 |----------|------------|----------------------|
 | Compliance | Rule approved, ship passes | Red ship block modal |
 | Pick-path | Next pick displayed | Exception reroute |
-| Cartonization | Box directive shown | Override with reason |
+| Cartonization | Box directive → weigh → label pass | Override with reason · gated (missing dims) · ship block (`?state=alert`) |
 
 Loading skeletons and empty states are Week 12 — not Week 4.
 

@@ -59,6 +59,8 @@ html, body {
     margin: 0;
     overflow: hidden;
     background: var(--stage-bg, #000);
+    font-family: var(--font-body);
+    color: var(--ink);
 }
 
 .deck-shell {
@@ -511,6 +513,12 @@ code {
 }
 
 .table .num { color: var(--primary); font-family: var(--font-display); font-weight: 700; }
+
+.num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--primary);
+}
 
 /* Positioning map */
 .pos-map {
@@ -1155,6 +1163,59 @@ code {
     object-fit: cover;
 }
 
+/* Deck screenshot links — no placeholder frame */
+.slide-shot {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: none;
+    background: none;
+    padding: 0;
+    overflow: hidden;
+    line-height: 0;
+    transition: opacity 0.2s var(--ease-out);
+}
+
+.slide-shot:hover {
+    opacity: 0.92;
+}
+
+.slide-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Executive dashboard — PNG cropped to chrome + Big Three + impact band */
+.slide-shot--dashboard {
+    margin-top: 4px;
+}
+
+/* Workflow mocks in split column */
+.slide-shot--split {
+    align-self: start;
+    max-height: 520px;
+}
+
+.slide-shot--split img {
+    max-height: 520px;
+    object-fit: contain;
+    object-position: top center;
+}
+
+/* Picker mobile mock */
+.slide-shot--mobile {
+    max-width: 300px;
+    margin: 0 auto;
+    align-self: start;
+}
+
+.slide-shot--mobile img {
+    max-height: 540px;
+    object-fit: contain;
+    object-position: top center;
+}
+
 .mock-frame--hero { height: 520px; }
 .mock-frame--split { height: 560px; }
 .mock-frame--mobile { max-width: 340px; margin: 0 auto; height: 560px; }
@@ -1279,6 +1340,29 @@ code {
     margin-bottom: auto;
 }
 
+.metric-card .metric-primary {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 6px;
+}
+
+.metric-card .metric-secondary {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.metric-card .metric-drill {
+    font-family: var(--font-display);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    color: var(--primary);
+    margin: 12px 0 0;
+}
+
 .impact-band {
     background: var(--accent-light);
     border: 1.5px solid var(--border);
@@ -1289,6 +1373,9 @@ code {
     justify-content: space-between;
     align-items: center;
     min-height: 72px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--ink);
 }
 
 /* Workflow drill-down split */

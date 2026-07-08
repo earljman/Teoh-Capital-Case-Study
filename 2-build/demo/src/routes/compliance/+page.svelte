@@ -1,26 +1,117 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { parseDemoState } from '$lib/demo/parse-state';
+	import { isScreenshotMode } from '$lib/demo/href';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardBackLink from '$lib/components/DashboardBackLink.svelte';
 	import HelpTitle from '$lib/components/HelpTitle.svelte';
-	import { COMPLIANCE_RULES, SHIP_BLOCK_ORDER } from '$lib/data/compliance';
+	import {
+		COMPLIANCE_RULES,
+		COMPLIANCE_RULES_GATED,
+		DH_DC_OPTIONS,
+		ROUTING_GUIDE,
+		SHIP_BLOCK_ORDER,
+		hasActiveRules,
+		type ComplianceRule
+	} from '$lib/data/compliance';
 
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
+	const screenshot = $derived(isScreenshotMode(page.url.searchParams));
 	const processing = $derived(demoState === 'loading');
+	const isGated = $derived(demoState === 'gated');
+	const isAlert = $derived(demoState === 'alert');
 
+	const baseRules = $derived(isGated ? COMPLIANCE_RULES_GATED : COMPLIANCE_RULES);
+
+	let rules = $state<ComplianceRule[]>([]);
+	let selectedRuleId = $state(COMPLIANCE_RULES[0].id);
 	let blockDismissed = $state(false);
-	const showBlock = $derived(demoState === 'alert' && !blockDismissed);
+	let activationFlash = $state<string | null>(null);
+
+	type ShipPhase = 'idle' | 'validating' | 'pass' | 'block' | 'gated-warn';
+	let shipPhase = $state<ShipPhase>('idle');
+
+	const selectedRule = $derived(
+		rules.find((r) => r.id === selectedRuleId) ?? rules[0] ?? COMPLIANCE_RULES[0]
+	);
+
+	const activeRuleCount = $derived(
+		rules.filter(
+			(r) => r.status === 'approved' && r.activatedFor.includes(ROUTING_GUIDE.dcTag)
+		).length
+	);
+
+	const enforcementEnabled = $derived(hasActiveRules(rules));
+
+	const showBlock = $derived(
+		shipPhase === 'block' || (screenshot && isAlert && !blockDismissed)
+	);
+	const showPass = $derived(shipPhase === 'pass' || (screenshot && demoState === 'happy'));
+	const showGatedWarn = $derived(
+		shipPhase === 'gated-warn' || (screenshot && isGated)
+	);
+	const showValidating = $derived(shipPhase === 'validating');
 
 	$effect(() => {
 		void demoState;
+		void screenshot;
+		rules = baseRules.map((r) => ({ ...r, activatedFor: [...r.activatedFor] }));
 		blockDismissed = false;
+
+		if (screenshot) {
+			if (isAlert) shipPhase = 'block';
+			else if (isGated) shipPhase = 'gated-warn';
+			else if (demoState === 'happy') shipPhase = 'pass';
+			else shipPhase = 'idle';
+		} else {
+			shipPhase = 'idle';
+		}
 	});
 
-	let selectedRuleId = $state(COMPLIANCE_RULES[0].id);
-	const selectedRule = $derived(
-		COMPLIANCE_RULES.find((r) => r.id === selectedRuleId) ?? COMPLIANCE_RULES[0]
-	);
+	function toggleActivation(ruleId: string, dc: string) {
+		const wasActive = rules.find((r) => r.id === ruleId)?.activatedFor.includes(dc) ?? false;
+		rules = rules.map((rule) => {
+			if (rule.id !== ruleId || rule.status !== 'approved') return rule;
+			const active = rule.activatedFor.includes(dc);
+			return {
+				...rule,
+				activatedFor: active
+					? rule.activatedFor.filter((d) => d !== dc)
+					: [...rule.activatedFor, dc]
+			};
+		});
+		if (!wasActive) {
+			activationFlash = `${ruleId}:${dc}`;
+			setTimeout(() => {
+				activationFlash = null;
+			}, 550);
+		}
+	}
+
+	async function printLabel() {
+		if (processing) return;
+
+		if (!enforcementEnabled) {
+			shipPhase = 'gated-warn';
+			return;
+		}
+
+		shipPhase = 'validating';
+		await new Promise((r) => setTimeout(r, 180));
+
+		if (isAlert) {
+			shipPhase = 'block';
+		} else {
+			shipPhase = 'pass';
+		}
+	}
+
+	function dismissBlock() {
+		blockDismissed = true;
+		shipPhase = 'idle';
+	}
+
+	const sourceTitle = `Source · ${ROUTING_GUIDE.partner} ${ROUTING_GUIDE.title} (${ROUTING_GUIDE.effectiveDate})`;
 </script>
 
 <ViewportFrame>
@@ -37,30 +128,45 @@
 				/>
 			</h1>
 		</div>
-		<button type="button" class="upload mono">Upload routing guide PDF</button>
+		<div class="header-actions">
+			<span class="tag mono">{ROUTING_GUIDE.partner} · {ROUTING_GUIDE.dcTag}</span>
+			<button type="button" class="upload mono">{ROUTING_GUIDE.filename}</button>
+			<a
+				class="pdf-link mono"
+				href={ROUTING_GUIDE.pdfUrl}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				View full PDF ↗
+			</a>
+		</div>
 	</header>
 
 	<main class="compliance">
+		{#if isGated && !processing}
+			<div class="gated-banner mono" role="status">
+				0 rules active for {ROUTING_GUIDE.dcTag} — enforcement disabled at ship
+			</div>
+		{/if}
+
 		<section class="review-pane">
 			<div class="pdf-pane">
 				<p class="section-title">
-					<HelpTitle
-						helpId="source-pdf"
-						title="Source · Walmart Routing Guide v4.1"
-						variant="section-title"
-					/>
+					<HelpTitle helpId="source-pdf" title={sourceTitle} variant="section-title" />
 				</p>
 				{#if processing}
-					<div class="processing mono">Extracting rules… 47 found · 3 ambiguous</div>
+					<div class="processing mono">
+						Extracting rules… {ROUTING_GUIDE.extractedCount} found · {ROUTING_GUIDE.ambiguousCount}
+						ambiguous
+					</div>
 					<div class="skeleton pdf-skel"></div>
 				{:else}
-					<div class="pdf-snippet">
-						<p class="mono page">Page {selectedRule.sourcePage}</p>
-						<p>
-							"Shipping labels shall be applied to the <strong>short end</strong> of the carton,
-							positioned 2–4 inches from the top edge…"
-						</p>
-					</div>
+					{#key selectedRuleId}
+						<div class="pdf-snippet motion-crossfade">
+							<p class="mono page">Page {selectedRule.sourcePage}</p>
+							<p>"{selectedRule.sourceSnippet}"</p>
+						</div>
+					{/key}
 				{/if}
 			</div>
 
@@ -72,7 +178,10 @@
 						variant="section-title"
 					/>
 				</p>
-				{#each COMPLIANCE_RULES as rule (rule.id)}
+				<p class="activation-note mono">
+					Never auto-activated — manager must enable per DC · {activeRuleCount} active for {ROUTING_GUIDE.dcTag}
+				</p>
+				{#each rules as rule (rule.id)}
 					<div
 						class="rule-card"
 						class:selected={rule.id === selectedRuleId}
@@ -87,12 +196,17 @@
 						}}
 					>
 						<div class="rule-head">
-							<span class="retailer">{rule.retailer}</span>
-							{#if rule.status === 'ambiguous'}
-								<span class="pill warn mono">Ambiguous</span>
-							{:else if rule.status === 'approved'}
-								<span class="pill ok mono">Approved</span>
-							{/if}
+							<span class="partner">{rule.partner}</span>
+							<div class="rule-pills">
+								{#if rule.penaltyCode && rule.status === 'approved'}
+									<span class="pill penalty mono">{rule.penaltyCode}</span>
+								{/if}
+								{#if rule.status === 'ambiguous'}
+									<span class="pill warn mono">Ambiguous</span>
+								{:else if rule.status === 'approved'}
+									<span class="pill ok mono">Approved</span>
+								{/if}
+							</div>
 						</div>
 						<p class="constraint">{rule.constraint}</p>
 						<div class="rule-actions">
@@ -100,6 +214,28 @@
 							<button type="button" class="btn">Edit</button>
 							<button type="button" class="btn danger">Reject</button>
 						</div>
+						{#if rule.status === 'approved'}
+							<div class="activation-row">
+								{#each DH_DC_OPTIONS as dc}
+									{@const active = rule.activatedFor.includes(dc)}
+									{@const flashKey = `${rule.id}:${dc}`}
+									{#if dc === ROUTING_GUIDE.dcTag}
+										<button
+											type="button"
+											class="activate mono"
+											class:on={active}
+											class:motion-activate-pulse={activationFlash === flashKey}
+											onclick={(e) => {
+												e.stopPropagation();
+												toggleActivation(rule.id, dc);
+											}}
+										>
+											{active ? 'Active' : 'Activate'} · {dc}
+										</button>
+									{/if}
+								{/each}
+							</div>
+						{/if}
 					</div>
 				{/each}
 			</div>
@@ -110,21 +246,37 @@
 				<HelpTitle helpId="ship-station" title="Ship station · enforcement" variant="section-title" />
 			</p>
 			<div class="ship-card">
-				<p class="mono">Order {SHIP_BLOCK_ORDER.po} · {SHIP_BLOCK_ORDER.retailer}</p>
-				{#if showBlock}
-					<div class="block-modal" role="alertdialog" aria-labelledby="block-title">
-						<h2 id="block-title">Ship blocked</h2>
-						<p>{SHIP_BLOCK_ORDER.violation}</p>
-						<button
-							type="button"
-							class="fix mono"
-							onclick={() => (blockDismissed = true)}
-						>
-							{SHIP_BLOCK_ORDER.fixAction}
-						</button>
-					</div>
+				{#if processing}
+					<p class="awaiting mono">Awaiting rule extraction…</p>
 				{:else}
-					<p class="pass mono">Validator passed · label printed</p>
+					<p class="mono">
+						Order {SHIP_BLOCK_ORDER.po} · {SHIP_BLOCK_ORDER.partner}
+					</p>
+
+					{#if showValidating}
+						<p class="validating mono motion-validating">Running compliance check…</p>
+					{:else if showBlock}
+						<div class="block-modal motion-block-modal" role="alertdialog" aria-labelledby="block-title">
+							<h2 id="block-title">Ship blocked</h2>
+							<p>{SHIP_BLOCK_ORDER.violation}</p>
+							<button type="button" class="fix mono" onclick={dismissBlock}>
+								{SHIP_BLOCK_ORDER.fixAction}
+							</button>
+						</div>
+					{:else if showPass}
+						<p class="pass mono motion-pass">Validator passed · label printed</p>
+					{:else if showGatedWarn}
+						<div class="gated-warn" role="status">
+							<p class="mono">
+								No rules activated for {ROUTING_GUIDE.partner} · {ROUTING_GUIDE.dcTag} — ship not
+								enforced
+							</p>
+						</div>
+					{:else}
+						<button type="button" class="print mono" onclick={printLabel}>
+							Print shipping label
+						</button>
+					{/if}
 				{/if}
 			</div>
 		</section>
@@ -148,6 +300,24 @@
 		font-weight: 600;
 	}
 
+	.header-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 8px;
+	}
+
+	.tag {
+		padding: 6px 10px;
+		border: 1px solid var(--green-outline);
+		border-radius: var(--radius-lg);
+		background: var(--green-tint);
+		color: var(--green);
+		font-size: 9px;
+		font-weight: 600;
+	}
+
 	.upload {
 		padding: 10px 14px;
 		border: 1px solid var(--hairline);
@@ -158,10 +328,30 @@
 		cursor: pointer;
 	}
 
+	.pdf-link {
+		font-size: 10px;
+		font-weight: 600;
+		color: var(--text-secondary);
+		text-decoration: none;
+	}
+
+	.pdf-link:hover {
+		color: var(--green);
+	}
+
 	.compliance {
 		display: grid;
-		grid-template-rows: 1fr auto;
+		grid-template-rows: auto 1fr auto;
 		min-height: calc(900px - 120px);
+	}
+
+	.gated-banner {
+		padding: 10px 20px;
+		background: var(--amber-tint);
+		border-bottom: 1px solid var(--amber);
+		color: var(--amber);
+		font-size: 11px;
+		font-weight: 600;
 	}
 
 	.review-pane {
@@ -199,6 +389,12 @@
 		color: var(--amber);
 	}
 
+	.activation-note {
+		margin: 0 0 8px;
+		font-size: 9px;
+		color: var(--text-faint);
+	}
+
 	.rule-card {
 		display: block;
 		width: 100%;
@@ -209,6 +405,9 @@
 		background: white;
 		text-align: left;
 		cursor: pointer;
+		transition:
+			border-color 0.2s ease,
+			box-shadow 0.2s ease;
 	}
 
 	.rule-card.selected {
@@ -223,7 +422,13 @@
 		gap: 8px;
 	}
 
-	.retailer {
+	.rule-pills {
+		display: flex;
+		gap: 6px;
+		flex-shrink: 0;
+	}
+
+	.partner {
 		font-weight: 600;
 		font-size: 12px;
 	}
@@ -245,6 +450,12 @@
 		color: var(--green);
 	}
 
+	.pill.penalty {
+		background: var(--surface-panel);
+		color: var(--text-faint);
+		border: 1px solid var(--hairline);
+	}
+
 	.constraint {
 		margin: 8px 0 12px;
 		font-size: 12px;
@@ -254,6 +465,33 @@
 	.rule-actions {
 		display: flex;
 		gap: 8px;
+	}
+
+	.activation-row {
+		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px solid var(--hairline);
+	}
+
+	.activate {
+		padding: 5px 10px;
+		border: 1px solid var(--hairline);
+		border-radius: var(--radius-lg);
+		background: var(--surface-panel);
+		font-size: 9px;
+		font-weight: 600;
+		cursor: pointer;
+		color: var(--text-faint);
+		transition:
+			border-color 0.2s ease,
+			background 0.2s ease,
+			color 0.2s ease;
+	}
+
+	.activate.on {
+		border-color: var(--green-outline);
+		background: var(--green-tint);
+		color: var(--green);
 	}
 
 	.btn {
@@ -289,10 +527,40 @@
 		position: relative;
 	}
 
+	.awaiting,
+	.validating {
+		margin: 12px 0 0;
+		font-size: 11px;
+		color: var(--text-faint);
+	}
+
+	.print {
+		margin-top: 12px;
+		padding: 10px 14px;
+		border: 1px solid var(--green-outline);
+		border-radius: var(--radius-lg);
+		background: var(--green-tint);
+		color: var(--green);
+		font-size: 11px;
+		font-weight: 600;
+		cursor: pointer;
+	}
+
 	.pass {
 		margin: 12px 0 0;
 		color: var(--green);
 		font-weight: 600;
+	}
+
+	.gated-warn {
+		margin-top: 12px;
+		padding: 14px;
+		border: 1px solid var(--amber);
+		background: var(--amber-tint);
+		border-radius: var(--radius-lg);
+		color: var(--amber);
+		font-weight: 600;
+		font-size: 12px;
 	}
 
 	.block-modal {

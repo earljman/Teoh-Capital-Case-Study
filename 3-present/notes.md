@@ -135,21 +135,21 @@ Appendix: Supervisor console · 8-week trend chart
 
 ### Slide 13 — Feature 3: Cartonization (AI-enhanced)
 
-**Mock:** Pack station — one highlighted carton; isometric pack diagram; DIM vs. actual weight inline; override reason dropdown.
+**Mock:** Pack station — scan tote → one highlighted carton + isometric diagram (placement/dunnage implied) → weigh (DIM vs. actual) → print label with compliance pass. Override reason on deviation.
 
 **Feeds:** DIM waste card on slide 10. Cartonization efficiency lives on supervisor console (appendix).
 
-**Pattern:** Single authoritative answer; override captures missing dims.
+**Pattern:** Single authoritative answer; scan-to-ship arc; override captures missing dims. Use `?state=alert` for ship block at label step.
 
 ### Required states (all mocks)
 
 | State | Executive dashboard | Supervisor console | Compliance | Picker | Pack |
 |-------|---------------------|-------------------|------------|--------|------|
-| Happy path | Big Three live + combined impact | Action queue clear; ops green | Ship passes | Next pick shown | Carton recommended |
-| Loading | Card skeletons | Skeleton bar + widgets | PDF processing | 2s reroute spinner | Calculating… |
-| Empty / gated | One card muted; "2/3 active" | Hygiene gate red | No rules active | No batch yet | Missing dims → block |
-| Error / block | Compliance card red | Sync backlog; exceptions stacked | Red modal + fix | — | — |
-| Override | — | Override rate flagged | Edit before activate | Report empty | Reason code |
+| Happy path | Big Three live + combined impact | Action queue clear; ops green | Ship passes | Next pick shown | Carton directive · weigh · label pass |
+| Loading | Card skeletons | Skeleton bar + widgets | PDF processing | 2s reroute spinner | Calculating pack… |
+| Empty / gated | One card muted; "2/3 active" | Hygiene gate red | No rules active | No batch yet | Scan → missing dims → block |
+| Error / block | Compliance card red | Sync backlog; exceptions stacked | Red modal + fix | — | Ship block at label (`?state=alert`) |
+| Override | — | Override rate flagged | Edit before activate | Report empty | Reason code on different box |
 
 ---
 

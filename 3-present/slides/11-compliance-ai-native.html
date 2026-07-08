@@ -10,32 +10,37 @@
                 <div class="workflow-notes">
                     <div class="note-block">
                         <div class="note-label">AI-native</div>
-                        <h3 class="h3"><span class="slot">[Feature headline]</span></h3>
+                        <h3 class="h3">Partner PDFs become enforceable rules — bad shipments can't leave</h3>
                     </div>
                     <div class="note-block">
                         <div class="note-label">AI loop</div>
-                        <p class="body muted"><span class="slot">[Upload → extract → review → enforce → audit]</span></p>
+                        <p class="body muted">Upload routing guide → LLM extracts constraints → manager approves → <strong>hard block</strong> at print/ship → full audit trail</p>
+                    </div>
+                    <div class="note-block">
+                        <div class="note-label">Real source</div>
+                        <p class="body muted">D&amp;H US Domestic Supplier Routing Guide · PO-8842 ship block (W09)</p>
                     </div>
                     <div class="note-block">
                         <div class="note-label">Feeds slide 10</div>
-                        <p class="body muted"><span class="slot">[Compliance risk card]</span></p>
+                        <p class="body muted">Compliance risk card — <span class="num">2R · 5Y · 41G</span> · ~$2.1K exposure</p>
                     </div>
                     <div class="note-block">
                         <div class="note-label">States to show</div>
-                        <p class="caption hint"><span class="slot">[Happy · loading · gated · alert/block]</span></p>
+                        <p class="caption hint">Happy path · PDF processing · gated (no rules) · ship block modal (PO-8842)</p>
                     </div>
                 </div>
-                <div class="mock-frame mock-frame--split">
-                    <div>
-                        <div class="frame-label">Mock embed · /demo/compliance</div>
-                        <p class="frame-hint muted"><span class="slot">[Review queue split pane + ship block modal]</span></p>
-                    </div>
-                </div>
+                <a href="/demo/compliance?state=alert" target="_blank" rel="noopener noreferrer" class="slide-shot slide-shot--split" title="Open compliance workflow prototype">
+                    <img src="screenshots/slide-11-compliance-alert.png" alt="D&amp;H compliance review with extracted rules and PO-8842 W09 ship block modal" loading="lazy" width="1440" height="900">
+                </a>
             </div>
         </div>
         <div class="foot-bar reveal d2">
-            <span class="slot">[Footer note]</span>
-            <span class="slot">[Footer note]</span>
+            <span>R4 mitigation: human review queue — never auto-activate a rule · Single fix action at ship block</span>
+            <span>
+                <a href="/demo/compliance?state=happy" target="_blank" rel="noopener noreferrer" class="demo-cta demo-cta--sm">Happy</a>
+                <a href="/demo/compliance?state=gated" target="_blank" rel="noopener noreferrer" class="demo-cta demo-cta--sm">Gated</a>
+                <a href="/demo/compliance?state=alert" target="_blank" rel="noopener noreferrer" class="demo-cta demo-cta--sm">Open prototype →</a>
+            </span>
         </div>
     </div>
 </section>

@@ -115,8 +115,9 @@ Who Phase 1 is built for, and what each role can access at **Demo**, **Week 4**,
 
 | Screen / flow | Demo | Week 4 | Week 12 |
 |---------------|------|--------|---------|
-| Cartonization — scan order, box directive | ● | ● | ● (SDK-backed) |
-| Isometric pack diagram + DIM vs. actual | ● | ● | ● |
+| Cartonization — scan tote, box directive, weigh, label pass | ● | ● | ● (SDK-backed) |
+| Isometric pack diagram + DIM vs. actual weight | ● | ● | ● |
+| Print label · compliance validator at ship | ● | ● | ● +live |
 | Pack confirm (happy path) | ● | ● | ● |
 | Override with reason code | ◐ (deck) | ● | ● +live (feeds hygiene alerts) |
 | Missing SKU dims → block | — | ◐ | ● |
@@ -133,7 +134,7 @@ What a full shift looks like when all roles are wired together.
 |------|------|--------|---------|
 | **Compliance:** guide uploaded → rules approved → ship blocked on violation | Partial (block only) | Full | Full + extraction pipeline |
 | **Pick-path:** batch assigned → picks completed → exception rerouted | ● primary moments | Full | Full + route engine |
-| **Cartonization:** order scanned → box directive → pack complete | ● primary moments | Full + override | Full + dim gate |
+| **Cartonization:** scan tote → box directive → weigh → label pass (or block) | ● primary moments | Full + override | Full + dim gate |
 | **Executive sees floor impact** | Static $ on dashboard | Static $ | +live from telemetry |
 | **Supervisor triages floor** | Deck only | Full console | +live queue & logs |
 

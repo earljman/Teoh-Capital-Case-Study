@@ -38,6 +38,7 @@ function syncDeckToDist() {
 	copyFile('3-present/content-bank.html', 'content-bank.html');
 	resetCopyDir('3-present/shared', 'shared');
 	resetCopyDir('3-present/images', 'images');
+	resetCopyDir('3-present/screenshots', 'screenshots');
 	resetCopyDir('3-present/slides', 'slides');
 	resetCopyDir('0-research', 'research');
 

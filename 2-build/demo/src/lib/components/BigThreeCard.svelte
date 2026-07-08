@@ -13,10 +13,12 @@
 
 	let {
 		card,
-		loading = false
+		loading = false,
+		liveTick = false
 	}: {
 		card: BigThreeCardData;
 		loading?: boolean;
+		liveTick?: boolean;
 	} = $props();
 
 	const accentColor = $derived(
@@ -34,7 +36,7 @@
 	);
 </script>
 
-<article class="big-three-card" class:muted={card.muted} class:loading>
+<article class="big-three-card" class:muted={card.muted} class:loading class:motion-value-tick={liveTick}>
 	<header>
 		<HelpTitle helpId={CARD_HELP[card.id]} title={card.title} variant="label" />
 	</header>
@@ -65,6 +67,7 @@
 		padding: 20px 22px;
 		background: var(--surface-panel);
 		min-height: 168px;
+		border-radius: var(--radius-md);
 	}
 
 	.big-three-card.muted {

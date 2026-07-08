@@ -26,10 +26,21 @@ Append `?state=` to any route:
 |-------|-----|
 | `happy` (default) | Nominal metrics and flows |
 | `loading` | Skeleton / processing states |
-| `gated` | Hygiene gate / feature blocked |
+| `gated` | Hygiene gate / feature blocked; compliance: no rules activated for DC |
 | `alert` | Ship blocks, action queue alerts, compliance red |
 
-Example: `/compliance?state=alert` shows the Walmart PO-8842 ship block modal.
+Example: `/compliance?state=alert` shows the D&H PO-8842 ship block (W09 — PO missing on label).
+
+Compliance states:
+
+| State | Review pane | Ship station |
+|-------|-------------|--------------|
+| `happy` | Rules extracted; 2 activated for Branch 5 | Print → pass |
+| `loading` | PDF extraction skeleton | Awaiting rules |
+| `gated` | Rules approved; 0 activated | Print → enforcement disabled |
+| `alert` | Rules activated | Print → W09 block modal |
+
+Source PDF: [`0-research/US-DomesticSupplierRoutingGuide.pdf`](../../0-research/US-DomesticSupplierRoutingGuide.pdf) (deployed at `/research/...`).
 
 Append `?screenshot=1` to hide the dev nav for deck captures. Toggle **Screenshot** in the dev nav to switch.
 

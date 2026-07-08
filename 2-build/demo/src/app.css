@@ -1,6 +1,7 @@
 /* Ops-console design tokens — visual language from 1-plan/archive/claude-design/ */
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+@import './lib/motion.css';
 
 :root {
 	--surface-base: #eef0ee;

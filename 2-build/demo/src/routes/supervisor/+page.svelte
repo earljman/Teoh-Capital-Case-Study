@@ -2,6 +2,8 @@
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import { parseDemoState } from '$lib/demo/parse-state';
+	import { isScreenshotMode } from '$lib/demo/href';
+	import { applyTelemetryToSupervisor } from '$lib/demo/apply-telemetry';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardChrome from '$lib/components/DashboardChrome.svelte';
 	import WarehouseFloorMap from '$lib/components/WarehouseFloorMap.svelte';
@@ -13,11 +15,68 @@
 	import Sparkline from '$lib/components/Sparkline.svelte';
 	import HelpTitle from '$lib/components/HelpTitle.svelte';
 	import { SUPERVISOR_ALERT, SUPERVISOR_HAPPY } from '$lib/data/supervisor';
+	import { DEFAULT_TELEMETRY, telemetry, type TelemetrySnapshot } from '$lib/telemetry';
 
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
+	const screenshot = $derived(isScreenshotMode(page.url.searchParams));
+	const liveTelemetry = $derived(!screenshot && demoState !== 'loading');
 	const loading = $derived(demoState === 'loading');
-	const data = $derived(demoState === 'alert' ? SUPERVISOR_ALERT : SUPERVISOR_HAPPY);
+
+	const baseData = $derived(demoState === 'alert' ? SUPERVISOR_ALERT : SUPERVISOR_HAPPY);
+
+	let tel = $state<TelemetrySnapshot>({ ...DEFAULT_TELEMETRY });
+	let liveExceptionIds = $state<Set<string>>(new Set());
+	let telemetryReady = false;
+
+	$effect(() => {
+		if (!liveTelemetry) {
+			tel = { ...DEFAULT_TELEMETRY };
+			liveExceptionIds = new Set();
+			telemetryReady = false;
+			return;
+		}
+
+		const unsub = telemetry.subscribe((value) => {
+			if (!telemetryReady) {
+				tel = value;
+				telemetryReady = true;
+				return;
+			}
+
+			const prevIds = new Set(tel.liveExceptions.map((row) => row.id));
+			tel = value;
+			const nextIds = value.liveExceptions
+				.filter((row) => !prevIds.has(row.id))
+				.map((row) => row.id);
+			if (nextIds.length > 0) {
+				liveExceptionIds = new Set([...liveExceptionIds, ...nextIds]);
+			}
+		});
+		return () => {
+			unsub();
+			telemetryReady = false;
+		};
+	});
+
+	const data = $derived(
+		liveTelemetry ? applyTelemetryToSupervisor(baseData, tel) : baseData
+	);
+
 	let floorLayer = $state<'congestion' | 'stock'>('congestion');
+
+	function exceptionKey(row: { time: string; type: string; entity: string }) {
+		return `${row.time}-${row.type}-${row.entity}`;
+	}
+
+	function isLiveException(row: { time: string; type: string; entity: string }) {
+		return tel.liveExceptions.some(
+			(live) =>
+				live.time === row.time &&
+				live.type === row.type &&
+				live.entity === row.entity &&
+				liveExceptionIds.has(live.id)
+		);
+	}
 </script>
 
 <ViewportFrame>
@@ -138,8 +197,8 @@
 				<h2 class="section-title log-title">
 					<HelpTitle helpId="exception-log" title="Exception log" variant="section-title" as="span" />
 				</h2>
-				{#each data.exceptions as row (`${row.time}-${row.type}-${row.entity}`)}
-					<div class="ex-row">
+				{#each data.exceptions as row (exceptionKey(row))}
+					<div class="ex-row" class:motion-rowin={isLiveException(row)}>
 						<span class="time mono">{row.time}</span>
 						<span class="type">{row.type}</span>
 						<span class="entity mono">{row.entity}</span>
@@ -222,7 +281,11 @@
 							{data.friction.inventoryAccuracyPct}%
 						</span>
 						{#if !loading}
-							<ThresholdGauge value={data.friction.inventoryAccuracyPct} threshold={90} width={108} />
+							<ThresholdGauge
+								value={data.friction.inventoryAccuracyPct}
+								threshold={90}
+								width={108}
+							/>
 						{/if}
 					</div>
 				</div>
@@ -401,6 +464,7 @@
 		margin: 8px 0 4px;
 		font-size: 18px;
 		font-weight: 500;
+		transition: color 0.3s ease;
 	}
 
 	.sub {
@@ -493,6 +557,7 @@
 		margin-top: 4px;
 		font-size: 17px;
 		font-weight: 600;
+		transition: color 0.3s ease;
 	}
 
 	.mini-card .value.warn {

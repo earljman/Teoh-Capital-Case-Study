@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { parseDemoState } from '$lib/demo/parse-state';
+	import { isScreenshotMode } from '$lib/demo/href';
+	import { applyTelemetryToExecutive } from '$lib/demo/apply-telemetry';
 	import ViewportFrame from '$lib/components/ViewportFrame.svelte';
 	import DashboardChrome from '$lib/components/DashboardChrome.svelte';
 	import BigThreeCard from '$lib/components/BigThreeCard.svelte';
@@ -13,10 +15,13 @@
 		EXECUTIVE_HAPPY,
 		type ExecutiveDashboardData
 	} from '$lib/data/executive';
+	import { DEFAULT_TELEMETRY, telemetry, type TelemetrySnapshot } from '$lib/telemetry';
 
 	const demoState = $derived(parseDemoState(page.url.searchParams.get('state')));
+	const screenshot = $derived(isScreenshotMode(page.url.searchParams));
+	const liveTelemetry = $derived(!screenshot && demoState === 'happy');
 
-	const data = $derived.by((): ExecutiveDashboardData => {
+	const baseData = $derived.by((): ExecutiveDashboardData => {
 		switch (demoState) {
 			case 'gated':
 				return EXECUTIVE_GATED;
@@ -26,6 +31,76 @@
 				return EXECUTIVE_HAPPY;
 		}
 	});
+
+	let tel = $state<TelemetrySnapshot>({ ...DEFAULT_TELEMETRY });
+	let tickKeys = $state<Set<string>>(new Set());
+	let telemetryReady = false;
+	let prevTel = $state<TelemetrySnapshot | null>(null);
+
+	$effect(() => {
+		if (!liveTelemetry) {
+			tel = { ...DEFAULT_TELEMETRY };
+			tickKeys = new Set();
+			telemetryReady = false;
+			prevTel = null;
+			return;
+		}
+
+		const unsub = telemetry.subscribe((value) => {
+			tel = value;
+			if (!telemetryReady) {
+				prevTel = { ...value };
+				telemetryReady = true;
+			}
+		});
+		return () => {
+			unsub();
+			telemetryReady = false;
+			prevTel = null;
+		};
+	});
+
+	$effect(() => {
+		if (!liveTelemetry || !telemetryReady || !prevTel) return;
+
+		const keys = new Set<string>();
+		if (tel.laborSavedWeek !== prevTel.laborSavedWeek || tel.picksPerHour !== prevTel.picksPerHour) {
+			keys.add('labor');
+			keys.add('metric-labor');
+		}
+		if (tel.dimWasteWeek !== prevTel.dimWasteWeek || tel.volumeUtilizationPct !== prevTel.volumeUtilizationPct) {
+			keys.add('dim');
+			keys.add('metric-dim');
+		}
+		if (tel.inventoryAccuracyPct !== prevTel.inventoryAccuracyPct) {
+			keys.add('metric-inventory');
+		}
+		if (tel.complianceExposure !== prevTel.complianceExposure) {
+			keys.add('compliance');
+			keys.add('metric-compliance');
+		}
+		if (
+			tel.picksCompleted !== prevTel.picksCompleted ||
+			tel.packsCompleted !== prevTel.packsCompleted ||
+			tel.laborSavedWeek !== prevTel.laborSavedWeek ||
+			tel.dimWasteWeek !== prevTel.dimWasteWeek
+		) {
+			keys.add('margin');
+		}
+
+		prevTel = { ...tel };
+		if (keys.size === 0) return;
+
+		tickKeys = keys;
+		const timer = setTimeout(() => {
+			tickKeys = new Set();
+		}, 650);
+		return () => clearTimeout(timer);
+	});
+
+	const data = $derived(
+		liveTelemetry ? applyTelemetryToExecutive(baseData, tel) : baseData
+	);
 
 	const loading = $derived(demoState === 'loading');
 
@@ -48,7 +123,7 @@
 	<main class="executive">
 		<section class="big-three" aria-label="Big Three margin killers">
 			{#each data.cards as card (card.id)}
-				<BigThreeCard {card} {loading} />
+				<BigThreeCard {card} {loading} liveTick={tickKeys.has(card.id)} />
 			{/each}
 		</section>
 
@@ -56,7 +131,7 @@
 			{#if loading}
 				<div class="skeleton band-skel"></div>
 			{:else}
-				<p class="impact mono">
+				<p class="impact mono" class:motion-value-tick={tickKeys.has('margin')}>
 					<HelpTitle helpId="impact-band" title="Est. annual margin protected" variant="portfolio" />
 					:
 					<strong class="tabular-nums">{marginFormatted}</strong>
@@ -72,7 +147,7 @@
 				<div class="skeleton top-six-skel"></div>
 			{:else}
 				{#each data.topMetrics as metric (metric.id)}
-					<ExecutiveMetricChip {metric} />
+					<ExecutiveMetricChip {metric} liveTick={tickKeys.has(`metric-${metric.id}`)} />
 				{/each}
 			{/if}
 		</section>
@@ -121,6 +196,7 @@
 		margin: 0;
 		font-size: 13px;
 		color: var(--text-secondary);
+		border-radius: var(--radius-md);
 	}
 
 	.impact strong {

@@ -96,7 +96,10 @@ export type HelpId =
 	| 'batch-progress'
 	| 'report-exception'
 	| 'pack-workflow'
+	| 'pack-scan'
 	| 'pack-directive'
+	| 'pack-weigh'
+	| 'pack-ship'
 	| 'override-panel';
 
 export const HELP_CONTENT: Record<HelpId, HelpContent> = {
@@ -329,7 +332,7 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 				{
 					time: '09:11',
 					type: 'Ship block',
-					message: 'PO-8842 · label position',
+					message: 'PO-8842 · PO missing on label (W09)',
 					tone: 'critical'
 				}
 			]
@@ -416,10 +419,10 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 	},
 	'compliance-workflow': {
 		title: 'Compliance workflow',
-		what: 'The end-to-end path from a retailer’s PDF shipping manual to enforceable rules at the ship station.',
-		why: 'Retailers publish hundreds of pages of requirements. Manual interpretation doesn’t scale and mistakes are expensive.',
+		what: 'The end-to-end path from a partner’s PDF shipping manual to enforceable rules at the ship station.',
+		why: 'Wholesale partners publish dense routing requirements. Manual interpretation doesn’t scale and mistakes are expensive.',
 		howToRead:
-			'Left to right: upload source document → human approves extracted rules → floor enforcement blocks bad labels before print.',
+			'Upload source document → human approves extracted rules → activate per DC → floor enforcement blocks bad labels at print.',
 		usedFor:
 			'Shows AI-assisted rule extraction with a human in the loop — not fully autonomous compliance.',
 		states: {
@@ -434,7 +437,7 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 	},
 	'source-pdf': {
 		title: 'Source document',
-		what: 'The original retailer routing guide PDF — the legal source of truth for how shipments must be packed and labeled.',
+		what: 'The original partner routing guide PDF — the legal source of truth for how shipments must be packed and labeled.',
 		why: 'Every automated rule should trace back to a page and quote auditors can verify.',
 		howToRead:
 			'Snippet highlights the passage the AI used. Page number links the rule to the document. “Extracting…” state shows processing in flight.',
@@ -445,16 +448,16 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 			heading: 'Processing states',
 			items: [
 				{ title: 'Extracting', body: '47 rules found · 3 ambiguous', tone: 'warn' },
-				{ title: 'Ready to review', body: 'Snippet linked to page 12', tone: 'good' }
+				{ title: 'Ready to review', body: 'Snippet linked to page 6', tone: 'good' }
 			]
 		}
 	},
 	'extracted-rules': {
 		title: 'Extracted rules',
-		what: 'Machine-readable shipping constraints pulled from the PDF — each tied to a retailer and awaiting human approve, edit, or reject.',
-		why: 'Ambiguous language (“short end of carton”) needs a person to confirm before it blocks live orders.',
+		what: 'Machine-readable shipping constraints pulled from the PDF — each tied to a partner and awaiting human approve, edit, or reject.',
+		why: 'Ambiguous language (“on carton or on label”) needs a person to confirm before it blocks live orders.',
 		howToRead:
-			'Cards show retailer, constraint text, and status pills (ambiguous, approved). Selected card syncs with the PDF snippet.',
+			'Cards show partner, constraint text, penalty codes, and status pills. Selected card syncs with the PDF snippet. Approved rules require per-DC activation.',
 		usedFor:
 			'Compliance managers curate the rule library that ship stations enforce automatically.',
 		states: {
@@ -469,10 +472,10 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 	},
 	'ship-station': {
 		title: 'Ship station enforcement',
-		what: 'The pack/ship screen where rules meet reality — orders are validated against approved constraints before labels print.',
+		what: 'The pack/ship screen where rules meet reality — packer taps Print shipping label and the validator runs in under 200ms.',
 		why: 'Catching violations at print time is the last affordable checkpoint before chargebacks and rejected pallets.',
 		howToRead:
-			'Pass state: validator green, label printed. Block state: red modal names the violation and suggests a fix action.',
+			'Pass: validator green, label printed. Block: red modal names the violation and one fix action. Gated: no rules activated for this DC — enforcement disabled.',
 		usedFor:
 			'Floor operators see immediate feedback; supervisors see blocks aggregate in the action queue.',
 		states: {
@@ -480,7 +483,7 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 			heading: 'Enforcement outcomes',
 			items: [
 				{ title: 'Validator passed', body: 'Label printed · order cleared', tone: 'good' },
-				{ title: 'Ship blocked', body: 'Label position violation · fix before print', tone: 'critical' }
+				{ title: 'Ship blocked', body: 'PO missing on label (W09) · reprint with PO #', tone: 'critical' }
 			]
 		}
 	},
@@ -524,7 +527,7 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 		what: 'A quick menu for floor problems — empty bin, damaged goods, wrong item — that triggers rerouting or supervisor alerts.',
 		why: 'Hiding problems slows everyone down. One-tap reporting lets the system replan while the picker moves on.',
 		howToRead:
-			'Long-press opens the sheet. Choosing “Bin empty” demo-triggers a reroute animation and advances the batch.',
+		'Tap Report issue to open the sheet. Choosing “Bin empty” triggers a reroute animation and advances the batch. “Damaged” and “Wrong item” show what the next production step would be.',
 		usedFor:
 			'Associates escalate issues without radio calls; exceptions appear in the supervisor log.',
 		states: {
@@ -539,19 +542,37 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 	},
 	'pack-workflow': {
 		title: 'Pack station',
-		what: 'The cartonization screen where the system recommends exactly one box size per order.',
-		why: 'Letting every packer guess box size recreates DIM waste and inconsistent compliance. One recommendation removes debate.',
+		what: 'The cartonization workflow — scan tote, pack to one recommended box, weigh, then print label with compliance validation.',
+		why: 'Letting every packer guess box size recreates DIM waste. Scan-to-ship enforces one authoritative answer and catches compliance violations before labels release.',
 		howToRead:
-			'Header shows order context. Main panel is the directive; side panel handles overrides with required reason codes.',
+			'Step rail shows Scan → Pack → Weigh → Ship. Header carries retailer and order context. Override panel appears only when a packer deviates from the recommendation.',
 		usedFor:
-			'Pack associates confirm the suggested carton or document why they deviated.'
+			'Pack associates run the full station arc; confirmed ships feed utilization and DIM metrics upstream.',
+		states: {
+			kind: 'workflow',
+			heading: 'Station steps',
+			steps: [
+				{ label: 'Scan tote' },
+				{ label: 'Pack to directive' },
+				{ label: 'Weigh · DIM vs actual' },
+				{ label: 'Print label · validate' }
+			]
+		}
+	},
+	'pack-scan': {
+		title: 'Scan tote',
+		what: 'The first step — scan the picked tote or order barcode to load cartonization for that shipment.',
+		why: 'Scan-verify matches pick-path discipline and prevents packing the wrong order into the wrong box.',
+		howToRead:
+			'Scan the barcode on the tote from picking. Missing product dimensions block the flow and route back to receiving.',
+		usedFor: 'Associates start every pack session here; no directive loads until scan succeeds.'
 	},
 	'pack-directive': {
 		title: 'Pack directive',
 		what: 'The recommended carton type, dimensions, estimated billable weight, and item list for the order being packed.',
 		why: 'Billable weight preview shows freight impact before tape is applied — packing becomes a cost decision, not just a physical one.',
 		howToRead:
-			'Green carton code is the choice to use. Diagram illustrates fit. “Pack blocked” means missing product dimensions — fix data at receiving first.',
+			'Green carton code is the choice to use. Diagram illustrates fit with placement and dunnage hints. “Pack blocked” means missing product dimensions — fix data at receiving first.',
 		usedFor:
 			'Associates pack to spec; confirmed packs feed utilization metrics upstream.',
 		states: {
@@ -568,8 +589,42 @@ export const HELP_CONTENT: Record<HelpId, HelpContent> = {
 		what: 'A required reason code when a packer chooses a different box than the system recommended.',
 		why: 'Overrides are allowed but audited — unexplained deviations hide training gaps, bad data, or fraud.',
 		howToRead:
-			'Select a reason before substituting cartons. Note reminds that overrides surface on the supervisor friction watch.',
+			'Tap “Use different box” to open the panel. Select a reason before substituting cartons. Overrides surface on the supervisor friction watch.',
 		usedFor:
 			'Balances associate autonomy with accountability and feeds override-rate analytics.'
+	},
+	'pack-weigh': {
+		title: 'Capture weight',
+		what: 'Scale reading compared to billable weight — carriers charge whichever is higher: actual weight or dimensional (DIM) weight.',
+		why: 'Packing is a cost decision. Showing both numbers before label print prevents surprise freight charges and validates the carton choice.',
+		howToRead:
+			'Actual comes from the connected scale. Billable shows DIM or actual, whichever the carrier will use. Green highlight means DIM governs — tighter boxes save money.',
+		usedFor:
+			'Associates confirm weight before releasing the shipping label.',
+		states: {
+			kind: 'compare',
+			heading: 'Weight comparison',
+			items: [
+				{ label: 'Actual', caption: '2.1 lb from scale', tone: 'neutral' },
+				{ label: 'Billable', caption: '2.4 lb · DIM wins', tone: 'good' }
+			]
+		}
+	},
+	'pack-ship': {
+		title: 'Print label',
+		what: 'Final step — print shipping label after a deterministic compliance validator checks retailer routing rules (<200ms).',
+		why: 'Compliance and cartonization meet at ship. Hard blocks here prevent chargebacks — same enforcement pattern as slide 11, on the pack station floor.',
+		howToRead:
+			'Pass shows green confirmation. Fail shows one fix action — no chat. Wholesale orders run stricter rule sets than DTC.',
+		usedFor:
+			'Associates complete the pack-station arc; passed ships feed executive DIM and compliance metrics.',
+		states: {
+			kind: 'status-cards',
+			heading: 'Label outcomes',
+			items: [
+				{ title: 'Validator passed', body: 'Label printed · ship cleared', tone: 'good' },
+				{ title: 'Ship blocked', body: 'One fix action · reprint template', tone: 'critical' }
+			]
+		}
 	}
 };

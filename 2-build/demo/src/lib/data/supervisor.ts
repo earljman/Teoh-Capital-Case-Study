@@ -149,11 +149,11 @@ export const SUPERVISOR_ALERT: SupervisorDashboardData = {
 		phantomRiskTrend: [3.2, 3.5, 3.8, 4.0, 4.3, 4.6, 4.8]
 	},
 	exceptions: [
-		{ time: '09:18', type: 'Ship block', entity: 'PO-8842', action: 'Blocked — label position' },
+		{ time: '09:18', type: 'Ship block', entity: 'PO-8842', action: 'Blocked — PO missing on label (W09)' },
 		{ time: '09:16', type: 'Ship block', entity: 'PO-8839', action: 'Blocked — pallet height' },
 		{ time: '09:14', type: 'Ship block', entity: 'PO-8856', action: 'Blocked — SSCC mismatch' },
 		{ time: '09:12', type: 'Compliance hold', entity: 'PO-8851', action: 'Hazmat cert missing' },
-		{ time: '09:09', type: 'Compliance hold', entity: 'PO-8847', action: 'Retail guide v4.1 fail' },
+		{ time: '09:09', type: 'Compliance hold', entity: 'PO-8847', action: 'D&H routing guide fail' },
 		{ time: '09:06', type: 'Bin empty', entity: 'A-12', action: 'Unresolved — 12m' },
 		{ time: '09:02', type: 'Barcode', entity: 'D-22', action: 'Unresolved — 3 retries' },
 		{ time: '08:45', type: 'Sync dead zone', entity: 'Zone F', action: 'Unresolved — 33m' },

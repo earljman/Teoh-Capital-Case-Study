@@ -20,50 +20,92 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1. Receiving</th>
+                    <tr class="workflow-row--enabler">
+                        <th scope="row">
+                            <a class="claim-ref claim-ref--row" href="/research/02-warehouse-ops-features.md" target="_blank" rel="noopener" title="Source: Ops audit §3 — Receiving">
+                                <span class="workflow-row__label"><span class="claim-term">1. Receiving</span></span>
+                                <span class="roi-tier roi-tier--enabler">Enabler · data hygiene</span>
+                                <span class="claim-tip" role="tooltip">Dim capture at inbound fixes phantom inventory — prerequisite for pick-path and cartonization (research risk R1).</span>
+                            </a>
+                        </th>
                         <td class="cell-empty">—</td>
                         <td><span class="depth depth--proto" aria-hidden="true">◐</span> ASN verify + dim capture</td>
                         <td><span class="depth depth--prod" aria-hidden="true">●</span> Live receiving + dim gate</td>
                         <td><span class="depth depth--expand" aria-hidden="true">○</span> CV receiving</td>
                     </tr>
-                    <tr>
-                        <th scope="row">2. Put-away</th>
+                    <tr class="workflow-row--medium">
+                        <th scope="row">
+                            <a class="claim-ref claim-ref--row" href="/research/02-warehouse-ops-features.md" target="_blank" rel="noopener" title="Source: Ops audit §3 — Put-away">
+                                <span class="workflow-row__label"><span class="claim-term">2. Put-away</span></span>
+                                <span class="roi-tier roi-tier--medium">Medium ROI</span>
+                                <span class="claim-tip" role="tooltip">Dynamic slotting is mathematically sound but physically disruptive — deferred until telemetry and clean master data exist.</span>
+                            </a>
+                        </th>
                         <td class="cell-empty">—</td>
                         <td class="cell-empty">—</td>
                         <td><span class="depth depth--prod" aria-hidden="true">●</span> Directed put-away to bin</td>
                         <td><span class="depth depth--expand" aria-hidden="true">○</span> Dynamic slotting</td>
                     </tr>
-                    <tr>
-                        <th scope="row">3. Picking</th>
+                    <tr class="workflow-row--margin-killer workflow-row--killer-pick">
+                        <th scope="row">
+                            <a class="claim-ref claim-ref--row" href="/research/02-warehouse-ops-features.md" target="_blank" rel="noopener" title="Source: Ops audit §3 — Picking">
+                                <span class="workflow-row__label"><span class="claim-term">3. Picking</span></span>
+                                <span class="roi-tier roi-tier--high">High ROI · margin killer</span>
+                                <span class="claim-tip" role="tooltip">50–70% of labor cost; 40–60% of shift is walking — slide 2 margin killer #1; demo ships first.</span>
+                            </a>
+                        </th>
                         <td>Next pick + exception</td>
                         <td><span class="depth depth--proto" aria-hidden="true">◐</span> Full batch + supervisor override</td>
                         <td><span class="depth depth--prod" aria-hidden="true">●</span> Pick-path engine + telemetry</td>
                         <td class="cell-empty">—</td>
                     </tr>
-                    <tr>
-                        <th scope="row">4. Packing</th>
+                    <tr class="workflow-row--margin-killer workflow-row--killer-dim">
+                        <th scope="row">
+                            <a class="claim-ref claim-ref--row" href="/research/02-warehouse-ops-features.md" target="_blank" rel="noopener" title="Source: Ops audit §3 — Packing">
+                                <span class="workflow-row__label"><span class="claim-term">4. Packing</span></span>
+                                <span class="roi-tier roi-tier--high">High ROI · margin killer</span>
+                                <span class="claim-tip" role="tooltip">~20% freight wasted on oversize cartons — slide 2 margin killer #3; cartonization in demo.</span>
+                            </a>
+                        </th>
                         <td>Box directive</td>
                         <td><span class="depth depth--proto" aria-hidden="true">◐</span> Override + dim-gate states</td>
                         <td><span class="depth depth--prod" aria-hidden="true">●</span> Cartonization SDK</td>
                         <td class="cell-empty">—</td>
                     </tr>
-                    <tr>
-                        <th scope="row">5. Shipping / compliance</th>
+                    <tr class="workflow-row--margin-killer workflow-row--killer-compliance">
+                        <th scope="row">
+                            <a class="claim-ref claim-ref--row" href="/research/02-warehouse-ops-features.md" target="_blank" rel="noopener" title="Source: Ops audit §3 — Shipping / compliance">
+                                <span class="workflow-row__label"><span class="claim-term">5. Shipping / compliance</span></span>
+                                <span class="roi-tier roi-tier--high">High ROI · margin killer</span>
+                                <span class="claim-tip" role="tooltip">2–5% wholesale revenue lost to chargebacks — slide 2 margin killer #2; compliance ship block in demo.</span>
+                            </a>
+                        </th>
                         <td>Ship block</td>
                         <td><span class="depth depth--proto" aria-hidden="true">◐</span> Full review queue + activation</td>
                         <td><span class="depth depth--prod" aria-hidden="true">●</span> Extraction + enforcement</td>
                         <td class="cell-empty">—</td>
                     </tr>
-                    <tr>
-                        <th scope="row">6. Cycle counting</th>
+                    <tr class="workflow-row--enabler">
+                        <th scope="row">
+                            <a class="claim-ref claim-ref--row" href="/research/02-warehouse-ops-features.md" target="_blank" rel="noopener" title="Source: Ops audit §3 — Cycle counting">
+                                <span class="workflow-row__label"><span class="claim-term">6. Cycle counting</span></span>
+                                <span class="roi-tier roi-tier--enabler">Enabler · data hygiene</span>
+                                <span class="claim-tip" role="tooltip">Exception-triggered counts fix inventory drift that breaks optimization — paired with receiving in Phase 1.</span>
+                            </a>
+                        </th>
                         <td class="cell-empty">—</td>
                         <td><span class="depth depth--proto" aria-hidden="true">◐</span> Exception-triggered count</td>
                         <td><span class="depth depth--prod" aria-hidden="true">●</span> Rule engine + queue</td>
                         <td><span class="depth depth--expand" aria-hidden="true">○</span> ML anomaly triggers</td>
                     </tr>
-                    <tr>
-                        <th scope="row">7. Labor scheduling</th>
+                    <tr class="workflow-row--medium">
+                        <th scope="row">
+                            <a class="claim-ref claim-ref--row" href="/research/02-warehouse-ops-features.md" target="_blank" rel="noopener" title="Source: Ops audit §3 — Labor scheduling">
+                                <span class="workflow-row__label"><span class="claim-term">7. Labor scheduling</span></span>
+                                <span class="roi-tier roi-tier--medium">Medium ROI</span>
+                                <span class="claim-tip" role="tooltip">Predictive scheduling needs clean historical data mid-market rarely has — shift board in Phase 2; ML deferred.</span>
+                            </a>
+                        </th>
                         <td class="cell-empty">—</td>
                         <td class="cell-empty">—</td>
                         <td><span class="depth depth--prod" aria-hidden="true">●</span> Shift board + queue visibility</td>
@@ -86,7 +128,14 @@
                 <span class="workflow-timeline__seg">Phase 2 · 8w</span>
                 <span class="workflow-timeline__seg">Phase 3+ · 12w</span>
             </div>
-            <p class="workflow-legend hint reveal d4"><span class="depth depth--proto" aria-hidden="true">◐</span> prototype · <span class="depth depth--prod" aria-hidden="true">●</span> production · <span class="depth depth--expand" aria-hidden="true">○</span> expand</p>
+            <p class="workflow-legend hint reveal d4">
+                <span class="roi-tier roi-tier--high">High ROI</span> margin killer
+                · <span class="roi-tier roi-tier--enabler">Enabler</span> data hygiene
+                · <span class="roi-tier roi-tier--medium">Medium ROI</span> deferred
+                · <span class="depth depth--proto" aria-hidden="true">◐</span> prototype
+                · <span class="depth depth--prod" aria-hidden="true">●</span> production
+                · <span class="depth depth--expand" aria-hidden="true">○</span> expand
+            </p>
         </div>
         <div class="foot-bar reveal d5">
             <span>Data warm-up: 4–6 weeks post-migration before pick-path and cartonization optimization activate</span>

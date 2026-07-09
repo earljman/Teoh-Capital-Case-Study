@@ -596,6 +596,18 @@ code {
     padding: var(--space-6) var(--space-7);
 }
 
+.stat-tile--killer-pick {
+    border-left: 4px solid var(--primary);
+}
+
+.stat-tile--killer-compliance {
+    border-left: 4px solid var(--negative);
+}
+
+.stat-tile--killer-dim {
+    border-left: 4px solid var(--positive);
+}
+
 .stat-tile .label {
     font-family: var(--font-body);
     font-size: var(--text-base);
@@ -833,6 +845,104 @@ code {
     margin-bottom: 0;
 }
 
+/* ROI tier badges — research pain map → roadmap sequencing */
+.roi-tier {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+    padding: 3px 8px;
+    border-radius: 100px;
+    white-space: nowrap;
+}
+
+.roi-tier--high {
+    background: var(--accent-medium);
+    color: var(--primary);
+}
+
+.roi-tier--enabler {
+    background: rgba(5, 150, 105, 0.12);
+    color: var(--positive);
+}
+
+.roi-tier--medium {
+    background: rgba(107, 107, 107, 0.12);
+    color: var(--text-muted);
+}
+
+.claim-ref--row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    color: inherit;
+    text-decoration: none;
+    cursor: help;
+}
+
+.claim-ref--row .claim-term {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.claim-ref--row .workflow-row__label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.claim-ref--row .claim-tip {
+    left: 0;
+    transform: none;
+    max-width: 360px;
+}
+
+.claim-ref--row .claim-tip::after {
+    left: 24px;
+    transform: none;
+}
+
+.workflow-matrix tbody tr.workflow-row--margin-killer th[scope="row"] {
+    border-left: 3px solid var(--primary);
+    padding-left: 11px;
+}
+
+.workflow-matrix tbody tr.workflow-row--killer-pick th[scope="row"] {
+    border-left-color: var(--primary);
+}
+
+.workflow-matrix tbody tr.workflow-row--killer-compliance th[scope="row"] {
+    border-left-color: var(--negative);
+}
+
+.workflow-matrix tbody tr.workflow-row--killer-dim th[scope="row"] {
+    border-left-color: var(--positive);
+}
+
+.workflow-matrix tbody tr.workflow-row--enabler th[scope="row"] {
+    border-left: 3px solid var(--positive);
+    padding-left: 11px;
+}
+
+.workflow-matrix tbody tr.workflow-row--medium th[scope="row"] {
+    border-left: 3px solid rgba(107, 107, 107, 0.35);
+    padding-left: 11px;
+}
+
+.workflow-matrix tbody tr.workflow-row--margin-killer td:nth-child(2):not(.cell-empty) {
+    background: var(--accent-light);
+}
+
+.workflow-legend .roi-tier {
+    vertical-align: middle;
+    margin-right: 2px;
+}
+
 .workflow-crosscut {
     margin-top: var(--space-stack);
 }
@@ -854,6 +964,26 @@ code {
     padding: 8px 12px;
 }
 
+.slide[data-slide="7"] .workflow-matrix tbody th[scope="row"] {
+    width: 22%;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.slide[data-slide="7"] .workflow-matrix .roi-tier {
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    line-height: 1.2;
+}
+
+.slide[data-slide="7"] .workflow-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+}
+
 .slide[data-slide="9"] .workflow-matrix--excerpt,
 .slide[data-slide="10"] .workflow-matrix--excerpt,
 .slide[data-slide="11"] .workflow-matrix--excerpt {
@@ -862,6 +992,10 @@ code {
 
 .slide[data-slide="11"] .workflow-crosscut .panel {
     padding: 20px 24px;
+}
+
+.slide[data-slide="11"] .panel-note {
+    margin-top: 10px;
 }
 
 .slide[data-slide="9"] .foot-bar,
@@ -1314,6 +1448,34 @@ code {
     font-weight: 600;
 }
 
+.arch-feature__roi {
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.arch-feature--killer-pick {
+    border-left: 3px solid var(--primary);
+}
+
+.arch-feature--killer-compliance {
+    border-left: 3px solid var(--negative);
+}
+
+.arch-feature--killer-dim {
+    border-left: 3px solid var(--positive);
+}
+
+.panel-note {
+    margin: 12px 0 0;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+}
+
 .arch-spacer {
     height: 14px;
 }
@@ -1399,6 +1561,16 @@ code {
 
 .slide[data-slide="8"] .arch-feature .card-body {
     line-height: 1.4;
+}
+
+.slide[data-slide="8"] .arch-feature__roi {
+    margin-top: 8px;
+    padding-top: 8px;
+    font-size: 15px;
+}
+
+.slide[data-slide="8"] .arch-feature__roi .claim-tip {
+    max-width: 320px;
 }
 
 .slide[data-slide="8"] .arch-spacer {

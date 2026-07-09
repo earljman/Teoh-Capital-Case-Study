@@ -22,7 +22,7 @@
   {
     "file": "05-market-wedge.html",
     "slide": 5,
-    "title": "Market & Wedge"
+    "title": "Market & ICP"
   },
   {
     "file": "05b-act-ii-title.html",
@@ -30,83 +30,88 @@
     "title": "Act II · Scope & Roadmap"
   },
   {
-    "file": "06-phase-1-feature-portfolio.html",
+    "file": "07-seven-workflows-delivery-map.html",
     "slide": 7,
-    "title": "Phase 1 Portfolio"
+    "title": "Seven Workflows · Delivery Map"
   },
   {
-    "file": "07-roadmap-arc.html",
+    "file": "08-demo-architecture.html",
     "slide": 8,
-    "title": "Roadmap Arc"
+    "title": "Demo Architecture"
   },
   {
-    "file": "08-checkpoint-week-4.html",
+    "file": "09-phase-1-build-depth.html",
     "slide": 9,
-    "title": "Checkpoint · Week 4"
+    "title": "Phase 1 · Build depth"
   },
   {
-    "file": "09-checkpoint-week-12.html",
+    "file": "10-phase-2-production-slice.html",
     "slide": 10,
-    "title": "Checkpoint · Week 12"
+    "title": "Phase 2 · Production slice"
+  },
+  {
+    "file": "11-phase-3-harden-expand.html",
+    "slide": 11,
+    "title": "Phase 3+ · Harden + expand"
   },
   {
     "file": "09b-act-iii-title.html",
-    "slide": 11,
+    "slide": 12,
     "title": "Act III · Surfaces & Flows"
   },
   {
     "file": "10-case-study-pack-dashboards.html",
-    "slide": 12,
+    "slide": 13,
     "title": "Case Study Pack · Dashboards"
   },
   {
     "file": "10b-case-study-pack-flows.html",
-    "slide": 13,
+    "slide": 14,
     "title": "Case Study Pack · Flows"
   },
   {
     "file": "11-compliance-ai-native.html",
-    "slide": 14,
+    "slide": 15,
     "title": "Flow 1 · Compliance"
   },
   {
     "file": "12-pick-path-ai-enhanced.html",
-    "slide": 15,
+    "slide": 16,
     "title": "Flow 2 · Pick-Path"
   },
   {
     "file": "13-cartonization-ai-enhanced.html",
-    "slide": 16,
+    "slide": 17,
     "title": "Flow 3 · Cartonization"
   },
   {
     "file": "13b-act-iv-title.html",
-    "slide": 17,
+    "slide": 18,
     "title": "Act IV · Commercial Close"
   },
   {
     "file": "14-why-this-wins.html",
-    "slide": 18,
+    "slide": 19,
     "title": "The Margin Case"
   },
   {
     "file": "14b-act-v-title.html",
-    "slide": 19,
+    "slide": 20,
     "title": "Act V · How This Was Built"
   },
   {
     "file": "15-assumptions-risks.html",
-    "slide": 20,
+    "slide": 21,
     "title": "How We Built This"
   },
   {
     "file": "16-process-overview.html",
-    "slide": 21,
+    "slide": 22,
     "title": "Workflow Overview"
   },
   {
     "file": "17-tools-and-skills.html",
-    "slide": 22,
+    "slide": 23,
     "title": "Tools & Skills"
   }
 ]

@@ -1,6 +1,6 @@
 ---
 artifact: roadmap
-version: "1.1"
+version: "1.3"
 created: 2026-07-06
 status: draft
 project: ai-first-wms
@@ -14,43 +14,64 @@ inputs:
   - 3-present/notes.md
   - _meta/advisory-panel.md
 decisions:
-  - "Three checkpoints: Demo (case-study pack) → Week 4 (direction) → Week 12 (build slice)"
-  - "Demo ships a clickable prototype — primary features only, not all flows"
-  - "Week 24 production-hardened Phase 1 is research realism only — not case-study deliverable"
+  - "Demo (case-study pack) = done — primary moments for pick, pack, ship + executive dashboard"
+  - "Phase 1 (4w) = complete prototypes for 5 capabilities; finishes what demo started + receiving + cycle count"
+  - "Phase 2 (8w) = production slice for all 5 capabilities + put-away + labor (7 workflows complete)"
+  - "Phase 3+ (12w) = integrations, pilot, Act I medium-ROI expansion"
   - "Data warm-up: 4–6 weeks post-migration before AI optimization activates"
 changelog:
+  - "1.3: Drop wedge framing; 5 Phase 1 capabilities; seven-workflow map; explicit demo vs Phase 1 split"
+  - "1.2: Restructure from delivery gates to feature phases (4w/8w/12w) tied to Act I"
   - "1.1: Demo includes clickable prototype (primary features); Week 4 reframed as full-surface validation"
   - "1.0: Initial roadmap — demo, Week 4, Week 12 with scope, out-of-scope, and test matrix"
 ---
 
-# Phase 1 Roadmap
+# Product Roadmap
 
-Investable sequence: **wedge → validate direction → ship a buildable slice.** Three checkpoints pace delivery. Full production Phase 1 (~Week 24) stays in research appendix — this doc covers what the deck promises and what each gate must prove.
+Investable sequence: **demo proves the bet → Phase 1 completes prototypes → Phase 2 ships production slice → Phase 3+ hardens + expands.** The case-study pack (demo) is already delivered.
 
-**Bet (thread through every checkpoint):** Floor workers get embedded directives; compliance is enforced at scan time — not summarized in a chat sidebar.
+**Bet (thread through every phase):** Floor workers get embedded directives; compliance is enforced at scan time — not summarized in a chat sidebar.
+
+**Phase 1 portfolio:** Five capabilities from Act I — compliance, pick-path, cartonization, receiving/dim capture, exception-triggered cycle counts. Put-away and labor scheduling ship in Phase 2.
 
 **ICP assumption (until reviewer resolves):** Digitally native mid-market omnichannel brands + independent e-commerce 3PLs · 10k–50k orders/month · 2–5 locations · 25–150 floor staff · $3k–8k/month SaaS budget.
 
 ---
 
-## Roadmap arc
+## Seven workflows · four delivery stages
 
-```
-Demo (case-study pack)        Week 4 (direction)           Week 12 (build slice)
-────────────────────────     ───────────────────          ─────────────────────
-Deck + clickable prototype   All surfaces + all flows     Deployable prototype
-Primary features only        Happy-path + override paths  Live telemetry link
-Drill-downs wired            Stakeholder walkthroughs     Full state coverage
-No integrations              No production integrations   Sample data; no ERP prod
-```
+| Core workflow | Demo (done) | Phase 1 · 4w | Phase 2 · 8w | Phase 3+ · 12w |
+|---------------|-------------|--------------|--------------|----------------|
+| **1. Receiving** | — | ASN verify + dim capture (prototype) | Live receiving + dim gate | CV receiving |
+| **2. Put-away** | — | — | Directed put-away to bin | Dynamic slotting |
+| **3. Picking** | Next pick + exception | Full batch + supervisor override | Pick-path engine + telemetry | — |
+| **4. Packing** | Box directive | Override + dim-gate states | Cartonization SDK | — |
+| **5. Shipping / compliance** | Ship block | Full review queue + activation | Extraction + enforcement | — |
+| **6. Cycle counting** | — | Exception-triggered count | Rule engine + queue | ML anomaly triggers |
+| **7. Labor scheduling** | — | — | Shift board + queue visibility | Predictive (defer) |
 
-**Beyond Week 12 (imply only):** Week 24 production-hardened Phase 1 — integrations, shadow mode, pilot tuning, peak-load hardening (`0-research/03-ai-feasibility-architecture.md` §4). Not part of the case-study pack.
-
-**Data warm-up (all checkpoints):** Assume **4–6 weeks** post-migration before pick-path and cartonization optimization activate. Hygiene gates block AI until coordinate/dimension thresholds are met.
+**Dashboards:** Executive in demo; supervisor static in demo → interactive Phase 1 → live Phase 2.
 
 ---
 
-## Checkpoint 1 — Demo (case-study pack)
+## Feature roadmap arc
+
+```
+Demo (done)                 Phase 1 (4w)              Phase 2 (8w)               Phase 3+ (12w)
+────────────────────        ─────────────────         ─────────────────          ──────────────────
+Case-study pack             Complete prototypes       Production slice           Harden + expand
+Primary workflow moments    5 capabilities hi-fi      All 7 workflows            Integrations + pilot
+Executive drill-downs       + receiving + cycle count Live engines + telemetry   Medium-ROI backlog
+Week 0                      Weeks 1–4                 Weeks 5–12                 Weeks 13–24
+```
+
+**Data warm-up (all phases):** Assume **4–6 weeks** post-migration before pick-path and cartonization optimization activate. Hygiene gates block AI until coordinate/dimension thresholds are met.
+
+**Act I sequencing logic:** Demo proves three **High ROI** margin killers. Phase 1 completes all five Phase 1 capabilities as prototypes. Phase 2 builds them plus put-away and labor. Phase 3+ adds integrations and medium-ROI expansion.
+
+---
+
+## Demo — Case-study pack (delivered)
 
 **Horizon:** Now — deliverable for Teoh Capital review (slide/PPT pack per `_meta/case-study-prompt.md`).
 
@@ -108,7 +129,7 @@ No integrations              No production integrations   Sample data; no ERP pr
 | Slide build notes | `3-present/notes.md` |
 | Research appendix | `0-research/` |
 
-### Decisions to lock at Demo
+### Decisions to lock before Phase 1 kickoff
 
 | Decision | Options / default |
 |----------|-------------------|
@@ -116,9 +137,9 @@ No integrations              No production integrations   Sample data; no ERP pr
 | Feature priority order | Compliance → pick-path → cartonization |
 | ICP mix emphasis | Omnichannel default; wholesale vs. DTC accent on slide 10 |
 | Market assumption | State as open question — commercial SaaS vs. Teoh-owned operator |
-| Week 12 definition of done | See Checkpoint 3 below |
+| Week 12 definition of done | See Phase 2 below |
 
-### Testing — Demo
+### Testing — Case-study pack
 
 | What | By whom | Pass criteria |
 |------|---------|---------------|
@@ -132,17 +153,25 @@ No integrations              No production integrations   Sample data; no ERP pr
 | **Live defense** | Closer lens | Top 3 pushback answers rehearsed (thin vs. thick AI, data hygiene, honest ML framing) |
 | **Memorable bet** | Judge lens | One sentence repeatable after the room clears |
 
-**Not tested at Demo:** Full compliance review flow, supervisor console interactivity, all override paths, loading/empty/gated states, production integrations, UAT with real warehouse staff.
+**Not tested at case-study pack:** Full compliance review flow, supervisor console interactivity, all override paths, loading/empty/gated states, production integrations, UAT with real warehouse staff.
 
 ---
 
-## Checkpoint 2 — Week 4 (validate direction)
+## Phase 1 — Complete prototypes (4 weeks)
 
-**Horizon:** Week 4 from product kickoff (post–case-study Demo).
+**Horizon:** Weeks 1–4 from product kickoff (post–case-study pack).
 
-**What "done" means:** Prototype expands from Demo's primary-feature slice to **all surfaces and flows**. Ops stakeholders validate direction before engineering commits to integrations and production hardening.
+**What "done" means:** Prototype expands from demo's primary moments to **all five Phase 1 capabilities** as clickable hi-fi surfaces. Ops stakeholders validate direction before engineering commits.
 
-### Build scope
+### Already in demo (do not rebuild)
+
+- Executive dashboard + drill-downs to pick, pack, ship
+- Pick: Next Pick card + exception reroute moment
+- Pack: carton directive + isometric diagram
+- Ship: compliance block modal (single fix action)
+- One happy path + one exception per margin-killer workflow
+
+### Phase 1 still builds
 
 | Surface | Scope | States |
 |---------|-------|--------|
@@ -150,22 +179,26 @@ No integrations              No production integrations   Sample data; no ERP pr
 | **Supervisor console** | Clickable Layout A — action queue, floor ops, friction rail | All clear + action queue with ship blocks |
 | **Compliance** | Full review flow + ship block enforcement | Happy path + block modal + PDF processing loading |
 | **Pick-path** | Next Pick + exception reroute | Happy path + exception sheet + 2s reroute spinner |
-| **Cartonization** | Pack directive + override | Happy path + override reason + missing-dims block (copy only) |
+| **Cartonization** | Pack directive + override | Happy path + override reason + missing-dims block |
+| **Receiving** | ASN verify + SKU dimension capture at dock | Happy path + ASN mismatch + dim entry |
+| **Cycle count** | Exception-triggered count from empty-bin report | Happy path + supervisor queue item |
 | **Drill-downs** | Executive cards → workflow mocks; supervisor widgets → workflows | Clickable |
 | **Onboarding / hygiene gate** | Implied via copy on supervisor friction rail | Not a dedicated screen |
 
-**Adds on top of Demo prototype:**
+**Adds on top of case-study pack:**
 
-| Gap filled at Week 4 | Demo had |
+| Gap filled in Phase 1 | Case-study pack had |
 |----------------------|----------|
 | Full compliance review queue (PDF ↔ rule card, approve/edit) | Ship block only |
 | Cartonization override interaction | Directive only |
+| Receiving + dim capture screens | Not in demo |
+| Exception-triggered cycle count | Not in demo |
 | Supervisor console — full Layout A, clickable widgets | Static appendix screenshot |
 | Gated dashboard card ("2/3 active") | Happy path only |
 | Loading states (PDF processing, reroute spinner) | Not in Demo |
 | Supervisor widgets → workflow drill-downs | Executive drill-downs only |
 
-**In scope:** AI surfaces visible; operator override paths on all three workflows; all drill-downs wired.
+**In scope:** All five Phase 1 capabilities as hi-fi prototypes; operator override paths; all drill-downs wired. Put-away and labor deferred to Phase 2.
 
 **Not in scope:** Production ERP/carrier/EDI integrations; real LLM extraction pipeline; OR-Tools runtime; offline sync simulation; live dashboard telemetry.
 
@@ -175,7 +208,7 @@ No integrations              No production integrations   Sample data; no ERP pr
 |---------|-----------|----------|---------|
 | Concept review | Ops lead + executive sponsor | 60 min | Validate bet, ICP, and portfolio against floor reality |
 | Mock walkthrough | 1–2 warehouse personas (supervisor, compliance mgr or picker) | 45 min each | Task-based walkthrough; capture trust and plausibility signals |
-| Sprint 0 close | PM + engineering lead | 30 min | Ratify Week 12 scope; assign workstreams |
+| Sprint 0 close | PM + engineering lead | 30 min | Ratify Phase 2 scope; assign workstreams |
 
 ### Documents
 
@@ -186,18 +219,18 @@ No integrations              No production integrations   Sample data; no ERP pr
 | IA / screen map (consolidated from planning artifacts) | PM + Builder |
 | Walkthrough notes + decision log | PM |
 
-### Decisions to lock at Week 4
+### Decisions to lock at Phase 1
 
 | Decision | Notes |
 |----------|-------|
 | ICP assumption | Commercial SaaS vs. Teoh-owned operator |
 | AI-native bet | Confirm or pivot compliance as anchor |
 | Feature priority | Confirm portfolio order |
-| Week 12 definition of done | Telemetry linkage, state coverage, deploy target |
+| Phase 2 definition of done | Telemetry linkage, state coverage, deploy target |
 | Handheld hardware target | Zebra vs. consumer Android (affects mobile mock fidelity) |
 | Retailer mix | % DTC vs. wholesale — accents slide 10 emphasis |
 
-### Testing — Week 4
+### Testing — Phase 1
 
 | What | By whom | Pass criteria |
 |------|---------|---------------|
@@ -211,15 +244,15 @@ No integrations              No production integrations   Sample data; no ERP pr
 | **Acceptance criteria review** | PM + engineering | Given/When/Then covers §5.4 states in planning brief |
 | **Skeptic pass** | PM (Skeptic lens) | Top risks (R1–R4) have visible mitigation in mocks |
 
-**Not tested at Week 4:** Production latency budgets; real PDF extraction accuracy; peak-load behavior; multi-site rollup; 8-week trend chart.
+**Not tested in Phase 1:** Production latency budgets; real PDF extraction accuracy; peak-load behavior; multi-site rollup; 8-week trend chart.
 
 ---
 
-## Checkpoint 3 — Week 12 (validate build + Phase 2 gate)
+## Phase 2 — Production slice (8 weeks)
 
-**Horizon:** Week 12 from project kickoff.
+**Horizon:** Weeks 5–12 from project kickoff (cumulative Week 12).
 
-**What "done" means:** Deployable prototype covering all Phase 1 surfaces. Dashboard live-linked to workflow telemetry. Real sample data. Full loading/empty/error/override state coverage. Ready for UAT and Phase 2 go/no-go.
+**What "done" means:** Deployable prototype covering **all seven core workflows**. Five capabilities on live engines; put-away and labor scheduling complete. Dashboard live-linked to workflow telemetry. Ready for UAT and Phase 3+ go/no-go.
 
 ### Build scope
 
@@ -230,6 +263,10 @@ No integrations              No production integrations   Sample data; no ERP pr
 | **Compliance** | PDF upload → extraction pipeline (document AI + LLM) → review queue → runtime validator at ship | Human review mandatory; never auto-activate |
 | **Pick-path** | Route engine (OR-Tools or graph solver) + nightly affinity clustering + exception reroute <2s | Shadow mode optional |
 | **Cartonization** | 3D bin-packing SDK + pack station UI + DIM calc | 100% dim gate per order |
+| **Receiving** | ASN match + dimension capture pipeline; feeds hygiene gates | Dock-to-stock on demo data |
+| **Cycle count** | Rule engine for exception-triggered counts; supervisor queue integration | Triggered from pick empty-bin events |
+| **Put-away** | Directed put-away to bin (static slotting) | Happy path + wrong-bin exception |
+| **Labor scheduling** | Shift board + queue visibility (baseline; no predictive ML) | Read-only workload view |
 | **Foundation** | Master data hygiene gates; offline-first scanner shell (scaffold); sample data seed |
 | **Telemetry** | Event bus: picks, overrides, ship blocks, cartonization decisions → dashboard widgets |
 | **Deploy** | Hosted demo environment (e.g. Netlify); shareable URL for reviewers and pilot prospects |
@@ -243,8 +280,8 @@ No integrations              No production integrations   Sample data; no ERP pr
 | Meeting | Attendees | Duration | Purpose |
 |---------|-----------|----------|---------|
 | Bi-weekly sprint demo | PM + engineering + sponsor | 30 min | Incremental validation against acceptance criteria |
-| UAT session | Ops users (supervisor, picker, compliance mgr, packer) | 90 min | Task scenarios across all three workflows + both dashboards |
-| Phase 2 go/no-go | Executive sponsor + PM + engineering lead | 60 min | Lock expansion bets, integration priorities, packaging hypothesis |
+| UAT session | Ops users (all personas incl. receiver) | 90 min | Task scenarios across all seven workflows + both dashboards |
+| Phase 3+ go/no-go | Executive sponsor + PM + engineering lead | 60 min | Lock expansion bets, integration priorities, packaging hypothesis |
 
 ### Documents
 
@@ -256,17 +293,17 @@ No integrations              No production integrations   Sample data; no ERP pr
 | Release notes draft | PM |
 | Build vs. buy decision log (AI infra, cartonization SDK, document AI) | Engineering |
 
-### Decisions to lock at Week 12
+### Decisions to lock at Phase 2
 
 | Decision | Notes |
 |----------|-------|
-| Phase 2 expansion bets | Dynamic slotting recs, ops copilot, anomaly cycle count |
+| Phase 3+ expansion bets | Dynamic slotting, ops copilot, anomaly cycle count, CV receiving, demand forecasting |
 | Integration priorities | ERP (Shopify/NetSuite first), carriers, EDI/ASN |
 | Build vs. buy | Document AI provider, cartonization SDK, OR-Tools vs. commercial routing |
 | Commercial packaging | Per-site vs. per-order pricing; hygiene gate as onboarding SKU |
 | Pilot customer criteria | Minimum data readiness; retailer mix; hardware fleet |
 
-### Testing — Week 12
+### Testing — Phase 2
 
 | What | By whom | Pass criteria |
 |------|---------|---------------|
@@ -282,28 +319,64 @@ No integrations              No production integrations   Sample data; no ERP pr
 | **Hygiene gate** | PM | Feature muted when thresholds not met; supervisor friction rail shows gate status |
 | **Deploy smoke test** | Builder | Demo URL loads; all routes reachable; no console errors |
 | **UAT scenarios** | Ops users | Task completion without PM narration; trust signals on picker UX |
-| **Phase 2 gate** | Sponsor | Go/no-go with documented gaps |
+| **Phase 3+ gate** | Sponsor | Go/no-go with documented gaps |
 
 **Latency targets (validate in demo, not prod):** batch assignment <500ms · exception reroute <2s · cartonization <1s · compliance runtime check <200ms (`0-research/03-ai-feasibility-architecture.md` §4).
 
 ---
 
-## Phase 1 ship scope (Week 12+ target)
+## Phase 3+ — Harden + expand (12 weeks)
 
-What Phase 1 ultimately ships when built to production (Week 24 research horizon). Week 12 delivers a **slice** of this.
+**Horizon:** Weeks 13–24 from project kickoff (cumulative Week 24).
+
+**What "done" means:** Production-hardened product wedge in pilot warehouse. Act I medium-ROI expansion features sequenced by integration readiness and adoption friction.
+
+### Build scope
+
+| Workstream | Scope |
+|------------|-------|
+| **Production hardening** | ERP (Shopify/NetSuite), carriers, EDI/ASN integrations; shadow mode A/B; pilot customer cutover; peak-load test (3× BFCM); production auth/RBAC |
+| **Ops copilot** | Read-only supervisor desktop; query layer only — no workflow mutation |
+| **Anomaly cycle count** | Rule-based thresholds triggered by velocity/discrepancy patterns |
+| **Dynamic slotting** | Nightly re-slot recommendations + execution workflow |
+| **CV receiving** | Auto-dimensioning hardware API; damage detect deferred |
+| **Demand forecasting** | Reorder suggestions after 6–12 months clean history in pilot |
+
+**In scope:** Real customer data migration for pilot; multi-site rollup (if pilot expands).
+
+**Not in scope (Phase 3+ defer):** Predictive labor scheduling; autonomous agents mutating production data; SAP/enterprise ERP; robotics/AMR orchestration; pick-path deep learning (metaheuristics sufficient through Phase 2).
+
+### Decisions to lock at Phase 3+
+
+| Decision | Notes |
+|----------|-------|
+| Pilot customer criteria | Minimum data readiness; retailer mix; hardware fleet |
+| Commercial packaging | Per-site vs. per-order pricing; hygiene gate as onboarding SKU |
+| Expansion priority order | Slotting vs. CV vs. forecasting based on pilot pain signals |
+| Build vs. buy (expansion) | Dimensioning hardware vendor; forecasting model provider |
+
+---
+
+## Phase 1 portfolio — full ship scope (Phase 2 target, Phase 3+ hardening)
+
+What the five Phase 1 capabilities ultimately ship at production. **Phase 2 (Week 12)** delivers a deployable **slice** covering all seven workflows; **Phase 3+ (Week 24)** hardens for pilot cutover.
 
 | Capability | Type | Ships |
 |------------|------|-------|
 | Routing guide → compliance rules | AI-native | Ingestion + review queue + scan-time enforcement |
 | Dynamic pick-path & order clustering | AI-enhanced | Metaheuristic routing + nightly affinity; invisible on floor |
 | 3D algorithmic cartonization | AI-enhanced | Single carton directive + pack diagram |
+| Dock receiving + dimension capture | AI-enhanced | ASN verify + dim capture feeds hygiene gates |
+| Exception-triggered cycle count | AI-enhanced | Rule-based count from pick exceptions |
+| Directed put-away | Foundation | Static slotting; bin assignment at receive |
+| Labor shift board | Foundation | Queue visibility; no predictive ML in Phase 2 |
 | Executive dashboard | Telemetry | Big Three + combined impact |
 | Supervisor console | Telemetry | Action queue + floor ops + friction watch |
 | Master data hygiene gates | Foundation | Blocks AI until thresholds met |
 | Offline-first scanner shell | Foundation | Local route graph + sync queue |
 | Exception-aware reroute | Foundation | <2s local recalc |
 
-### Hold (Phase 1.5)
+### Hold for Phase 3+ (Act I medium-ROI backlog)
 
 | Capability | Notes |
 |------------|-------|
@@ -320,60 +393,60 @@ Consolidated from planning brief §3.2, main flows, dashboard IA, and research �
 
 | Item | Earliest phase | Why out |
 |------|----------------|---------|
-| Dynamic slotting **execution** | Phase 2 | Physically disruptive; adoption bottleneck |
-| Computer vision receiving / auto-dimensioning | Phase 2 | Hardware-dependent; lighting failure modes |
-| Demand forecasting & reorder automation | Phase 2 | Cold-start; needs 6–12 months clean history |
-| Predictive labor scheduling | Phase 3 | Low ROI confidence; rarely digitized in mid-market |
-| Autonomous agents mutating production data | Phase 3+ | Requires proven exception UX + approval policies |
+| Dynamic slotting **execution** | Phase 3+ | Physically disruptive; adoption bottleneck |
+| Computer vision receiving / auto-dimensioning | Phase 3+ | Hardware-dependent; lighting failure modes |
+| Demand forecasting & reorder automation | Phase 3+ | Cold-start; needs 6–12 months clean history |
+| Predictive labor scheduling | Phase 3+ defer | Low ROI confidence; rarely digitized in mid-market |
+| Autonomous agents mutating production data | Phase 3+ defer | Requires proven exception UX + approval policies |
 | Copilot as **primary** floor UX | Never (floor) | Chat adds taps and latency; pickers need directives |
-| Pick-path deep learning model | Phase 2+ | Metaheuristics sufficient in Phase 1 |
-| Robotics / AMR orchestration | Phase 3+ | Not in ICP budget or floor reality |
-| SAP / enterprise ERP deep integration | Phase 3 | 6-month detour; ICP = Shopify + NetSuite |
+| Pick-path deep learning model | Phase 3+ defer | Metaheuristics sufficient through Phase 2 |
+| Robotics / AMR orchestration | Phase 3+ defer | Not in ICP budget or floor reality |
+| SAP / enterprise ERP deep integration | Phase 3+ defer | 6-month detour; ICP = Shopify + NetSuite |
 
 ### UI / mock — Do not build
 
 | Item | Notes |
 |------|-------|
-| Copilot chat panel | Phase 1.5 read-only supplement at earliest |
+| Copilot chat panel | Phase 3+ read-only supplement at earliest |
 | Demand forecast graphs | Cold-start garbage in deck |
 | CV receiving UI | Hardware not present at ICP sites |
 | Digital twin floor view | Architecture tour, not wedge |
 | 8-week trend chart on slide 10 | Appendix / commercial close only |
 | Dock-to-stock clock, phantom inventory rate | Deferred per dashboard IA §3.2 |
 | Multi-site rollup table on executive dashboard | Single-site selector only on slide 10 |
-### Demo-specific cuts (Checkpoint 1 only)
+### Case-study pack cuts (pre–Phase 1 only)
 
-| Item | In Demo prototype? | Available from |
-|------|-------------------|----------------|
+| Item | In case-study prototype? | Available from |
+|------|--------------------------|----------------|
 | Executive dashboard + drill-downs | ✓ Clickable | — |
 | Compliance ship block | ✓ Clickable | — |
 | Pick-path Next Pick + exception | ✓ Clickable | — |
 | Cartonization directive | ✓ Clickable | — |
-| Compliance review queue (full flow) | Deck/static only | Week 4 |
-| Supervisor console (interactive) | Deck/static only | Week 4 |
-| Cartonization override interaction | Deck optional | Week 4 |
-| Loading skeletons | — | Week 4 (partial) · Week 12 (full) |
-| Empty / gated states (full set) | — | Week 4 (partial) · Week 12 (full) |
-| Onboarding / data hygiene dedicated screen | Copy only | Week 4 (friction rail) |
-| Offline sync behavior | Mention in deck | Week 12 scaffold |
-| Production integrations | — | Week 24+ |
+| Compliance review queue (full flow) | Deck/static only | Phase 1 |
+| Supervisor console (interactive) | Deck/static only | Phase 1 |
+| Cartonization override interaction | Deck optional | Phase 1 |
+| Loading skeletons | — | Phase 1 (partial) · Phase 2 (full) |
+| Empty / gated states (full set) | — | Phase 1 (partial) · Phase 2 (full) |
+| Onboarding / data hygiene dedicated screen | Copy only | Phase 1 (friction rail) |
+| Offline sync behavior | Mention in deck | Phase 2 scaffold |
+| Production integrations | — | Phase 3+ |
 
-### Engineering — Out of scope until post–Week 12
+### Engineering — Out of scope until Phase 3+
 
 | Item | Notes |
 |------|-------|
-| Production ERP/carrier/EDI integrations | Week 12 uses sample data |
-| Shadow mode A/B vs. static waves | Week 14–20 in research critical path |
-| Peak-season load test (3× BFCM) | Week 24 hardening |
-| Production auth, RBAC, multi-tenant isolation | Pilot prerequisite |
-| Real customer data migration | Pilot phase |
+| Production ERP/carrier/EDI integrations | Phase 2 uses sample data |
+| Shadow mode A/B vs. static waves | Phase 3+ weeks 14–20 |
+| Peak-season load test (3× BFCM) | Phase 3+ hardening |
+| Production auth, RBAC, multi-tenant isolation | Phase 3+ pilot prerequisite |
+| Real customer data migration | Phase 3+ pilot |
 
 ---
 
 ## Testing summary matrix
 
-| Test type | Demo | Week 4 | Week 12 | Owner |
-|-----------|------|--------|---------|-------|
+| Test type | Case-study pack | Phase 1 | Phase 2 | Owner |
+|-----------|-----------------|---------|---------|-------|
 | Slide 4 / narrative spine | ✓ | — | — | PM |
 | Mock fidelity & data realism | ✓ | ✓ | ✓ | Builder |
 | WMS plausibility (Insider) | ✓ | ✓ | ✓ | PM |
@@ -387,7 +460,7 @@ Consolidated from planning brief §3.2, main flows, dashboard IA, and research �
 | E2E workflow + dashboard telemetry | — | — | ✓ | QA + engineering |
 | Compliance extraction accuracy | — | — | ✓ | Compliance SME |
 | Latency budgets | — | — | ✓ | Engineering |
-| Phase 2 go/no-go | — | — | ✓ | Sponsor |
+| Phase 3+ go/no-go | — | — | ✓ | Sponsor |
 
 ---
 
@@ -406,7 +479,7 @@ Consolidated from planning brief §3.2, main flows, dashboard IA, and research �
 | ID | Risk | Mitigation to show in mocks / prototype | Test focus |
 |----|------|----------------------------------------|------------|
 | R1 | Master data garbage | Hygiene gates; dim capture; cartonization 100% dim gate | Gated dashboard card; pack block |
-| R2 | WiFi dead zones | Offline-first shell; sync queue on supervisor | Week 12 disconnect scaffold |
+| R2 | WiFi dead zones | Offline-first shell; sync queue on supervisor | Phase 2 disconnect scaffold |
 | R3 | Picker trust collapse | <2s reroute; team metrics only; distance saved | Picker walkthrough + UAT |
 | R4 | LLM compliance hallucination | Human review queue; never auto-activate; deterministic validator | Compliance SME extraction test |
 
@@ -416,20 +489,22 @@ Full register (14 items): `0-research/03-ai-feasibility-architecture.md` §8.
 
 ## Deck alignment
 
-| Slide | Content | Checkpoint |
-|-------|---------|------------|
-| 6 | Phase 1 portfolio (3 capabilities + two dashboards) | Demo |
-| 7 | Roadmap arc (this doc) | Demo |
-| 8 | Week 4 detail | Demo |
-| 9 | Week 12 detail | Demo |
-| 10 | Executive dashboard mock | Demo (clickable, drill-downs) → Week 12 (live telemetry) |
-| 11–13 | Workflow drill-downs | Demo (primary moments) → Week 4 (full flows) → Week 12 (live) |
-| Appendix | Supervisor console · 8-week trend chart | Demo (static) → Week 4 (clickable) → Week 12 (live) |
-| Live demo URL | Clickable prototype | Demo → Week 4 → Week 12 |
+| Slide | Content | Phase |
+|-------|---------|-------|
+| 6 | Act II divider | — |
+| 7 | Seven workflows · delivery map (7×4 matrix) | Case-study pack |
+| 8 | Demo architecture (3 capabilities + two dashboards) | Demo |
+| 9 | Phase 1 · build depth (matrix excerpt) | Case-study pack |
+| 10 | Phase 2 · production slice | Case-study pack |
+| 11 | Phase 3+ · harden + expand | Roadmap |
+| 12 | Executive dashboard mock | Pack (clickable) → Phase 2 (live telemetry) |
+| 13–17 | Pack overview + workflow drill-downs | Pack (primary moments) → Phase 1 (full flows) → Phase 2 (live) |
+| Appendix | Supervisor console · 8-week trend chart | Pack (static) → Phase 1 (clickable) → Phase 2 (live) |
+| Live demo URL | Clickable prototype | Pack → Phase 1 → Phase 2 |
 
 ---
 
-## Open questions (carry to Week 4 decisions)
+## Open questions (carry to Phase 1 decisions)
 
 | Question | Impact |
 |----------|--------|
@@ -441,4 +516,4 @@ Full register (14 items): `0-research/03-ai-feasibility-architecture.md` §8.
 
 ---
 
-*Panel routing for roadmap: Storyteller + Investor on checkpoint pacing; Builder + Insider on test matrix; Judge validates slide 4 test at Demo; Skeptic attacks Week 12 scope creep.*
+*Panel routing for roadmap: Storyteller + Investor on phase pacing; Builder + Insider on test matrix; Judge validates slide 4 test at case-study pack; Skeptic attacks Phase 2 scope creep.*

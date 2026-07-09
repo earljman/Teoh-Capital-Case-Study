@@ -79,17 +79,21 @@ Phase 1 ships **three operational capabilities** and **two role-based dashboards
 
 **Presentation arc:** Show the **executive dashboard** first so the buyer sees all three margin killers in one view. Then dial into each workflow mock to prove how the floor experience delivers what the dashboard measures. Supervisor console demonstrates floor-ops depth (appendix or live demo — not slide 10).
 
-### 3.1 Mapping: 1 AI-native + 2 AI-enhanced
+### 3.1 Mapping: 1 AI-native + 4 AI-enhanced (five capabilities)
 
-| Slot | Feature | Type | Painkiller | How AI shows up | Operator override |
-|------|---------|------|------------|-----------------|-------------------|
-| **1** | **Routing guide → compliance rules** | **AI-native** | Retail chargebacks devour 2–5% of wholesale revenue; 100+ page PDFs interpreted manually | LLM extracts unstructured routing guides → structured rules; human review queue; **hard block** at label print / ship | Compliance manager approves/edits rules before activation; floor gets fix action, not chat |
-| **2** | **Dynamic pick-path & order clustering** | AI-enhanced | 50–70% of labor cost is picking; 40–60% of shift is walking | Metaheuristic route + nightly affinity clustering; invisible on floor; sub-2s reroute on exception | Long-press skip / report empty → instant reroute; supervisor-only batch override |
-| **3** | **3D algorithmic cartonization** | AI-enhanced | DIM weight penalties erode DTC margin (~20% freight waste from over-boxing) | Deterministic 3D bin-packing → single carton directive + pack diagram | Override with reason code → feeds master data hygiene alerts |
+| Slot | Feature | Type | Workflow | Painkiller | How AI shows up |
+|------|---------|------|----------|------------|-----------------|
+| **1** | **Routing guide → compliance rules** | **AI-native** | Shipping | Chargebacks 2–5% wholesale revenue | LLM extraction → human review → **hard block** at ship |
+| **2** | **Dynamic pick-path & order clustering** | AI-enhanced | Picking | 50–70% labor cost; 40–60% walking | Metaheuristic route; sub-2s reroute on exception |
+| **3** | **3D algorithmic cartonization** | AI-enhanced | Packing | ~20% freight waste from over-boxing | 3D bin-packing → single carton directive |
+| **4** | **Dock receiving + dimension capture** | AI-enhanced | Receiving | Phantom inventory; bad dims break cartonization | ASN verify + guided dim capture at dock |
+| **5** | **Exception-triggered cycle count** | AI-enhanced | Cycle counting | Inventory drift from empty bins | Rule-based count queued from pick exceptions |
+
+**Phase 2 completes:** Put-away (directed put-away) + labor scheduling (shift board). See `1-plan/03-roadmap.md` for demo vs Phase 1 vs Phase 2 split.
 
 **Portfolio slide (6) framing:**
 
-> **3 Phase 1 capabilities** (1 AI-native + 2 AI-enhanced)  
+> **5 Phase 1 capabilities** (1 AI-native + 4 AI-enhanced)  
 > **+ Executive dashboard** (Big Three ROI) **+ Supervisor console** (floor ops)
 
 **Painkiller logic:** All three attack labor walk time, wholesale chargebacks, and DIM freight. Each delivers measurable P&L impact within 60 days of data gate clearance. Executives see $ impact; supervisors see exceptions and floor telemetry.
@@ -98,23 +102,28 @@ Phase 1 ships **three operational capabilities** and **two role-based dashboards
 
 ### 3.2 Ship / Hold / Kill
 
-| Ship (Phase 1) | Hold (Phase 1.5) | Kill / defer |
+| Ship (Phase 1 portfolio) | Hold (Phase 3+) | Kill / defer |
 |----------------|------------------|--------------|
 | Master data hygiene gates | Read-only ops copilot (supervisor desktop) | Dynamic slotting execution |
-| Offline-first scanner shell | Anomaly-triggered cycle count (rule-based) | CV receiving / auto-dimensioning |
-| Pick-path + exception reroute | | Demand forecasting |
-| Cartonization + pack UI | | Predictive labor scheduling |
-| Compliance ingestion + review + enforcement | | Autonomous agents mutating production data |
-| Executive dashboard (Big Three + combined impact) | | Copilot as primary floor UX |
+| Offline-first scanner shell | CV receiving / auto-dimensioning (full) | Demand forecasting |
+| Pick-path + exception reroute | | Predictive labor scheduling |
+| Cartonization + pack UI | | Autonomous agents mutating production data |
+| Compliance ingestion + review + enforcement | | Copilot as primary floor UX |
+| Receiving + dim capture | | |
+| Exception-triggered cycle count | | |
+| Executive dashboard (Big Three + combined impact) | | |
 | Supervisor console (action queue + floor ops + friction watch) | | |
+
+**Phase 2 adds (completes 7 workflows):** Directed put-away · labor shift board
 
 ### 3.3 Timeline (harmonized)
 
-| Checkpoint | Horizon | What "done" means |
-|------------|---------|-------------------|
-| **Week 4** | Prototype validation | Clickable hi-fi **executive dashboard** + supervisor console + all 3 workflow mocks; happy-path + AI surfaces + override paths; no production integrations |
-| **Week 12** | Working demo slice | Deployable prototype; dashboard live-linked to workflow telemetry; real sample data; loading/empty/error states |
-| **Week 24** | Production-hardened Phase 1 | Integrations, shadow mode, pilot tuning, peak-load hardening (research realism — not case-study deliverable) |
+| Phase | Horizon | What "done" means |
+|-------|---------|-------------------|
+| **Demo** | Case-study pack (delivered) | Deck + clickable prototype; primary moments for pick, pack, ship |
+| **Phase 1** | Weeks 1–4 | Clickable hi-fi **executive dashboard** + supervisor console + all 3 workflow mocks; happy-path + AI surfaces + override paths; no production integrations |
+| **Phase 2** | Weeks 5–12 | Deployable prototype; dashboard live-linked to workflow telemetry; real sample data; loading/empty/error states |
+| **Phase 3+** | Weeks 13–24 | Production integrations, shadow mode, pilot tuning, peak-load hardening; Act I medium-ROI expansion features |
 
 Data warm-up: assume **4–6 weeks** post-migration before optimization features activate (hygiene gates).
 

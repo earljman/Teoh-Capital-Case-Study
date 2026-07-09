@@ -26,9 +26,9 @@ Slide 4 owns this sentence. Do not lead with OR-Tools, SDK names, or "Powered by
 
 If the reviewer sees only **slides 1, 4, 6, and 10** — do they get the bet, the 3-feature model, and measurable ROI?
 
-- Slide 10 must show **Big Three cards with live $ numbers** + **combined impact band**.
+- Slide 13 must show **Big Three cards with live $ numbers** + **combined impact band**.
 - They do **not** need a workflow mock to get the whole idea.
-- Supervisor console (no Big Three) is appendix / live demo — not slide 10.
+- Supervisor console (no Big Three) is appendix / live demo — not slide 13.
 
 ---
 
@@ -42,61 +42,51 @@ If the reviewer sees only **slides 1, 4, 6, and 10** — do they get the bet, th
 | **4** | The AI-first bet — embedded floor directives + scan-time enforcement; thin (chat summary) vs. thick (hard block) |
 | **5** | Market & wedge — missing middle ICP (10k–50k orders/mo, 2–5 locations, 25–150 staff); $3k–8k/mo budget |
 
-**ICP open question:** Commercial SaaS vs. Teoh-owned operator. State as deliberate call on slide 14.
+**ICP open question:** Commercial SaaS vs. Teoh-owned operator. State as deliberate call on slide 19.
 
 ---
 
-## Act II — Scope & roadmap (slides 6–9)
+## Act II — Scope & roadmap (slides 6–11)
 
-### Slide 6 — Phase 1 feature portfolio
+### Slide 6 — Act II divider
 
-**Framing:** 3 Phase 1 capabilities + **executive dashboard** (ROI proof on slide 10) + **supervisor console** (floor ops — appendix).
+Five capabilities, seven core workflows — demo → Phase 1 (4w) → Phase 2 (8w) → Phase 3+ (12w).
 
-| Slot | Feature | Type | Painkiller | AI shows up as |
-|------|---------|------|------------|----------------|
-| **1** | Routing guide → compliance rules | **AI-native** | Chargebacks = 2–5% of wholesale revenue | LLM extraction → human review → **hard block** at ship |
-| **2** | Dynamic pick-path & order clustering | AI-enhanced | 40–60% of picker shift is walking | Invisible optimization; sub-2s reroute on exception |
-| **3** | 3D algorithmic cartonization | AI-enhanced | ~20% freight waste from over-boxing | Single carton directive + pack diagram |
+### Slide 7 — Seven workflows · delivery map
 
-Call out operator override on each. Executive dashboard surfaces all three margin killers on slide 10.
+Canonical **7×4 matrix**: when each workflow ships across demo, Phase 1, Phase 2, and Phase 3+. Dashboard row in footnote.
 
-### Slide 7 — Roadmap arc
+### Slide 8 — Demo architecture
 
-Three checkpoints pace delivery: **Demo** (case-study pack) → **Week 4** (validate direction) → **Week 12** (production-ready Phase 1 slice).
+Portfolio diagram: **three** margin-killer capabilities (compliance, pick-path, cartonization), executive dashboard, supervisor console. Phase 1 adds receiving + cycle count. Answers *what the case-study demo proves*.
 
-### Slides 8–9 — Checkpoint detail
+### Slide 9 — Phase 1 · build depth
 
-Each checkpoint slide: four blocks — **Build scope · Meetings · Documents · Decisions**.
+Matrix excerpt: Demo → Phase 1 columns only (workflow rows 1, 3–6 + dashboards). No capability re-description.
 
-**Week 4 — validate direction**
-- **Build:** Clickable hi-fi **executive dashboard** + supervisor console + all 3 workflow mocks; happy-path; AI surfaces + override paths; no production integrations
-- **Meetings:** Concept review with ops lead + sponsor (60 min); mock walkthrough with 1–2 warehouse personas (45 min each)
-- **Documents:** Solution brief, acceptance criteria (Given/When/Then), IA / screen map
-- **Decisions:** ICP assumption, AI-native bet, feature priority, Week 12 definition of done
+### Slide 10 — Phase 2 · production slice
 
-**Week 12 — validate build + Phase 2 gate**
-- **Build:** Working prototype; dashboard live-linked to workflow telemetry; real sample data; loading/empty/error states; deployable demo
-- **Meetings:** Bi-weekly sprint demo; UAT with ops users; go/no-go for Phase 2
-- **Documents:** PRD slice, edge-case catalog, instrumentation spec, release notes draft
-- **Decisions:** Phase 2 bets, integration priorities (ERP/carriers/EDI), build-vs-buy on AI infra, packaging hypothesis
+Phase 2 column for all seven workflows + foundation line. UAT-ready demo environment.
 
-Data warm-up: **4–6 weeks** post-migration before AI optimization activates (hygiene gates).
+### Slide 11 — Phase 3+ · harden + expand
+
+P3+ column for workflows 1, 2, 6, 7 + hardening / expansion workstreams.
 
 ---
 
-## Act III — Executive dashboard + workflow drill-downs (slides 10–13)
+## Act III — Executive dashboard + workflow drill-downs (slides 12–17)
 
 **Presentation rule:** Executive dashboard first (ROI proof), then dial into each workflow (the trees). Each workflow slide references the executive card it feeds.
 
 ```
-Slide 10: Executive dashboard (Big Three + combined impact)
+Slide 13: Executive dashboard (Big Three + combined impact)
     ↓ drill into
-Slides 11–13: Compliance → Pick-path → Cartonization
+Slides 15–17: Compliance → Pick-path → Cartonization
 
 Appendix: Supervisor console · 8-week trend chart
 ```
 
-### Slide 10 — Executive dashboard (hi-fi mock #1)
+### Slide 13 — Executive dashboard (hi-fi mock #1)
 
 **Layout A** — all above the fold at 1440×900. Period default: **This week**.
 
@@ -109,35 +99,35 @@ Appendix: Supervisor console · 8-week trend chart
 - Est. annual margin protected (rollup of three cards)
 - AI features active: 3/3 ✓
 
-**UX:** Drill-down affordance on each card → slides 11–13 ("see workflow →").
+**UX:** Drill-down affordance on each card → slides 15–17 ("see workflow →").
 
-**Not on slide 10:** friction watch, exception log, heatmap, trend chart (trend → appendix).
+**Not on slide 13:** friction watch, exception log, heatmap, trend chart (trend → appendix).
 
 ### Supervisor console (appendix mock #2)
 
 **No Big Three.** Action queue first, then floor ops, friction rail, exception + AI logs. See `1-plan/01-dashboard-ia.md` §2–3.
 
-### Slide 11 — Feature 1: Compliance (AI-native)
+### Slide 15 — Feature 1: Compliance (AI-native)
 
 **Mock:** Review queue (PDF ↔ rule card split pane; approve/edit/reject; activate per retailer/DC) + floor ship block modal (red, single fix action).
 
-**Feeds:** Compliance risk card on slide 10.
+**Feeds:** Compliance risk card on slide 13.
 
 **AI loop:** Upload PDF → extract rules → human review → enforce at print/ship → audit trail.
 
-### Slide 12 — Feature 2: Pick-path (AI-enhanced)
+### Slide 16 — Feature 2: Pick-path (AI-enhanced)
 
 **Mock:** Picker mobile — Next Pick card (location, SKU, qty, tote); progress ring ("4 of 12 · ~800m saved"); exception bottom sheet (Empty / Damaged / Wrong item); 2s reroute spinner.
 
-**Feeds:** Labor saved card on slide 10. Batch status lives on supervisor console (appendix).
+**Feeds:** Labor saved card on slide 13. Batch status lives on supervisor console (appendix).
 
 **Pattern:** Invisible optimization on floor; supervisor-only batch override on supervisor console.
 
-### Slide 13 — Feature 3: Cartonization (AI-enhanced)
+### Slide 17 — Feature 3: Cartonization (AI-enhanced)
 
 **Mock:** Pack station — scan tote → one highlighted carton + isometric diagram (placement/dunnage implied) → weigh (DIM vs. actual) → print label with compliance pass. Override reason on deviation.
 
-**Feeds:** DIM waste card on slide 10. Cartonization efficiency lives on supervisor console (appendix).
+**Feeds:** DIM waste card on slide 13. Cartonization efficiency lives on supervisor console (appendix).
 
 **Pattern:** Single authoritative answer; scan-to-ship arc; override captures missing dims. Use `?state=alert` for ship block at label step.
 
@@ -153,21 +143,21 @@ Appendix: Supervisor console · 8-week trend chart
 
 ---
 
-## Act IV — Commercial close (slides 14–15)
+## Act IV — Commercial close (slides 18–19)
 
-### Slide 14 — Why this wins
+### Slide 19 — Why this wins
 
 | Margin killer | ROI anchor | Proof |
 |---------------|------------|-------|
-| Picking labor | 20–30% travel reduction | Slide 12 |
-| Wholesale chargebacks | ~$150K/yr on $5M wholesale @ 3% | Slide 11 |
-| DIM freight | ~$180K/yr at 30K parcels/mo | Slide 13 |
+| Picking labor | 20–30% travel reduction | Slide 16 |
+| Wholesale chargebacks | ~$150K/yr on $5M wholesale @ 3% | Slide 15 |
+| DIM freight | ~$180K/yr at 30K parcels/mo | Slide 17 |
 
 **Moat hierarchy:** (1) compliance rule graph → (2) warehouse spatial model → (3) operational event corpus → (4) LLM chat (commoditized).
 
 Use thin vs. thick table: enforcement at scan time > chat summary.
 
-### Slide 15 — Assumptions & risks
+### Slide 21 — Assumptions & risks
 
 **Open calls:** ICP mix (DTC vs. wholesale), commercial SaaS vs. Teoh-owned operator.
 
@@ -182,15 +172,15 @@ Use thin vs. thick table: enforcement at scan time > chat summary.
 
 ---
 
-## Act V — How this deck was built (slides 16–18)
+## Act V — How this deck was built (slides 20–23)
 
 Source detail from `3-present/process-documentation.md`.
 
 | Slide | Content |
 |-------|---------|
-| **16** | Workflow overview — where acceleration happened and where human gates controlled quality |
-| **17** | Research + Planning workflow — tools used, outputs generated, and decisions locked (`0-research/`, `1-plan/`) |
-| **18** | Development + Delivery workflow — toolchain plus controls and proof (`2-build/`, `3-present/`) |
+| **21** | Appendix bridge — how the case study was accelerated without outsourcing product judgment |
+| **22** | Workflow overview — where acceleration happened and where human gates controlled quality |
+| **23** | Tools & skills — research, planning, build, and delivery toolchain |
 
 Emphasize: this is an appendix-style proof section for interviewer deep dive; AI accelerated *how* the work was built while product judgment stayed human-owned.
 
@@ -209,7 +199,7 @@ Build order (deck presents executive dashboard first):
 
 **Onboarding data hygiene gate** — feeds supervisor hygiene widget; no dedicated slide unless appendix.
 
-**Do not mock on slide 10:** trend chart (→ appendix), friction watch, heatmap. **Do not mock anywhere:** Copilot chat panel, demand forecast graphs, CV receiving, digital twin floor view.
+**Do not mock on slide 13:** trend chart (→ appendix), friction watch, heatmap. **Do not mock anywhere:** Copilot chat panel, demand forecast graphs, CV receiving, digital twin floor view.
 
 ---
 
